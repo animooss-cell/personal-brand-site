@@ -2,18 +2,37 @@
 
 import { useState, type FormEvent } from "react";
 import { Send } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
 
 export default function ContactForm() {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setSubmitting(true);
-    setTimeout(() => {
-      setSubmitting(false);
-      setSubmitted(true);
-    }, 900);
+    setError(null);
+
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    const supabase = createClient();
+
+    const { error: insertError } = await supabase.from("contacts").insert({
+      name: data.get("name") as string,
+      business: (data.get("business") as string) || null,
+      email: data.get("email") as string,
+      message: data.get("message") as string,
+    });
+
+    setSubmitting(false);
+
+    if (insertError) {
+      setError("ارسال پیام با خطا مواجه شد. لطفاً دوباره تلاش کنید.");
+      return;
+    }
+
+    setSubmitted(true);
   }
 
   if (submitted) {
@@ -88,6 +107,8 @@ export default function ContactForm() {
           />
         </div>
       </div>
+
+      {error && <p className="mt-4 rounded-xl bg-red-50 px-3 py-2 text-sm text-red-600">{error}</p>}
 
       <button
         type="submit"

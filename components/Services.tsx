@@ -1,62 +1,18 @@
-import { Rocket, Brain, TrendingUp, type LucideIcon } from "lucide-react";
+import * as Icons from "lucide-react";
+import { Rocket, type LucideIcon } from "lucide-react";
+import { createClient } from "@/lib/supabase/server";
+import { ServiceCard } from "@/lib/types";
 
-type Service = {
-  icon: LucideIcon;
-  title: string;
-  subtitle: string;
-  description: string;
-  audience: string[];
-  steps: string[];
-  featured?: boolean;
-};
+function resolveIcon(name: string): LucideIcon {
+  const icon = (Icons as unknown as Record<string, LucideIcon>)[name];
+  return icon || Rocket;
+}
 
-const services: Service[] = [
-  {
-    icon: Rocket,
-    title: "راه‌اندازی و رشد استارتاپ",
-    subtitle: "از ایده تا مدل کسب و کار پایدار",
-    description:
-      "خیلی‌ها با ایده عالی شروع می‌کنن، ولی بدون یه نقشه راه مشخص، وقت و پول هدر می‌ره. با هم بررسی می‌کنیم ایده‌ات واقعاً بازار داره یا نه — قبل از اینکه یه ریال خرج کنی.",
-    audience: ["ایده‌پردازها", "استارتاپ‌های مرحله اول", "کسب و کارهای نوپا"],
-    steps: [
-      "اعتبارسنجی ایده و بازار هدف",
-      "طراحی مدل درآمدی واقع‌بینانه",
-      "نقشه راه ۶ ماهه اجرایی",
-      "آمادگی برای سرمایه‌گذار",
-    ],
-  },
-  {
-    icon: Brain,
-    title: "هوش مصنوعی در کسب و کار",
-    subtitle: "نه فقط تکنولوژی — نتیجه واقعی",
-    description:
-      "همه می‌گن «باید از AI استفاده کنیم» ولی کمتر کسی می‌دونه کجا و چطور. من کمک می‌کنم جاهایی پیدا کنی که هوش مصنوعی مستقیماً وقت و هزینه‌ات رو کم می‌کنه — نه فقط یه ابزار جدید که بهش یاد بگیری.",
-    audience: ["صاحبان کسب و کار", "تیم‌های مدیریتی", "استارتاپ‌های B2B"],
-    steps: [
-      "شناسایی فرصت‌های AI در جریان کار",
-      "انتخاب ابزار مناسب (نه هر چیزی که مد شده)",
-      "پیاده‌سازی و تست با تیم",
-      "اندازه‌گیری نتیجه و بهینه‌سازی",
-    ],
-    featured: true,
-  },
-  {
-    icon: TrendingUp,
-    title: "دیجیتال مارکتینگ هدفمند",
-    subtitle: "جذب مشتری، نه فقط فالوور",
-    description:
-      "پست گذاشتن و تبلیغ دادن به‌تنهایی کافی نیست. مشکل اصلی اینه که اکثر کسب و کارها بدون استراتژی بودجه هدر می‌دن. باهم یه فانل فروش می‌سازیم که آدم رو از «شنیدن اسمت» به «خریدن ازت» می‌رسونه.",
-    audience: ["کسب و کارهای آنلاین", "برندهای در حال رشد", "فروشگاه‌های دیجیتال"],
-    steps: [
-      "آدیت وضعیت فعلی دیجیتال",
-      "طراحی فانل فروش",
-      "اجرا و تست کمپین",
-      "گزارش و بهینه‌سازی ماهانه",
-    ],
-  },
-];
+export default async function Services() {
+  const supabase = createClient();
+  const { data } = await supabase.from("services").select("*").order("position");
+  const services = (data ?? []) as ServiceCard[];
 
-export default function Services() {
   return (
     <section id="services" className="mx-auto max-w-6xl px-6 py-20">
       <div className="mx-auto mb-14 max-w-2xl text-center">
@@ -69,10 +25,10 @@ export default function Services() {
 
       <div className="grid gap-8 md:grid-cols-3">
         {services.map((service, idx) => {
-          const Icon = service.icon;
+          const Icon = resolveIcon(service.icon);
           return (
             <div
-              key={service.title}
+              key={service.id}
               style={{ animationDelay: `${idx * 120}ms` }}
               className={`fade-in-up relative flex flex-col rounded-3xl border bg-white p-8 shadow-sm transition-shadow duration-200 hover:shadow-md ${
                 service.featured
@@ -95,8 +51,12 @@ export default function Services() {
               </div>
 
               <h3 className="mb-1 text-xl font-bold text-slate-900">{service.title}</h3>
-              <p className="mb-4 text-sm font-medium text-brand-600">{service.subtitle}</p>
-              <p className="mb-5 text-sm leading-6 text-slate-600">{service.description}</p>
+              {service.subtitle && (
+                <p className="mb-4 text-sm font-medium text-brand-600">{service.subtitle}</p>
+              )}
+              {service.description && (
+                <p className="mb-5 text-sm leading-6 text-slate-600">{service.description}</p>
+              )}
 
               <div className="mb-6 flex flex-wrap gap-2">
                 {service.audience.map((tag) => (
@@ -137,6 +97,10 @@ export default function Services() {
             </div>
           );
         })}
+
+        {!services.length && (
+          <p className="col-span-3 text-center text-slate-400">هنوز کارت خدماتی ثبت نشده است.</p>
+        )}
       </div>
     </section>
   );

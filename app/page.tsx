@@ -5,6 +5,8 @@ import Services from "@/components/Services";
 import BlogPreview from "@/components/BlogPreview";
 import CTASection from "@/components/CTASection";
 
+export const revalidate = 0;
+
 export default function Home() {
   return (
     <>
