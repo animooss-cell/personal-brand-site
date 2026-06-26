@@ -7,6 +7,7 @@ import {
   LayoutDashboard,
   Newspaper,
   Briefcase,
+  UserCircle,
   Mail,
   Settings,
   LogOut,
@@ -16,6 +17,7 @@ const links = [
   { href: "/admin/dashboard", label: "داشبورد", icon: LayoutDashboard },
   { href: "/admin/blog", label: "وبلاگ", icon: Newspaper },
   { href: "/admin/services", label: "خدمات", icon: Briefcase },
+  { href: "/admin/about", label: "درباره من", icon: UserCircle },
   { href: "/admin/contacts", label: "پیام‌ها", icon: Mail },
   { href: "/admin/settings", label: "تنظیمات", icon: Settings },
 ];

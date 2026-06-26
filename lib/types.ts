@@ -86,3 +86,23 @@ export type SiteSettings = {
   about_quote_title: string | null;
   about_quote_text: string | null;
 };
+
+export type AboutContent = {
+  id: number;
+  avatar_image: string | null;
+  full_name: string | null;
+  role_title: string | null;
+  short_bio: string | null;
+  full_bio: string | null;
+  specialties: string[];
+  activities: string[];
+  collaborations: string[];
+  social_links: Record<string, string>;
+};
+
+export type AboutTimelineItem = {
+  id: string;
+  position: number;
+  title: string;
+  place: string | null;
+};

@@ -13,11 +13,10 @@ import {
   Megaphone,
   Radio,
   Award,
-  Landmark,
   Handshake,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
-import { SiteSettings } from "@/lib/types";
+import { AboutContent, AboutTimelineItem, SiteSettings } from "@/lib/types";
 
 export const revalidate = 0;
 
@@ -27,17 +26,7 @@ export const metadata = {
     "مشاور کسب‌وکار، متخصص هوش مصنوعی و کارآفرین — بیش از یک دهه تجربه در راه‌اندازی کسب‌وکار، مشاوره استارتاپ‌ها و پیاده‌سازی هوش مصنوعی در سازمان‌های بزرگ.",
 };
 
-const activities = [
-  { icon: Briefcase, text: "مشاوره و توسعه کسب‌وکار و کارها" },
-  { icon: Rocket, text: "بنیان‌گذار وبسایت Startuping.ir در حوزه استارتاپ‌ها" },
-  { icon: PenTool, text: "مدیر تیم تولید محتوای Inmedia.ir" },
-  { icon: CalendarDays, text: "برگزاری رویدادها و سمینارهای مرتبط با کسب‌وکار و کارهای نوپا" },
-  { icon: GraduationCap, text: "تدریس با تمرکز بر تولید محتوا و بازاریابی" },
-  {
-    icon: Building2,
-    text: 'مدیرعامل مرکز مشاوره کارآفرینی "ارزش آفرینان تجارت ایرانیان"',
-  },
-];
+const activityIcons = [Briefcase, Rocket, PenTool, CalendarDays, GraduationCap, Building2];
 
 const aiExpertise = [
   "مشاور و مدرس دوره‌های آموزشی راه‌اندازی کسب‌وکار با هوش مصنوعی",
@@ -47,48 +36,22 @@ const aiExpertise = [
   "مشاور کانتنت مارکتینگ با هوش مصنوعی برای سازمان بسیج رسانه استان خوزستان",
 ];
 
-const timeline = [
-  {
-    title: "ارگانایزر رویداد ملی فرآفرین",
-    place: "تهران، اهواز، مسجد سلیمان، شوشتر (با جهاد دانشگاهی)",
-  },
-  {
-    title: "مدیر اجرایی نمایشگاه بزرگ استارتاپ‌های خوزستان (الکام استارز)",
-    place: "۹۶، ۹۷، ۹۸",
-  },
-  {
-    title: "بنیان‌گذار رویداد تجربه‌محور کارآفرینان",
-    place: "از ۹۲ تا کنون (همفکر، دیدار، همراه، حرف نو)",
-  },
-  {
-    title: "دبیر اجرایی کمیسیون کسب‌وکارهای نوپا",
-    place: "سازمان نظام صنفی رایانه استان خوزستان",
-  },
-  {
-    title: "مربی استارتاپ ویکند",
-    place: "۹۳ تا کنون — کرج، اهواز، کرمانشاه، شوشتر",
-  },
-  {
-    title: "برگزارکننده رویداد بین‌المللی Inotexpitch",
-    place: "اهواز، ۹۶",
-  },
-  {
-    title: "مجری طرح بزرگ سرمایه‌گذاری رویش",
-    place: "با بنیاد برکت",
-  },
-  {
-    title: "مدیر اجرایی رویداد بین‌المللی هاکاهلت",
-    place: "جزیره کیش، ۹۸ (وزارت بهداشت و دانشگاه شریف)",
-  },
+const defaultActivities = [
+  "مشاوره و توسعه کسب‌وکار و کارها",
+  "بنیان‌گذار وبسایت Startuping.ir در حوزه استارتاپ‌ها",
+  "مدیر تیم تولید محتوای Inmedia.ir",
+  "برگزاری رویدادها و سمینارهای مرتبط با کسب‌وکار و کارهای نوپا",
+  "تدریس با تمرکز بر تولید محتوا و بازاریابی",
+  'مدیرعامل مرکز مشاوره کارآفرینی "ارزش آفرینان تجارت ایرانیان"',
 ];
 
-const specialties = [
-  { icon: Award, text: "مدرک تخصصی PMBOK مدیریت پروژه از موسسه آریانا" },
-  { icon: Landmark, text: "مدرک سطح ۱ مدیریت از وزارت صنایع و معادن" },
-  { icon: Megaphone, text: "مدرک خبرنگاری به سبک رویترز" },
+const defaultSpecialties = [
+  "مدرک تخصصی PMBOK مدیریت پروژه از موسسه آریانا",
+  "مدرک سطح ۱ مدیریت از وزارت صنایع و معادن",
+  "مدرک خبرنگاری به سبک رویترز",
 ];
 
-const collaborations = [
+const defaultCollaborations = [
   "پارک علم و فناوری خوزستان",
   "استانداری خوزستان",
   "اداره تعاون، کار و امور اجتماعی خوزستان",
@@ -99,14 +62,41 @@ const collaborations = [
   "شرکت فولاد خوزستان",
 ];
 
+const defaultTimeline = [
+  { title: "ارگانایزر رویداد ملی فرآفرین", place: "تهران، اهواز، مسجد سلیمان، شوشتر (با جهاد دانشگاهی)" },
+  { title: "مدیر اجرایی نمایشگاه بزرگ استارتاپ‌های خوزستان (الکام استارز)", place: "۹۶، ۹۷، ۹۸" },
+  { title: "بنیان‌گذار رویداد تجربه‌محور کارآفرینان", place: "از ۹۲ تا کنون (همفکر، دیدار، همراه، حرف نو)" },
+  { title: "دبیر اجرایی کمیسیون کسب‌وکارهای نوپا", place: "سازمان نظام صنفی رایانه استان خوزستان" },
+  { title: "مربی استارتاپ ویکند", place: "۹۳ تا کنون — کرج، اهواز، کرمانشاه، شوشتر" },
+  { title: "برگزارکننده رویداد بین‌المللی Inotexpitch", place: "اهواز، ۹۶" },
+  { title: "مجری طرح بزرگ سرمایه‌گذاری رویش", place: "با بنیاد برکت" },
+  { title: "مدیر اجرایی رویداد بین‌المللی هاکاهلت", place: "جزیره کیش، ۹۸ (وزارت بهداشت و دانشگاه شریف)" },
+];
+
 export default async function AboutPage() {
   const supabase = createClient();
-  const { data: settings } = await supabase.from("settings").select("*").eq("id", 1).single();
-  const s = settings as SiteSettings | null;
 
-  const fullName = s?.full_name || "عبدالله احمدیان";
-  const roleTitle = s?.role_title || "مشاور کسب‌وکار | متخصص هوش مصنوعی | کارآفرین";
-  const avatarImage = s?.avatar_image || "/profile.png";
+  const [{ data: about }, { data: timelineRows }, { data: settings }] = await Promise.all([
+    supabase.from("about_content").select("*").eq("id", 1).single(),
+    supabase.from("about_timeline").select("*").order("position"),
+    supabase.from("settings").select("*").eq("id", 1).single(),
+  ]);
+
+  const a = about as AboutContent | null;
+  const s = settings as SiteSettings | null;
+  const timeline = (timelineRows ?? []) as AboutTimelineItem[];
+
+  const fullName = a?.full_name || s?.full_name || "عبدالله احمدیان";
+  const roleTitle = a?.role_title || s?.role_title || "مشاور کسب‌وکار | متخصص هوش مصنوعی | کارآفرین";
+  const avatarImage = a?.avatar_image || s?.avatar_image || "/profile.png";
+  const shortBio =
+    a?.short_bio ||
+    "بیش از یک دهه تجربه در راه‌اندازی کسب‌وکار، مشاوره استارتاپ‌ها، و پیاده‌سازی هوش مصنوعی در سازمان‌های بزرگ. از اهواز تا کیش، از استارتاپ‌های نوپا تا شرکت‌های بزرگ صنعتی.";
+
+  const activities = a?.activities?.length ? a.activities : defaultActivities;
+  const specialties = a?.specialties?.length ? a.specialties : defaultSpecialties;
+  const collaborations = a?.collaborations?.length ? a.collaborations : defaultCollaborations;
+  const timelineItems = timeline.length ? timeline : defaultTimeline;
 
   return (
     <div dir="rtl">
@@ -131,12 +121,15 @@ export default async function AboutPage() {
 
       {/* معرفی کوتاه */}
       <section className="mx-auto max-w-3xl px-6 py-16 text-center">
-        <p className="text-base leading-8 text-slate-600 md:text-lg">
-          بیش از یک دهه تجربه در راه‌اندازی کسب‌وکار، مشاوره استارتاپ‌ها، و پیاده‌سازی هوش
-          مصنوعی در سازمان‌های بزرگ. از اهواز تا کیش، از استارتاپ‌های نوپا تا شرکت‌های بزرگ
-          صنعتی.
-        </p>
+        <p className="text-base leading-8 text-slate-600 md:text-lg">{shortBio}</p>
       </section>
+
+      {/* بیوگرافی کامل */}
+      {a?.full_bio && (
+        <section className="mx-auto max-w-3xl px-6 pb-16">
+          <div className="whitespace-pre-line text-base leading-8 text-slate-600">{a.full_bio}</div>
+        </section>
+      )}
 
       {/* فعالیت‌های جاری */}
       <section className="mx-auto max-w-6xl px-6 py-10">
@@ -144,18 +137,18 @@ export default async function AboutPage() {
           فعالیت‌های جاری
         </h2>
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {activities.map((item, idx) => {
-            const Icon = item.icon;
+          {activities.map((text, idx) => {
+            const Icon = activityIcons[idx % activityIcons.length];
             return (
               <div
-                key={item.text}
+                key={text}
                 style={{ animationDelay: `${idx * 80}ms` }}
                 className="fade-in-up flex items-start gap-3 rounded-2xl border border-gray-200 bg-white p-5 transition-shadow duration-200 hover:shadow-md"
               >
                 <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-600">
                   <Icon className="h-5 w-5" aria-hidden="true" />
                 </div>
-                <p className="text-sm leading-6 text-slate-700">{item.text}</p>
+                <p className="text-sm leading-6 text-slate-700">{text}</p>
               </div>
             );
           })}
@@ -200,9 +193,9 @@ export default async function AboutPage() {
         </h2>
 
         <div className="relative border-r-2 border-brand-100 pr-8">
-          {timeline.map((item, idx) => (
+          {timelineItems.map((item, idx) => (
             <div
-              key={item.title}
+              key={"id" in item ? item.id : item.title}
               style={{ animationDelay: `${idx * 100}ms` }}
               className="fade-in-up relative mb-10 last:mb-0"
             >
@@ -220,18 +213,15 @@ export default async function AboutPage() {
           تخصص‌ها و مدارک
         </h2>
         <div className="flex flex-wrap justify-center gap-4">
-          {specialties.map((item) => {
-            const Icon = item.icon;
-            return (
-              <span
-                key={item.text}
-                className="inline-flex items-center gap-2 rounded-full border border-brand-200 bg-brand-50 px-5 py-3 text-sm font-medium text-brand-700"
-              >
-                <Icon className="h-4 w-4" aria-hidden="true" />
-                {item.text}
-              </span>
-            );
-          })}
+          {specialties.map((text) => (
+            <span
+              key={text}
+              className="inline-flex items-center gap-2 rounded-full border border-brand-200 bg-brand-50 px-5 py-3 text-sm font-medium text-brand-700"
+            >
+              <Award className="h-4 w-4" aria-hidden="true" />
+              {text}
+            </span>
+          ))}
         </div>
       </section>
 
