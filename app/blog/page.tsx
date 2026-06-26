@@ -12,7 +12,7 @@ export default async function BlogPage() {
   const supabase = createClient();
   const { data: posts } = await supabase
     .from("posts")
-    .select("slug, title, excerpt, category, published_at")
+    .select("slug, title, excerpt, category, featured_image, published_at")
     .eq("status", "published")
     .order("published_at", { ascending: false });
 
@@ -26,13 +26,26 @@ export default async function BlogPage() {
       </div>
 
       <div className="flex flex-col gap-8">
-        {(posts as Pick<Post, "slug" | "title" | "excerpt" | "category" | "published_at">[] | null)?.map(
-          (post, idx) => (
-            <Link key={post.slug} href={`/blog/${post.slug}`}>
-              <article
-                style={{ animationDelay: `${idx * 100}ms` }}
-                className="fade-in-up rounded-3xl border border-gray-200 bg-white p-8 shadow-sm transition-shadow duration-200 hover:shadow-md"
-              >
+        {(
+          posts as Pick<
+            Post,
+            "slug" | "title" | "excerpt" | "category" | "featured_image" | "published_at"
+          >[] | null
+        )?.map((post, idx) => (
+          <Link key={post.slug} href={`/blog/${post.slug}`}>
+            <article
+              style={{ animationDelay: `${idx * 100}ms` }}
+              className="fade-in-up flex gap-6 rounded-3xl border border-gray-200 bg-white p-8 shadow-sm transition-shadow duration-200 hover:shadow-md"
+            >
+              {post.featured_image && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={post.featured_image}
+                  alt={post.title}
+                  className="hidden h-32 w-44 flex-shrink-0 rounded-2xl object-cover sm:block"
+                />
+              )}
+              <div>
                 <div className="mb-4 flex items-center gap-3">
                   {post.category && (
                     <span className="rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700">
@@ -47,10 +60,10 @@ export default async function BlogPage() {
                 </div>
                 <h2 className="mb-3 text-xl font-bold leading-8 text-slate-900">{post.title}</h2>
                 <p className="text-sm leading-7 text-slate-600">{post.excerpt}</p>
-              </article>
-            </Link>
-          )
-        )}
+              </div>
+            </article>
+          </Link>
+        ))}
 
         {!posts?.length && (
           <p className="text-center text-slate-400">هنوز پستی منتشر نشده است.</p>
