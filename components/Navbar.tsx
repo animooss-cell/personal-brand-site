@@ -6,6 +6,7 @@ import { Menu, X, Sparkles } from "lucide-react";
 
 const links = [
   { href: "/", label: "خانه" },
+  { href: "/about", label: "درباره من" },
   { href: "/blog", label: "وبلاگ" },
   { href: "/contact", label: "تماس" },
 ];
