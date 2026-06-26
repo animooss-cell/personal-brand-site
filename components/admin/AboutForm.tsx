@@ -31,8 +31,10 @@ export default function AboutForm({
   const [activities, setActivities] = useState(about.activities ?? []);
   const [collaborations, setCollaborations] = useState(about.collaborations ?? []);
   const [instagram, setInstagram] = useState(about.social_links?.instagram ?? "");
-  const [linkedin, setLinkedin] = useState(about.social_links?.linkedin ?? "");
+  const [telegram, setTelegram] = useState(about.social_links?.telegram ?? "");
+  const [whatsapp, setWhatsapp] = useState(about.social_links?.whatsapp ?? "");
   const [twitter, setTwitter] = useState(about.social_links?.twitter ?? "");
+  const [phoneNumbers, setPhoneNumbers] = useState(about.phone_numbers ?? []);
 
   const [timelineItems, setTimelineItems] = useState<TimelineDraftItem[]>(
     timeline.map((t) => ({ id: t.id, title: t.title, place: t.place ?? "" }))
@@ -80,7 +82,8 @@ export default function AboutForm({
         specialties: specialties.map((s) => s.trim()).filter(Boolean),
         activities: activities.map((s) => s.trim()).filter(Boolean),
         collaborations: collaborations.map((s) => s.trim()).filter(Boolean),
-        social_links: { instagram, linkedin, twitter },
+        social_links: { instagram, telegram, whatsapp, twitter },
+        phone_numbers: phoneNumbers.map((p) => p.trim()).filter(Boolean),
       })
       .eq("id", 1);
 
@@ -172,14 +175,22 @@ export default function AboutForm({
         <div className="rounded-2xl border border-gray-200 bg-white p-6">
           <h3 className="mb-4 text-sm font-bold text-slate-700">لینک‌های شبکه اجتماعی</h3>
 
-          <label className={labelClass}>اینستاگرام</label>
+          <label className={labelClass}>اینستاگرام (لینک کامل)</label>
           <input value={instagram} onChange={(e) => setInstagram(e.target.value)} dir="ltr" className={`mb-4 ${inputClass}`} />
 
-          <label className={labelClass}>لینکدین</label>
-          <input value={linkedin} onChange={(e) => setLinkedin(e.target.value)} dir="ltr" className={`mb-4 ${inputClass}`} />
+          <label className={labelClass}>تلگرام (لینک کامل)</label>
+          <input value={telegram} onChange={(e) => setTelegram(e.target.value)} dir="ltr" className={`mb-4 ${inputClass}`} />
 
-          <label className={labelClass}>توییتر / X</label>
+          <label className={labelClass}>واتساپ (شماره موبایل)</label>
+          <input value={whatsapp} onChange={(e) => setWhatsapp(e.target.value)} dir="ltr" className={`mb-4 ${inputClass}`} />
+
+          <label className={labelClass}>ایکس / توییتر (لینک کامل)</label>
           <input value={twitter} onChange={(e) => setTwitter(e.target.value)} dir="ltr" className={inputClass} />
+        </div>
+
+        <div className="rounded-2xl border border-gray-200 bg-white p-6">
+          <h3 className="mb-4 text-sm font-bold text-slate-700">شماره‌های تماس</h3>
+          <TagListEditor items={phoneNumbers} onChange={setPhoneNumbers} placeholder="مثلاً 09161002550" />
         </div>
       </div>
 

@@ -14,9 +14,15 @@ import {
   Radio,
   Award,
   Handshake,
+  Instagram,
+  Send,
+  MessageCircle,
+  Twitter,
+  Phone,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { AboutContent, AboutTimelineItem, SiteSettings } from "@/lib/types";
+import AboutContactForm from "@/components/AboutContactForm";
 
 export const revalidate = 0;
 
@@ -62,6 +68,21 @@ const defaultCollaborations = [
   "شرکت فولاد خوزستان",
 ];
 
+const defaultSocialLinks: Record<string, string> = {
+  instagram: "https://www.instagram.com/startuping_ir",
+  telegram: "https://t.me/Staruping_ir",
+  whatsapp: "09161002550",
+  twitter: "",
+};
+
+const defaultPhoneNumbers = ["09161002550", "09163070748"];
+
+function toWhatsappHref(value: string) {
+  const digits = value.replace(/\D/g, "");
+  const normalized = digits.startsWith("0") ? `98${digits.slice(1)}` : digits;
+  return `https://wa.me/${normalized}`;
+}
+
 const defaultTimeline = [
   { title: "ارگانایزر رویداد ملی فرآفرین", place: "تهران، اهواز، مسجد سلیمان، شوشتر (با جهاد دانشگاهی)" },
   { title: "مدیر اجرایی نمایشگاه بزرگ استارتاپ‌های خوزستان (الکام استارز)", place: "۹۶، ۹۷، ۹۸" },
@@ -97,6 +118,23 @@ export default async function AboutPage() {
   const specialties = a?.specialties?.length ? a.specialties : defaultSpecialties;
   const collaborations = a?.collaborations?.length ? a.collaborations : defaultCollaborations;
   const timelineItems = timeline.length ? timeline : defaultTimeline;
+  const socialLinks: Record<string, string> = { ...defaultSocialLinks };
+  for (const [key, value] of Object.entries(a?.social_links ?? {})) {
+    if (value) socialLinks[key] = value;
+  }
+  const phoneNumbers = a?.phone_numbers?.length ? a.phone_numbers : defaultPhoneNumbers;
+
+  const socialItems = [
+    { key: "instagram", label: "اینستاگرام", icon: Instagram, href: socialLinks.instagram },
+    { key: "telegram", label: "تلگرام", icon: Send, href: socialLinks.telegram },
+    {
+      key: "whatsapp",
+      label: "واتساپ",
+      icon: MessageCircle,
+      href: socialLinks.whatsapp ? toWhatsappHref(socialLinks.whatsapp) : "",
+    },
+    { key: "twitter", label: "ایکس", icon: Twitter, href: socialLinks.twitter },
+  ].filter((item) => item.href);
 
   return (
     <div dir="rtl">
@@ -241,6 +279,57 @@ export default async function AboutPage() {
             </div>
           ))}
         </div>
+      </section>
+
+      {/* شبکه‌های اجتماعی و راه‌های تماس */}
+      <section className="mx-auto max-w-3xl px-6 py-10">
+        <h2 className="mb-8 text-center text-2xl font-bold text-slate-900 md:text-3xl">
+          راه‌های ارتباطی
+        </h2>
+
+        {socialItems.length > 0 && (
+          <div className="mb-8 flex justify-center gap-4">
+            {socialItems.map((item) => {
+              const Icon = item.icon;
+              return (
+                <a
+                  key={item.key}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={item.label}
+                  className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-full border border-brand-200 text-brand-600 transition-colors duration-200 hover:bg-brand hover:text-white"
+                >
+                  <Icon className="h-5 w-5" aria-hidden="true" />
+                </a>
+              );
+            })}
+          </div>
+        )}
+
+        {phoneNumbers.length > 0 && (
+          <div className="flex flex-wrap justify-center gap-4">
+            {phoneNumbers.map((phone) => (
+              <a
+                key={phone}
+                href={`tel:${phone}`}
+                dir="ltr"
+                className="inline-flex cursor-pointer items-center gap-2 rounded-full border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-slate-700 transition-colors duration-200 hover:border-brand hover:text-brand-700"
+              >
+                <Phone className="h-4 w-4 text-brand-600" aria-hidden="true" />
+                {phone}
+              </a>
+            ))}
+          </div>
+        )}
+      </section>
+
+      {/* فرم ارسال پیام */}
+      <section className="mx-auto max-w-3xl px-6 py-10">
+        <h2 className="mb-8 text-center text-2xl font-bold text-slate-900 md:text-3xl">
+          پیام بدهید
+        </h2>
+        <AboutContactForm />
       </section>
 
       {/* CTA */}

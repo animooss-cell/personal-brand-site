@@ -98,6 +98,7 @@ export type AboutContent = {
   activities: string[];
   collaborations: string[];
   social_links: Record<string, string>;
+  phone_numbers: string[];
 };
 
 export type AboutTimelineItem = {

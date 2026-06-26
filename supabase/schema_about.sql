@@ -24,8 +24,14 @@ create table if not exists about_content (
   activities text[] default '{}',
   collaborations text[] default '{}',
   social_links jsonb default '{}',
+  phone_numbers text[] default '{}',
   updated_at timestamptz not null default now()
 );
+
+alter table about_content add column if not exists phone_numbers text[] default '{}';
+
+-- ستون موضوع برای فرم تماس صفحه /about (جدول contacts قبلاً در schema.sql ساخته شده)
+alter table contacts add column if not exists subject text;
 
 insert into about_content (id) values (1) on conflict (id) do nothing;
 
@@ -95,7 +101,17 @@ update about_content set
     'دانشگاه شریف مرکز کیش',
     'اداره ICT استان خوزستان',
     'شرکت فولاد خوزستان'
-  ] else collaborations end
+  ] else collaborations end,
+  phone_numbers = case when phone_numbers = '{}' or phone_numbers is null then array[
+    '09161002550',
+    '09163070748'
+  ] else phone_numbers end,
+  social_links = case when social_links = '{}'::jsonb or social_links is null then jsonb_build_object(
+    'instagram', 'https://www.instagram.com/startuping_ir',
+    'telegram', 'https://t.me/Staruping_ir',
+    'whatsapp', '09161002550',
+    'twitter', ''
+  ) else social_links end
 where id = 1;
 
 -- آیتم‌های پیش‌فرض Timeline (فقط اگر جدول خالی باشد)
