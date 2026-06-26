@@ -106,29 +106,23 @@ export default async function AboutPage() {
 
   const fullName = s?.full_name || "عبدالله احمدیان";
   const roleTitle = s?.role_title || "مشاور کسب‌وکار | متخصص هوش مصنوعی | کارآفرین";
-  const avatarImage = s?.avatar_image;
+  const avatarImage = s?.avatar_image || "/profile.png";
 
   return (
     <div dir="rtl">
       {/* هدر */}
       <section className="px-4 pt-6 md:px-8">
         <div className="fade-in-up mx-auto max-w-6xl overflow-hidden rounded-[2rem] bg-gradient-to-br from-slate-900 via-brand-900 to-slate-900 px-6 py-16 text-center md:py-24">
-          {avatarImage ? (
-            <div className="mx-auto mb-6 h-32 w-32 overflow-hidden rounded-full border-4 border-white/10 md:h-40 md:w-40">
-              <Image
-                src={avatarImage}
-                alt={fullName}
-                width={160}
-                height={160}
-                className="h-full w-full object-cover"
-                priority
-              />
-            </div>
-          ) : (
-            <div className="mx-auto mb-6 flex h-32 w-32 items-center justify-center rounded-full border-4 border-white/10 bg-white/10 text-4xl font-bold text-white md:h-40 md:w-40">
-              {fullName.charAt(0)}
-            </div>
-          )}
+          <div className="mx-auto mb-6 h-32 w-32 overflow-hidden rounded-full border-4 border-white/10 md:h-40 md:w-40">
+            <Image
+              src={avatarImage}
+              alt={fullName}
+              width={160}
+              height={160}
+              className="h-full w-full object-cover"
+              priority
+            />
+          </div>
 
           <h1 className="text-3xl font-extrabold text-white md:text-5xl">{fullName}</h1>
           <p className="mt-4 text-base font-medium text-brand-200 md:text-lg">{roleTitle}</p>
