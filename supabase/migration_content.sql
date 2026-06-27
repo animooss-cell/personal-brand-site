@@ -2,6 +2,9 @@
 -- (schema.sql ستون‌ها و جدول‌ها را می‌سازد؛ این فایل فقط محتوای پیش‌فرض را پر می‌کند)
 -- اجرای دوباره این فایل بی‌خطر است (idempotent)
 
+-- به‌روزرسانی رنگ برند به پالت جدید (در صورتی که هنوز مقدار قدیمی #1D9E75 باشد)
+update settings set brand_color = '#00C389' where id = 1 and (brand_color is null or brand_color = '#1D9E75');
+
 -- اگر schema.sql را قبل از اضافه شدن باکت avatars اجرا کرده‌اید، این بخش آن را می‌سازد
 insert into storage.buckets (id, name, public) values ('avatars', 'avatars', true)
 on conflict (id) do nothing;

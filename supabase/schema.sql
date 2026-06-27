@@ -58,7 +58,7 @@ create table if not exists settings (
   id int primary key default 1,
   site_title text,
   site_description text,
-  brand_color text default '#1D9E75',
+  brand_color text default '#00C389',
   contact_email text,
   social_links jsonb default '{}',
 

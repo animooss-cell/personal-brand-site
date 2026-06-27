@@ -26,7 +26,7 @@ export default function SettingsForm({ settings }: { settings: SiteSettings }) {
 
   const [siteTitle, setSiteTitle] = useState(settings.site_title ?? "");
   const [siteDescription, setSiteDescription] = useState(settings.site_description ?? "");
-  const [brandColor, setBrandColor] = useState(settings.brand_color ?? "#1D9E75");
+  const [brandColor, setBrandColor] = useState(settings.brand_color ?? "#00C389");
   const [contactEmail, setContactEmail] = useState(settings.contact_email ?? "");
   const [instagram, setInstagram] = useState(settings.social_links?.instagram ?? "");
   const [linkedin, setLinkedin] = useState(settings.social_links?.linkedin ?? "");

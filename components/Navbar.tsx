@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Menu, X, Sparkles } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 const links = [
   { href: "/", label: "خانه" },
@@ -16,10 +16,10 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-4 z-50 mx-4 md:mx-8">
-      <nav className="mx-auto flex max-w-6xl items-center justify-between rounded-2xl border border-gray-200 bg-white/90 px-5 py-3 shadow-sm backdrop-blur">
-        <Link href="/" className="flex items-center gap-2 text-lg font-bold text-brand-700">
-          <Sparkles className="h-5 w-5 text-brand" aria-hidden="true" />
-          <span>هوش‌مصنوعی برای کسب‌وکار</span>
+      <nav className="mx-auto flex max-w-6xl items-center justify-between rounded-2xl border border-gray-200 bg-white px-5 py-3 shadow-sm">
+        <Link href="/" className="flex items-center">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo.png" alt="عبدالله احمدیان" style={{ height: "40px", width: "auto" }} />
         </Link>
 
         <ul className="hidden items-center gap-8 md:flex">

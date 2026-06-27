@@ -251,7 +251,7 @@ export default async function PostPage({ params }: { params: { slug: string } })
     )}
 
     <section className="px-4 pb-16 md:px-8">
-      <div className="mx-auto max-w-6xl rounded-[2rem] bg-brand px-6 py-16 text-center md:py-20">
+      <div className="mx-auto max-w-6xl rounded-[2rem] bg-brand-dark px-6 py-16 text-center md:py-20">
         <h2 className="text-2xl font-bold text-white md:text-3xl">
           آماده‌ای کسب‌وکارت را متحول کنی؟
         </h2>
@@ -260,7 +260,7 @@ export default async function PostPage({ params }: { params: { slug: string } })
         </p>
         <Link
           href="/contact"
-          className="mt-8 inline-flex cursor-pointer items-center gap-2 rounded-full bg-white px-7 py-3.5 text-base font-semibold text-brand-700 shadow-sm transition-colors duration-200 hover:bg-brand-50"
+          className="mt-8 inline-flex cursor-pointer items-center gap-2 rounded-full bg-brand px-7 py-3.5 text-base font-semibold text-white shadow-sm transition-colors duration-200 hover:bg-brand-600"
         >
           جلسه رایگان رزرو کن
           <ArrowLeft className="h-4 w-4" aria-hidden="true" />
