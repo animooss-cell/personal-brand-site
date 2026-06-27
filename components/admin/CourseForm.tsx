@@ -3,12 +3,22 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { Course } from "@/lib/types";
+import { Course, Block } from "@/lib/types";
+import BlockEditor from "@/components/admin/BlockEditor";
+import TagListEditor from "@/components/admin/TagListEditor";
 import { Save, Upload, Trash2 } from "lucide-react";
 
 const inputClass =
   "w-full rounded-xl border border-gray-300 px-3 py-2.5 text-sm outline-none focus:border-brand focus:ring-1 focus:ring-brand";
 const labelClass = "mb-1 block text-sm font-medium text-slate-600";
+
+function slugify(value: string) {
+  return value
+    .trim()
+    .toLowerCase()
+    .replace(/[^؀-ۿa-z0-9\s-]/g, "")
+    .replace(/\s+/g, "-");
+}
 
 export default function CourseForm({ course }: { course?: Course }) {
   const router = useRouter();
@@ -16,9 +26,14 @@ export default function CourseForm({ course }: { course?: Course }) {
   const isEdit = Boolean(course);
 
   const [title, setTitle] = useState(course?.title ?? "");
+  const [slug, setSlug] = useState(course?.slug ?? "");
   const [audience, setAudience] = useState(course?.audience ?? "");
   const [description, setDescription] = useState(course?.description ?? "");
   const [image, setImage] = useState(course?.image ?? "");
+  const [content, setContent] = useState<Block[]>(course?.content ?? []);
+  const [outline, setOutline] = useState(course?.outline ?? []);
+  const [duration, setDuration] = useState(course?.duration ?? "");
+  const [level, setLevel] = useState(course?.level ?? "مقدماتی");
   const [status, setStatus] = useState<"draft" | "published">(course?.status ?? "draft");
 
   const [uploading, setUploading] = useState(false);
@@ -52,11 +67,18 @@ export default function CourseForm({ course }: { course?: Course }) {
     setSaving(true);
     setError(null);
 
+    const finalSlug = slug.trim() ? slugify(slug) : slugify(title);
+
     const payload = {
       title,
+      slug: finalSlug,
       audience: audience || null,
       description: description || null,
       image: image || null,
+      content,
+      outline: outline.map((o) => o.trim()).filter(Boolean),
+      duration: duration || null,
+      level: level || null,
       status,
     };
 
@@ -68,7 +90,11 @@ export default function CourseForm({ course }: { course?: Course }) {
     setSaving(false);
 
     if (saveError) {
-      setError("ذخیره با خطا مواجه شد.");
+      setError(
+        saveError.message.includes("duplicate")
+          ? "این نشانی (slug) قبلاً استفاده شده است."
+          : "ذخیره با خطا مواجه شد."
+      );
       return;
     }
 
@@ -85,80 +111,128 @@ export default function CourseForm({ course }: { course?: Course }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-xl">
-      <div className="rounded-2xl border border-gray-200 bg-white p-6">
-        <label className={labelClass}>عنوان دوره</label>
-        <input
-          required
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          className={`mb-4 ${inputClass}`}
-        />
+    <form onSubmit={handleSubmit} className="grid gap-6 lg:grid-cols-[1fr_320px]">
+      <div className="flex flex-col gap-5">
+        <div className="rounded-2xl border border-gray-200 bg-white p-6">
+          <label className={labelClass}>عنوان دوره</label>
+          <input
+            required
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className={`mb-4 ${inputClass}`}
+          />
 
-        <label className={labelClass}>مخاطب</label>
-        <input
-          value={audience}
-          onChange={(e) => setAudience(e.target.value)}
-          placeholder="مثلاً تیم روابط عمومی شرکت فولاد خوزستان"
-          className={`mb-4 ${inputClass}`}
-        />
+          <label className={labelClass}>نشانی (Slug)</label>
+          <input
+            value={slug}
+            onChange={(e) => setSlug(e.target.value)}
+            placeholder={title ? slugify(title) : "auto-generated-slug"}
+            dir="ltr"
+            className={`mb-4 ${inputClass}`}
+          />
 
-        <label className={labelClass}>توضیح</label>
-        <textarea
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          rows={4}
-          className={`mb-4 resize-y ${inputClass}`}
-        />
+          <label className={labelClass}>مخاطب</label>
+          <input
+            value={audience}
+            onChange={(e) => setAudience(e.target.value)}
+            placeholder="مثلاً تیم روابط عمومی شرکت فولاد خوزستان"
+            className={`mb-4 ${inputClass}`}
+          />
 
-        <label className={labelClass}>تصویر دوره</label>
-        <div className="mb-4 flex items-center gap-4">
+          <label className={labelClass}>توضیح کامل</label>
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            rows={4}
+            className={`resize-y ${inputClass}`}
+          />
+        </div>
+
+        <div className="rounded-2xl border border-gray-200 bg-white p-6">
+          <h2 className="mb-4 text-sm font-semibold text-slate-700">سرفصل‌های آموزشی</h2>
+          <TagListEditor items={outline} onChange={setOutline} placeholder="مثلاً آشنایی با ابزار" />
+        </div>
+
+        <div className="rounded-2xl border border-gray-200 bg-white p-6">
+          <h2 className="mb-4 text-sm font-semibold text-slate-700">محتوای کامل دوره</h2>
+          <BlockEditor blocks={content} onChange={setContent} />
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-5">
+        <div className="rounded-2xl border border-gray-200 bg-white p-6">
+          <h2 className="mb-4 text-sm font-semibold text-slate-700">تنظیمات دوره</h2>
+
+          <label className={labelClass}>مدت دوره</label>
+          <input
+            value={duration}
+            onChange={(e) => setDuration(e.target.value)}
+            placeholder="مثلاً ۸ ساعت"
+            className={`mb-4 ${inputClass}`}
+          />
+
+          <label className={labelClass}>سطح دوره</label>
+          <select value={level} onChange={(e) => setLevel(e.target.value)} className={`mb-4 ${inputClass}`}>
+            <option value="مقدماتی">مقدماتی</option>
+            <option value="مقدماتی تا متوسط">مقدماتی تا متوسط</option>
+            <option value="متوسط">متوسط</option>
+            <option value="پیشرفته">پیشرفته</option>
+          </select>
+
+          <label className={labelClass}>وضعیت</label>
+          <select
+            value={status}
+            onChange={(e) => setStatus(e.target.value as "draft" | "published")}
+            className={inputClass}
+          >
+            <option value="draft">پیش‌نویس</option>
+            <option value="published">منتشرشده</option>
+          </select>
+        </div>
+
+        <div className="rounded-2xl border border-gray-200 bg-white p-6">
+          <h2 className="mb-4 text-sm font-semibold text-slate-700">تصویر دوره</h2>
           {image && (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={image} alt="" className="h-16 w-24 rounded-xl object-cover" />
+            <img src={image} alt="" className="mb-3 h-32 w-full rounded-xl object-cover" />
           )}
-          <label className="inline-flex cursor-pointer items-center gap-2 rounded-xl border border-dashed border-gray-300 px-4 py-2.5 text-sm font-medium text-slate-600 transition-colors duration-200 hover:border-brand hover:text-brand-700">
+          <input
+            value={image}
+            onChange={(e) => setImage(e.target.value)}
+            placeholder="آدرس تصویر (URL)"
+            dir="ltr"
+            className={`mb-3 ${inputClass}`}
+          />
+          <label className="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-dashed border-gray-300 px-3 py-2.5 text-sm font-medium text-slate-600 transition-colors duration-200 hover:border-brand hover:text-brand-700">
             <Upload className="h-4 w-4" aria-hidden="true" />
             {uploading ? "در حال آپلود..." : "آپلود تصویر"}
             <input type="file" accept="image/*" className="hidden" onChange={handleImageUpload} />
           </label>
         </div>
 
-        <label className={labelClass}>وضعیت</label>
-        <select
-          value={status}
-          onChange={(e) => setStatus(e.target.value as "draft" | "published")}
-          className={inputClass}
-        >
-          <option value="draft">پیش‌نویس</option>
-          <option value="published">منتشرشده</option>
-        </select>
-      </div>
+        {error && <p className="rounded-xl bg-red-50 px-3 py-2 text-sm text-red-600">{error}</p>}
 
-      {error && (
-        <p className="mt-4 rounded-xl bg-red-50 px-3 py-2 text-sm text-red-600">{error}</p>
-      )}
-
-      <div className="mt-5 flex items-center gap-3">
-        <button
-          type="submit"
-          disabled={saving}
-          className="inline-flex cursor-pointer items-center gap-2 rounded-xl bg-brand px-5 py-2.5 text-sm font-semibold text-white transition-colors duration-200 hover:bg-brand-600 disabled:opacity-60"
-        >
-          <Save className="h-4 w-4" aria-hidden="true" />
-          {saving ? "در حال ذخیره..." : "ذخیره دوره"}
-        </button>
-
-        {isEdit && (
+        <div className="flex flex-col gap-2">
           <button
-            type="button"
-            onClick={handleDelete}
-            className="inline-flex cursor-pointer items-center gap-2 rounded-xl border border-red-200 px-5 py-2.5 text-sm font-semibold text-red-600 transition-colors duration-200 hover:bg-red-50"
+            type="submit"
+            disabled={saving}
+            className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl bg-brand px-4 py-2.5 text-sm font-semibold text-white transition-colors duration-200 hover:bg-brand-600 disabled:opacity-60"
           >
-            <Trash2 className="h-4 w-4" aria-hidden="true" />
-            حذف
+            <Save className="h-4 w-4" aria-hidden="true" />
+            {saving ? "در حال ذخیره..." : "ذخیره دوره"}
           </button>
-        )}
+
+          {isEdit && (
+            <button
+              type="button"
+              onClick={handleDelete}
+              className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-red-200 px-4 py-2.5 text-sm font-semibold text-red-600 transition-colors duration-200 hover:bg-red-50"
+            >
+              <Trash2 className="h-4 w-4" aria-hidden="true" />
+              حذف دوره
+            </button>
+          )}
+        </div>
       </div>
     </form>
   );

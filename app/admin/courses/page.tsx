@@ -6,7 +6,7 @@ export default async function AdminCoursesPage() {
   const supabase = createClient();
   const { data: courses } = await supabase
     .from("courses")
-    .select("id, title, audience, status")
+    .select("id, title, audience, level, status")
     .order("position");
 
   return (
@@ -28,6 +28,7 @@ export default async function AdminCoursesPage() {
             <tr>
               <th className="px-5 py-3 font-medium">عنوان</th>
               <th className="px-5 py-3 font-medium">مخاطب</th>
+              <th className="px-5 py-3 font-medium">سطح</th>
               <th className="px-5 py-3 font-medium">وضعیت</th>
               <th className="px-5 py-3 font-medium"></th>
             </tr>
@@ -37,6 +38,7 @@ export default async function AdminCoursesPage() {
               <tr key={course.id} className="border-t border-gray-100">
                 <td className="px-5 py-3 font-medium text-slate-800">{course.title}</td>
                 <td className="px-5 py-3 text-slate-500">{course.audience ?? "—"}</td>
+                <td className="px-5 py-3 text-slate-500">{course.level ?? "—"}</td>
                 <td className="px-5 py-3">
                   <span
                     className={`rounded-full px-2.5 py-1 text-xs font-medium ${
@@ -61,7 +63,7 @@ export default async function AdminCoursesPage() {
             ))}
             {!courses?.length && (
               <tr>
-                <td colSpan={4} className="px-5 py-10 text-center text-slate-400">
+                <td colSpan={5} className="px-5 py-10 text-center text-slate-400">
                   هنوز دوره‌ای ثبت نشده است.
                 </td>
               </tr>

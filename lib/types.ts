@@ -43,14 +43,20 @@ export type ServiceCard = {
 };
 
 export type CourseStatus = "draft" | "published";
+export type CourseLevel = "مقدماتی" | "متوسط" | "پیشرفته" | "مقدماتی تا متوسط";
 
 export type Course = {
   id: string;
   position: number;
   title: string;
+  slug: string;
   audience: string | null;
   description: string | null;
   image: string | null;
+  content: Block[];
+  outline: string[];
+  duration: string | null;
+  level: string | null;
   status: CourseStatus;
 };
 

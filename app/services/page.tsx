@@ -159,8 +159,9 @@ export default async function ServicesPage() {
         {courses.length > 0 ? (
           <div className="grid gap-6 sm:grid-cols-2">
             {courses.map((course, idx) => (
-              <div
+              <Link
                 key={course.id}
+                href={`/services/courses/${course.slug}`}
                 style={{ animationDelay: `${idx * 100}ms` }}
                 className="fade-in-up flex flex-col overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm transition-shadow duration-200 hover:shadow-md"
               >
@@ -184,8 +185,14 @@ export default async function ServicesPage() {
                   {course.description && (
                     <p className="text-sm leading-6 text-slate-600">{course.description}</p>
                   )}
+                  {(course.duration || course.level) && (
+                    <div className="mt-4 flex flex-wrap gap-3 text-xs text-slate-500">
+                      {course.duration && <span>{course.duration}</span>}
+                      {course.level && <span>{course.level}</span>}
+                    </div>
+                  )}
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         ) : (
