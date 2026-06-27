@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+import { createClient } from "@/lib/supabase/client";
 import { Block, BlockType } from "@/lib/types";
 import {
   Type,
@@ -12,6 +14,7 @@ import {
   ArrowUp,
   ArrowDown,
   Plus,
+  Upload,
 } from "lucide-react";
 
 function newBlock(type: BlockType): Block {
@@ -48,6 +51,32 @@ export default function BlockEditor({
   blocks: Block[];
   onChange: (blocks: Block[]) => void;
 }) {
+  const supabase = createClient();
+  const [uploadingId, setUploadingId] = useState<string | null>(null);
+  const [uploadErrorId, setUploadErrorId] = useState<string | null>(null);
+
+  async function handleImageUpload(blockId: string, e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingId(blockId);
+    setUploadErrorId(null);
+
+    const ext = file.name.split(".").pop();
+    const path = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+
+    const { error: uploadErr } = await supabase.storage.from("media").upload(path, file);
+    setUploadingId(null);
+
+    if (uploadErr) {
+      setUploadErrorId(blockId);
+      return;
+    }
+
+    const { data } = supabase.storage.from("media").getPublicUrl(path);
+    updateBlock(blockId, { url: data.publicUrl });
+  }
+
   function addBlock(type: BlockType) {
     onChange([...blocks, newBlock(type)]);
   }
@@ -122,22 +151,31 @@ export default function BlockEditor({
 
             {block.type === "image" && (
               <div className="flex flex-col gap-2">
-                <input
-                  value={block.data.url}
-                  onChange={(e) => updateBlock(block.id, { url: e.target.value })}
-                  placeholder="آدرس تصویر (URL)"
-                  className="w-full rounded-xl border border-gray-300 px-3 py-2 text-sm outline-none focus:border-brand focus:ring-1 focus:ring-brand"
-                />
+                {block.data.url && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={block.data.url} alt="" className="max-h-48 rounded-xl object-cover" />
+                )}
+                <label className="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-dashed border-gray-300 px-3 py-2 text-sm font-medium text-slate-600 transition-colors duration-200 hover:border-brand hover:text-brand-700">
+                  <Upload className="h-4 w-4" aria-hidden="true" />
+                  {uploadingId === block.id ? "در حال آپلود..." : "آپلود تصویر"}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={(e) => handleImageUpload(block.id, e)}
+                  />
+                </label>
+                {uploadErrorId === block.id && (
+                  <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-600">
+                    آپلود تصویر با خطا مواجه شد.
+                  </p>
+                )}
                 <input
                   value={block.data.caption ?? ""}
                   onChange={(e) => updateBlock(block.id, { caption: e.target.value })}
                   placeholder="زیرنویس (اختیاری)"
                   className="w-full rounded-xl border border-gray-300 px-3 py-2 text-sm outline-none focus:border-brand focus:ring-1 focus:ring-brand"
                 />
-                {block.data.url && (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={block.data.url} alt="" className="max-h-48 rounded-xl object-cover" />
-                )}
               </div>
             )}
 
