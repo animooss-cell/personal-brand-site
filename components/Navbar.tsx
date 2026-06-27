@@ -7,6 +7,7 @@ import { Menu, X } from "lucide-react";
 const links = [
   { href: "/", label: "خانه" },
   { href: "/about", label: "درباره من" },
+  { href: "/services", label: "خدمات" },
   { href: "/blog", label: "وبلاگ" },
   { href: "/contact", label: "تماس" },
 ];

@@ -42,6 +42,18 @@ export type ServiceCard = {
   featured: boolean;
 };
 
+export type CourseStatus = "draft" | "published";
+
+export type Course = {
+  id: string;
+  position: number;
+  title: string;
+  audience: string | null;
+  description: string | null;
+  image: string | null;
+  status: CourseStatus;
+};
+
 export type ContactMessage = {
   id: string;
   name: string;
