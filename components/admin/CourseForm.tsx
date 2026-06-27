@@ -196,13 +196,6 @@ export default function CourseForm({ course }: { course?: Course }) {
             // eslint-disable-next-line @next/next/no-img-element
             <img src={image} alt="" className="mb-3 h-32 w-full rounded-xl object-cover" />
           )}
-          <input
-            value={image}
-            onChange={(e) => setImage(e.target.value)}
-            placeholder="آدرس تصویر (URL)"
-            dir="ltr"
-            className={`mb-3 ${inputClass}`}
-          />
           <label className="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-dashed border-gray-300 px-3 py-2.5 text-sm font-medium text-slate-600 transition-colors duration-200 hover:border-brand hover:text-brand-700">
             <Upload className="h-4 w-4" aria-hidden="true" />
             {uploading ? "در حال آپلود..." : "آپلود تصویر"}
