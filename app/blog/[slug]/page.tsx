@@ -4,6 +4,7 @@ import { Instagram, Send, MessageCircle } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { AboutContent, Post, SiteSettings } from "@/lib/types";
 import BlockRenderer from "@/components/BlockRenderer";
+import { SITE_URL } from "@/lib/site";
 
 async function getPost(slug: string) {
   const supabase = createClient();
@@ -61,11 +62,15 @@ export async function generateMetadata({
   return {
     title: post.seo_title || post.title,
     description: post.meta_description || post.excerpt || undefined,
-    alternates: post.canonical_url ? { canonical: post.canonical_url } : undefined,
+    alternates: { canonical: post.canonical_url || `/blog/${post.slug}` },
     robots: post.noindex ? { index: false, follow: false } : undefined,
     openGraph: {
+      type: "article",
       title: post.seo_title || post.title,
       description: post.meta_description || post.excerpt || undefined,
+      url: `/blog/${post.slug}`,
+      publishedTime: post.published_at || undefined,
+      tags: post.tags,
       images: post.og_image ? [post.og_image] : post.featured_image ? [post.featured_image] : undefined,
     },
   };
@@ -85,8 +90,28 @@ export default async function PostPage({ params }: { params: { slug: string } })
     },
   ].filter((item) => item.href);
 
+  const postJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.meta_description || post.excerpt || undefined,
+    image: post.featured_image ? [post.featured_image] : undefined,
+    datePublished: post.published_at || undefined,
+    dateModified: post.updated_at || post.published_at || undefined,
+    author: {
+      "@type": "Person",
+      name: author.name,
+    },
+    mainEntityOfPage: `${SITE_URL}/blog/${post.slug}`,
+    keywords: post.tags?.length ? post.tags.join(", ") : undefined,
+  };
+
   return (
     <article dir="rtl" className="mx-auto max-w-3xl px-6 py-16 md:py-24">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(postJsonLd) }}
+      />
       <div className="mb-8 text-center">
         {post.category && (
           <span className="mb-4 inline-block rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700">

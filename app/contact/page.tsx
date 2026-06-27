@@ -1,7 +1,21 @@
+import type { Metadata } from "next";
 import ContactForm from "./ContactForm";
 
-export const metadata = {
-  title: "تماس | مشاور کسب‌وکار هوش مصنوعی",
+const contactTitle = "تماس و رزرو جلسه | مشاوره کسب و کار اهواز";
+const contactDescription =
+  "برای رزرو جلسه رایگان مشاوره کسب و کار اهواز، آموزش هوش مصنوعی خوزستان یا اتوماسیون کسب‌وکار با هوش مصنوعی فرم زیر را پر کنید.";
+
+export const metadata: Metadata = {
+  title: contactTitle,
+  description: contactDescription,
+  alternates: {
+    canonical: "/contact",
+  },
+  openGraph: {
+    title: contactTitle,
+    description: contactDescription,
+    url: "/contact",
+  },
 };
 
 export default function ContactPage() {

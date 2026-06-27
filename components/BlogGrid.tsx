@@ -76,6 +76,8 @@ export default function BlogGrid() {
                 <img
                   src={post.featured_image}
                   alt={post.title}
+                  loading="lazy"
+                  decoding="async"
                   className="mb-4 h-36 w-full rounded-2xl object-cover"
                 />
               )}

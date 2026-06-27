@@ -26,7 +26,13 @@ export default function BlockRenderer({ blocks }: { blocks: Block[] }) {
             return (
               <figure key={block.id}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={block.data.url} alt={block.data.caption ?? ""} className="w-full rounded-2xl" />
+                <img
+                  src={block.data.url}
+                  alt={block.data.caption ?? ""}
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full rounded-2xl"
+                />
                 {block.data.caption && (
                   <figcaption className="mt-2 text-center text-sm text-slate-400">
                     {block.data.caption}

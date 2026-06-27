@@ -20,16 +20,30 @@ import {
   Twitter,
   Phone,
 } from "lucide-react";
+import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import { AboutContent, AboutTimelineItem, SiteSettings } from "@/lib/types";
 import AboutContactForm from "@/components/AboutContactForm";
+import { SITE_URL } from "@/lib/site";
 
 export const revalidate = 0;
 
-export const metadata = {
-  title: "درباره من | عبدالله احمدیان",
-  description:
-    "مشاور کسب‌وکار، متخصص هوش مصنوعی و کارآفرین — بیش از یک دهه تجربه در راه‌اندازی کسب‌وکار، مشاوره استارتاپ‌ها و پیاده‌سازی هوش مصنوعی در سازمان‌های بزرگ.",
+const aboutTitle = "درباره من | مشاور هوش مصنوعی اهواز";
+const aboutDescription =
+  "عبدالله احمدیان، مشاور هوش مصنوعی اهواز و مشاوره کسب و کار اهواز با بیش از یک دهه تجربه در راه‌اندازی استارتاپ، آموزش هوش مصنوعی خوزستان و اتوماسیون کسب‌وکار با هوش مصنوعی برای سازمان‌های صنعتی.";
+
+export const metadata: Metadata = {
+  title: aboutTitle,
+  description: aboutDescription,
+  alternates: {
+    canonical: "/about",
+  },
+  openGraph: {
+    title: aboutTitle,
+    description: aboutDescription,
+    url: "/about",
+    type: "profile",
+  },
 };
 
 const activityIcons = [Briefcase, Rocket, PenTool, CalendarDays, GraduationCap, Building2];
@@ -136,8 +150,36 @@ export default async function AboutPage() {
     { key: "twitter", label: "ایکس", icon: Twitter, href: socialLinks.twitter },
   ].filter((item) => item.href);
 
+  const personJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: fullName,
+    jobTitle: roleTitle,
+    description: shortBio,
+    image: avatarImage.startsWith("http") ? avatarImage : `${SITE_URL}${avatarImage}`,
+    url: `${SITE_URL}/about`,
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "اهواز",
+      addressRegion: "خوزستان",
+      addressCountry: "IR",
+    },
+    knowsAbout: [
+      "مشاور هوش مصنوعی اهواز",
+      "آموزش هوش مصنوعی خوزستان",
+      "مشاوره کسب و کار اهواز",
+      "اتوماسیون کسب و کار با هوش مصنوعی",
+    ],
+    sameAs: Object.values(socialLinks).filter((v) => v.startsWith("http")),
+  };
+
   return (
     <div dir="rtl">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+      />
+
       {/* هدر */}
       <section className="px-4 pt-6 md:px-8">
         <div className="fade-in-up mx-auto max-w-6xl overflow-hidden rounded-[2rem] bg-gradient-to-br from-slate-900 via-brand-900 to-slate-900 px-6 py-16 text-center md:py-24">

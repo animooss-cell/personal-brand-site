@@ -1,9 +1,23 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { Post } from "@/lib/types";
 
-export const metadata = {
-  title: "وبلاگ | مشاور کسب‌وکار هوش مصنوعی",
+const blogTitle = "وبلاگ | آموزش هوش مصنوعی خوزستان و مشاوره کسب و کار اهواز";
+const blogDescription =
+  "مقالات و یادداشت‌هایی درباره آموزش هوش مصنوعی خوزستان، اتوماسیون کسب و کار با هوش مصنوعی، مشاوره کسب و کار اهواز و رشد استارتاپ‌ها.";
+
+export const metadata: Metadata = {
+  title: blogTitle,
+  description: blogDescription,
+  alternates: {
+    canonical: "/blog",
+  },
+  openGraph: {
+    title: blogTitle,
+    description: blogDescription,
+    url: "/blog",
+  },
 };
 
 export const revalidate = 0;
@@ -42,6 +56,8 @@ export default async function BlogPage() {
                 <img
                   src={post.featured_image}
                   alt={post.title}
+                  loading="lazy"
+                  decoding="async"
                   className="hidden h-32 w-44 flex-shrink-0 rounded-2xl object-cover sm:block"
                 />
               )}
