@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { Course, Block } from "@/lib/types";
-import BlockEditor from "@/components/admin/BlockEditor";
+import { Course } from "@/lib/types";
+import TipTapEditor from "@/components/admin/TipTapEditor";
 import TagListEditor from "@/components/admin/TagListEditor";
 import { Save, Upload, Trash2 } from "lucide-react";
 
@@ -30,7 +30,7 @@ export default function CourseForm({ course }: { course?: Course }) {
   const [audience, setAudience] = useState(course?.audience ?? "");
   const [description, setDescription] = useState(course?.description ?? "");
   const [image, setImage] = useState(course?.image ?? "");
-  const [content, setContent] = useState<Block[]>(course?.content ?? []);
+  const [content, setContent] = useState(course?.content ?? "");
   const [outline, setOutline] = useState(course?.outline ?? []);
   const [duration, setDuration] = useState(course?.duration ?? "");
   const [level, setLevel] = useState(course?.level ?? "مقدماتی");
@@ -155,7 +155,7 @@ export default function CourseForm({ course }: { course?: Course }) {
 
         <div className="rounded-2xl border border-gray-200 bg-white p-6">
           <h2 className="mb-4 text-sm font-semibold text-slate-700">محتوای کامل دوره</h2>
-          <BlockEditor blocks={content} onChange={setContent} />
+          <TipTapEditor value={content} onChange={setContent} />
         </div>
       </div>
 

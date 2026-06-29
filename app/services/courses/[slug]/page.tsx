@@ -4,7 +4,6 @@ import Link from "next/link";
 import { ArrowLeft, CheckCircle2, Clock, BarChart3 } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { Course } from "@/lib/types";
-import BlockRenderer from "@/components/BlockRenderer";
 
 async function getCourse(slug: string) {
   const supabase = createClient();
@@ -94,7 +93,7 @@ export default async function CourseDetailPage({ params }: { params: { slug: str
           </div>
         )}
 
-        <BlockRenderer blocks={course.content} />
+        <div className="prose-content" dir="rtl" dangerouslySetInnerHTML={{ __html: course.content }} />
       </article>
 
       <section className="px-4 pb-16 md:px-8">

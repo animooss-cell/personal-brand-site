@@ -9,7 +9,7 @@ create table if not exists posts (
   slug text not null unique,
   excerpt text,
   featured_image text,
-  content jsonb not null default '[]', -- آرایه بلاک‌ها: [{type:"text"|"image"|"video"|"podcast"|"code"|"quote", data:{...}}]
+  content text not null default '', -- HTML تولید شده توسط ویرایشگر TipTap
   status text not null default 'draft' check (status in ('draft', 'published')),
   published_at timestamptz,
   category text,

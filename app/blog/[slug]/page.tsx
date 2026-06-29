@@ -4,7 +4,6 @@ import Link from "next/link";
 import { Instagram, Send, MessageCircle, ArrowLeft } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { AboutContent, Post, SiteSettings } from "@/lib/types";
-import BlockRenderer from "@/components/BlockRenderer";
 import { SITE_URL } from "@/lib/site";
 
 type RelatedPost = Pick<
@@ -197,7 +196,7 @@ export default async function PostPage({ params }: { params: { slug: string } })
         )}
       </div>
 
-      <BlockRenderer blocks={post.content} />
+      <div className="prose-content" dir="rtl" dangerouslySetInnerHTML={{ __html: post.content }} />
 
       {post.tags?.length > 0 && (
         <div className="mt-10 flex flex-wrap gap-2 border-t border-gray-100 pt-6">

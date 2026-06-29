@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { Post, Block } from "@/lib/types";
-import BlockEditor from "@/components/admin/BlockEditor";
+import { Post } from "@/lib/types";
+import TipTapEditor from "@/components/admin/TipTapEditor";
 import { Upload, Save, Trash2 } from "lucide-react";
 
 function slugify(value: string) {
@@ -24,7 +24,7 @@ export default function PostForm({ post }: { post?: Post }) {
   const [slug, setSlug] = useState(post?.slug ?? "");
   const [excerpt, setExcerpt] = useState(post?.excerpt ?? "");
   const [featuredImage, setFeaturedImage] = useState(post?.featured_image ?? "");
-  const [blocks, setBlocks] = useState<Block[]>(post?.content ?? []);
+  const [content, setContent] = useState(post?.content ?? "");
   const [status, setStatus] = useState<"draft" | "published">(post?.status ?? "draft");
   const [publishedAt, setPublishedAt] = useState(
     post?.published_at ? post.published_at.slice(0, 10) : ""
@@ -79,7 +79,7 @@ export default function PostForm({ post }: { post?: Post }) {
       slug: finalSlug,
       excerpt: excerpt || null,
       featured_image: featuredImage || null,
-      content: blocks,
+      content,
       status,
       published_at: publishedAt ? new Date(publishedAt).toISOString() : null,
       category: category || null,
@@ -150,7 +150,7 @@ export default function PostForm({ post }: { post?: Post }) {
 
         <div className="rounded-2xl border border-gray-200 bg-white p-6">
           <h2 className="mb-4 text-sm font-semibold text-slate-700">محتوای اصلی</h2>
-          <BlockEditor blocks={blocks} onChange={setBlocks} />
+          <TipTapEditor value={content} onChange={setContent} />
         </div>
 
         <div className="rounded-2xl border border-gray-200 bg-white p-6">

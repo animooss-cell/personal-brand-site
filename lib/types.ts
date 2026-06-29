@@ -1,13 +1,3 @@
-export type BlockType = "text" | "image" | "video" | "podcast" | "code" | "quote";
-
-export type Block =
-  | { id: string; type: "text"; data: { html: string } }
-  | { id: string; type: "image"; data: { url: string; caption?: string } }
-  | { id: string; type: "video"; data: { url: string } }
-  | { id: string; type: "podcast"; data: { url: string } }
-  | { id: string; type: "code"; data: { code: string; language?: string } }
-  | { id: string; type: "quote"; data: { text: string; cite?: string } };
-
 export type PostStatus = "draft" | "published";
 
 export type Post = {
@@ -16,7 +6,7 @@ export type Post = {
   slug: string;
   excerpt: string | null;
   featured_image: string | null;
-  content: Block[];
+  content: string;
   status: PostStatus;
   published_at: string | null;
   category: string | null;
@@ -53,7 +43,7 @@ export type Course = {
   audience: string | null;
   description: string | null;
   image: string | null;
-  content: Block[];
+  content: string;
   outline: string[];
   duration: string | null;
   level: string | null;
