@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Briefcase, GraduationCap, ArrowLeft } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { Post } from "@/lib/types";
+import BlogHeroSlider from "@/components/BlogHeroSlider";
+import BlogPageGrid from "@/components/BlogPageGrid";
 
 const blogTitle = "وبلاگ | آموزش هوش مصنوعی خوزستان و مشاوره کسب و کار اهواز";
 const blogDescription =
@@ -24,67 +27,64 @@ export const revalidate = 0;
 
 export default async function BlogPage() {
   const supabase = createClient();
-  const { data: posts } = await supabase
+  const { data: latestPosts } = await supabase
     .from("posts")
-    .select("slug, title, excerpt, category, featured_image, published_at")
+    .select("slug, title, excerpt, category, featured_image")
     .eq("status", "published")
-    .order("published_at", { ascending: false });
+    .order("published_at", { ascending: false })
+    .limit(4);
+
+  const slides = (latestPosts ?? []) as Pick<
+    Post,
+    "slug" | "title" | "excerpt" | "category" | "featured_image"
+  >[];
 
   return (
-    <section className="mx-auto max-w-4xl px-6 py-16 md:py-24">
-      <div className="mb-14 text-center">
-        <h1 className="text-3xl font-bold text-slate-900 md:text-4xl">وبلاگ</h1>
-        <p className="mt-4 text-base leading-7 text-slate-600">
-          یادداشت‌هایی درباره هوش مصنوعی، استارتاپ و رشد کسب‌وکار.
-        </p>
-      </div>
+    <div dir="rtl">
+      <BlogHeroSlider posts={slides} />
 
-      <div className="flex flex-col gap-8">
-        {(
-          posts as Pick<
-            Post,
-            "slug" | "title" | "excerpt" | "category" | "featured_image" | "published_at"
-          >[] | null
-        )?.map((post, idx) => (
-          <Link key={post.slug} href={`/blog/${post.slug}`}>
-            <article
-              style={{ animationDelay: `${idx * 100}ms` }}
-              className="fade-in-up flex gap-6 rounded-3xl border border-gray-200 bg-white p-8 shadow-sm transition-shadow duration-200 hover:shadow-md"
+      <BlogPageGrid />
+
+      <section className="mx-auto max-w-6xl px-6 pb-20">
+        <div className="grid gap-6 md:grid-cols-2">
+          <div className="fade-in-up flex flex-col items-start rounded-3xl bg-brand-dark p-8 text-white md:p-10">
+            <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-white/15">
+              <Briefcase className="h-6 w-6" aria-hidden="true" />
+            </div>
+            <h2 className="mb-3 text-2xl font-bold">آماده‌ای کسب‌وکارت را متحول کنی؟</h2>
+            <p className="mb-7 text-sm leading-7 text-white/85">
+              مشاوره کسب‌وکار و پیاده‌سازی هوش مصنوعی متناسب با نیاز شما.
+            </p>
+            <Link
+              href="/services"
+              className="mt-auto inline-flex cursor-pointer items-center gap-2 rounded-full bg-brand px-6 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:bg-brand-600"
             >
-              {post.featured_image && (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={post.featured_image}
-                  alt={post.title}
-                  loading="lazy"
-                  decoding="async"
-                  className="hidden h-32 w-44 flex-shrink-0 rounded-2xl object-cover sm:block"
-                />
-              )}
-              <div>
-                <div className="mb-4 flex items-center gap-3">
-                  {post.category && (
-                    <span className="rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700">
-                      {post.category}
-                    </span>
-                  )}
-                  {post.published_at && (
-                    <time className="text-xs text-slate-400">
-                      {new Date(post.published_at).toLocaleDateString("fa-IR")}
-                    </time>
-                  )}
-                </div>
-                <h2 className="mb-3 text-xl font-bold leading-8 text-slate-900">{post.title}</h2>
-                <p className="text-sm leading-7 text-slate-600">{post.excerpt}</p>
-              </div>
-            </article>
-          </Link>
-        ))}
+              مشاهده خدمات
+              <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+            </Link>
+          </div>
 
-        {!posts?.length && (
-          <p className="text-center text-slate-400">هنوز پستی منتشر نشده است.</p>
-        )}
-      </div>
-    </section>
+          <div
+            style={{ animationDelay: "100ms" }}
+            className="fade-in-up flex flex-col items-start rounded-3xl border-2 border-brand bg-white p-8 md:p-10"
+          >
+            <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-50 text-brand-600">
+              <GraduationCap className="h-6 w-6" aria-hidden="true" />
+            </div>
+            <h2 className="mb-3 text-2xl font-bold text-slate-900">دوره‌های آموزشی هوش مصنوعی</h2>
+            <p className="mb-7 text-sm leading-7 text-slate-600">
+              آموزش‌های تخصصی و کاربردی ابزارهای هوش مصنوعی برای تیم و سازمان شما.
+            </p>
+            <Link
+              href="/services"
+              className="mt-auto inline-flex cursor-pointer items-center gap-2 rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:bg-slate-700"
+            >
+              مشاهده دوره‌ها
+              <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+            </Link>
+          </div>
+        </div>
+      </section>
+    </div>
   );
 }
