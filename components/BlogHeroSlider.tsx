@@ -36,15 +36,17 @@ export default function BlogHeroSlider({ posts }: { posts: SlidePost[] }) {
             i === index ? "opacity-100" : "pointer-events-none opacity-0"
           }`}
         >
-          {post.featured_image && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={post.featured_image}
-              alt={post.title}
-              className="h-full w-full object-cover"
-            />
-          )}
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent" />
+          <Link href={`/blog/${post.slug}`} className="absolute inset-0 cursor-pointer" aria-label={post.title}>
+            {post.featured_image && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={post.featured_image}
+                alt={post.title}
+                className="h-full w-full object-cover"
+              />
+            )}
+          </Link>
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent" />
 
           <div className="absolute inset-x-0 bottom-0 px-6 pb-10 md:px-16 md:pb-14">
             <div className="mx-auto max-w-6xl">
@@ -53,9 +55,11 @@ export default function BlogHeroSlider({ posts }: { posts: SlidePost[] }) {
                   {post.category}
                 </span>
               )}
-              <h2 className="mb-3 max-w-2xl text-xl font-bold leading-8 text-white md:text-3xl md:leading-10">
-                {post.title}
-              </h2>
+              <Link href={`/blog/${post.slug}`} className="cursor-pointer">
+                <h2 className="mb-3 max-w-2xl text-xl font-bold leading-8 text-white transition-colors duration-200 hover:text-brand-200 md:text-3xl md:leading-10">
+                  {post.title}
+                </h2>
+              </Link>
               <p className="mb-5 hidden max-w-xl text-sm leading-7 text-white/85 md:block">
                 {post.excerpt}
               </p>

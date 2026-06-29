@@ -25,7 +25,13 @@ export const metadata: Metadata = {
 
 export const revalidate = 0;
 
-export default async function BlogPage() {
+export default async function BlogPage({
+  searchParams,
+}: {
+  searchParams: { category?: string };
+}) {
+  const category = searchParams.category;
+
   const supabase = createClient();
   const { data: latestPosts } = await supabase
     .from("posts")
@@ -43,7 +49,7 @@ export default async function BlogPage() {
     <div dir="rtl">
       <BlogHeroSlider posts={slides} />
 
-      <BlogPageGrid />
+      <BlogPageGrid category={category} />
 
       <section className="mx-auto max-w-6xl px-6 pb-20">
         <div className="grid gap-6 md:grid-cols-2">

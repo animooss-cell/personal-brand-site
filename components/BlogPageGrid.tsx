@@ -12,7 +12,7 @@ type PostSummary = Pick<
   "id" | "slug" | "title" | "excerpt" | "category" | "featured_image" | "published_at"
 >;
 
-export default function BlogPageGrid() {
+export default function BlogPageGrid({ category }: { category?: string }) {
   const supabase = createClient();
 
   const [posts, setPosts] = useState<PostSummary[]>([]);
@@ -23,16 +23,26 @@ export default function BlogPageGrid() {
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
 
   useEffect(() => {
+    setPage(1);
+  }, [category]);
+
+  useEffect(() => {
     let active = true;
     setLoading(true);
 
     const from = (page - 1) * PAGE_SIZE;
     const to = from + PAGE_SIZE - 1;
 
-    supabase
+    let query = supabase
       .from("posts")
       .select("id, slug, title, excerpt, category, featured_image, published_at", { count: "exact" })
-      .eq("status", "published")
+      .eq("status", "published");
+
+    if (category) {
+      query = query.eq("category", category);
+    }
+
+    query
       .order("published_at", { ascending: false })
       .range(from, to)
       .then(({ data, count }) => {
@@ -45,10 +55,21 @@ export default function BlogPageGrid() {
     return () => {
       active = false;
     };
-  }, [page, supabase]);
+  }, [page, category, supabase]);
 
   return (
     <section className="mx-auto max-w-6xl px-6 py-16" dir="rtl">
+      {category && (
+        <div className="mb-8 flex items-center justify-center gap-2">
+          <span className="rounded-full bg-brand-50 px-4 py-1.5 text-sm font-semibold text-brand-700">
+            {category}
+          </span>
+          <Link href="/blog" className="text-sm text-slate-400 underline hover:text-slate-600">
+            حذف فیلتر
+          </Link>
+        </div>
+      )}
+
       {loading ? (
         <div className="grid gap-8 md:grid-cols-3">
           {Array.from({ length: PAGE_SIZE }).map((_, i) => (
@@ -90,7 +111,9 @@ export default function BlogPageGrid() {
           ))}
 
           {!posts.length && (
-            <p className="col-span-3 text-center text-slate-400">هنوز پستی منتشر نشده است.</p>
+            <p className="col-span-3 text-center text-slate-400">
+              {category ? "پستی در این دسته‌بندی منتشر نشده است." : "هنوز پستی منتشر نشده است."}
+            </p>
           )}
         </div>
       )}

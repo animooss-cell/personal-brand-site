@@ -25,6 +25,7 @@ import { createClient } from "@/lib/supabase/server";
 import { AboutContent, AboutTimelineItem, SiteSettings } from "@/lib/types";
 import AboutContactForm from "@/components/AboutContactForm";
 import { SITE_URL } from "@/lib/site";
+import { toWhatsappHref } from "@/lib/social";
 
 export const revalidate = 0;
 
@@ -90,12 +91,6 @@ const defaultSocialLinks: Record<string, string> = {
 };
 
 const defaultPhoneNumbers = ["09161002550", "09163070748"];
-
-function toWhatsappHref(value: string) {
-  const digits = value.replace(/\D/g, "");
-  const normalized = digits.startsWith("0") ? `98${digits.slice(1)}` : digits;
-  return `https://wa.me/${normalized}`;
-}
 
 const defaultTimeline = [
   { title: "ارگانایزر رویداد ملی فرآفرین", place: "تهران، اهواز، مسجد سلیمان، شوشتر (با جهاد دانشگاهی)" },

@@ -5,6 +5,7 @@ import { Instagram, Send, MessageCircle, ArrowLeft } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { AboutContent, Post, SiteSettings } from "@/lib/types";
 import { SITE_URL } from "@/lib/site";
+import { toWhatsappHref } from "@/lib/social";
 
 type RelatedPost = Pick<
   Post,
@@ -60,12 +61,6 @@ const defaultAuthorSocialLinks: Record<string, string> = {
   telegram: "https://t.me/Staruping_ir",
   whatsapp: "09161002550",
 };
-
-function toWhatsappHref(value: string) {
-  const digits = value.replace(/\D/g, "");
-  const normalized = digits.startsWith("0") ? `98${digits.slice(1)}` : digits;
-  return `https://wa.me/${normalized}`;
-}
 
 async function getAuthor() {
   const supabase = createClient();
