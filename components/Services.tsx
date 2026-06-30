@@ -1,7 +1,6 @@
 import * as Icons from "lucide-react";
 import { Rocket, type LucideIcon } from "lucide-react";
-import { createClient } from "@/lib/supabase/server";
-import { ServiceCard } from "@/lib/types";
+import { getServices } from "@/lib/data";
 
 function resolveIcon(name: string): LucideIcon {
   const icon = (Icons as unknown as Record<string, LucideIcon>)[name];
@@ -9,9 +8,7 @@ function resolveIcon(name: string): LucideIcon {
 }
 
 export default async function Services() {
-  const supabase = createClient();
-  const { data } = await supabase.from("services").select("*").order("position");
-  const services = (data ?? []) as ServiceCard[];
+  const services = await getServices();
 
   return (
     <section id="services" className="mx-auto max-w-6xl px-6 py-20">

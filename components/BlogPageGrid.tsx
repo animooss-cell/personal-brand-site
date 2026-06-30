@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { Post } from "@/lib/types";
@@ -86,14 +87,15 @@ export default function BlogPageGrid({ category }: { category?: string }) {
               className="fade-in-up flex cursor-pointer flex-col rounded-3xl border border-gray-200 bg-white p-7 text-right shadow-sm transition-shadow duration-200 hover:shadow-md"
             >
               {post.featured_image && (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={post.featured_image}
-                  alt={post.title}
-                  loading="lazy"
-                  decoding="async"
-                  className="mb-4 h-36 w-full rounded-2xl object-cover"
-                />
+                <div className="relative mb-4 h-36 w-full overflow-hidden rounded-2xl">
+                  <Image
+                    src={post.featured_image}
+                    alt={post.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    className="object-cover"
+                  />
+                </div>
               )}
               {post.category && (
                 <span className="mb-4 inline-block w-fit rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700">

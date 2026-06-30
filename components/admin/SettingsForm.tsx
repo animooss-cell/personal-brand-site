@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { SiteSettings } from "@/lib/types";
@@ -232,10 +233,11 @@ export default function SettingsForm({ settings }: { settings: SiteSettings }) {
             <label className={labelClass}>تصویر Hero</label>
             <div className="mb-2 flex items-center gap-4">
               {heroImage && (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
+                <Image
                   src={heroImage}
                   alt="تصویر Hero"
+                  width={96}
+                  height={64}
                   className="h-16 w-24 rounded-lg object-cover"
                 />
               )}
@@ -281,10 +283,11 @@ export default function SettingsForm({ settings }: { settings: SiteSettings }) {
             <label className={labelClass}>تصویر پروفایل</label>
             <div className="mb-6 flex items-center gap-4">
               {avatarImage && (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
+                <Image
                   src={avatarImage}
                   alt="تصویر پروفایل"
+                  width={64}
+                  height={64}
                   className="h-16 w-16 rounded-full object-cover"
                 />
               )}

@@ -6,7 +6,7 @@ import About from "@/components/About";
 import Services from "@/components/Services";
 import CTASection from "@/components/CTASection";
 
-export const revalidate = 0;
+export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: {

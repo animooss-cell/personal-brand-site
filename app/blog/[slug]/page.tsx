@@ -1,27 +1,20 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { Instagram, Send, MessageCircle, ArrowLeft } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
-import { AboutContent, Post, SiteSettings } from "@/lib/types";
+import { getPostBySlug, getAboutContent, getSettings } from "@/lib/data";
+import { Post } from "@/lib/types";
 import { SITE_URL } from "@/lib/site";
 import { toWhatsappHref } from "@/lib/social";
+
+export const revalidate = 300;
 
 type RelatedPost = Pick<
   Post,
   "slug" | "title" | "excerpt" | "category" | "featured_image" | "published_at"
 >;
-
-async function getPost(slug: string) {
-  const supabase = createClient();
-  const { data } = await supabase
-    .from("posts")
-    .select("*")
-    .eq("slug", slug)
-    .eq("status", "published")
-    .single();
-  return data as Post | null;
-}
 
 async function getRelatedPosts(post: Post): Promise<RelatedPost[]> {
   const supabase = createClient();
@@ -63,14 +56,7 @@ const defaultAuthorSocialLinks: Record<string, string> = {
 };
 
 async function getAuthor() {
-  const supabase = createClient();
-  const [{ data: about }, { data: settings }] = await Promise.all([
-    supabase.from("about_content").select("*").eq("id", 1).single(),
-    supabase.from("settings").select("*").eq("id", 1).single(),
-  ]);
-
-  const a = about as AboutContent | null;
-  const s = settings as SiteSettings | null;
+  const [a, s] = await Promise.all([getAboutContent(), getSettings()]);
 
   const socialLinks: Record<string, string> = { ...defaultAuthorSocialLinks };
   for (const [key, value] of Object.entries(a?.social_links ?? {})) {
@@ -89,7 +75,7 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  const post = await getPost(params.slug);
+  const post = await getPostBySlug(params.slug);
   if (!post) return {};
 
   return {
@@ -110,7 +96,7 @@ export async function generateMetadata({
 }
 
 export default async function PostPage({ params }: { params: { slug: string } }) {
-  const [post, author] = await Promise.all([getPost(params.slug), getAuthor()]);
+  const [post, author] = await Promise.all([getPostBySlug(params.slug), getAuthor()]);
   if (!post) notFound();
 
   const relatedPosts = await getRelatedPosts(post);
@@ -163,13 +149,26 @@ export default async function PostPage({ params }: { params: { slug: string } })
       </div>
 
       {post.featured_image && (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={post.featured_image} alt={post.title} className="mb-8 w-full rounded-3xl" />
+        <div className="relative mb-8 aspect-video w-full overflow-hidden rounded-3xl">
+          <Image
+            src={post.featured_image}
+            alt={post.title}
+            fill
+            priority
+            sizes="(max-width: 768px) 100vw, 768px"
+            className="object-cover"
+          />
+        </div>
       )}
 
       <div className="mb-10 flex items-center gap-3 border-b border-gray-100 pb-6 text-sm">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={author.avatar} alt={author.name} className="h-9 w-9 rounded-full object-cover" />
+        <Image
+          src={author.avatar}
+          alt={author.name}
+          width={36}
+          height={36}
+          className="h-9 w-9 rounded-full object-cover"
+        />
         <span className="font-medium text-slate-700">{author.name}</span>
         {authorSocialItems.length > 0 && (
           <div className="mr-auto flex items-center gap-2">
@@ -217,14 +216,15 @@ export default async function PostPage({ params }: { params: { slug: string } })
               className="flex flex-col rounded-3xl border border-gray-200 bg-white p-6 shadow-sm transition-shadow duration-200 hover:shadow-md"
             >
               {related.featured_image && (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={related.featured_image}
-                  alt={related.title}
-                  loading="lazy"
-                  decoding="async"
-                  className="mb-4 h-36 w-full rounded-2xl object-cover"
-                />
+                <div className="relative mb-4 h-36 w-full overflow-hidden rounded-2xl">
+                  <Image
+                    src={related.featured_image}
+                    alt={related.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    className="object-cover"
+                  />
+                </div>
               )}
               {related.category && (
                 <span className="mb-3 inline-block w-fit rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700">

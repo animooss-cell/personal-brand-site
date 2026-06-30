@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import * as Icons from "lucide-react";
 import { Rocket, ArrowLeft, GraduationCap, type LucideIcon } from "lucide-react";
-import { createClient } from "@/lib/supabase/server";
-import { ServiceCard, Course } from "@/lib/types";
+import { getServices, getPublishedCourses } from "@/lib/data";
 
-export const revalidate = 0;
+export const revalidate = 300;
 
 const servicesTitle = "خدمات و آموزش | مشاوره کسب و کار اهواز و آموزش هوش مصنوعی خوزستان";
 const servicesDescription =
@@ -30,15 +30,7 @@ function resolveIcon(name: string): LucideIcon {
 }
 
 export default async function ServicesPage() {
-  const supabase = createClient();
-
-  const [{ data: servicesData }, { data: coursesData }] = await Promise.all([
-    supabase.from("services").select("*").order("position"),
-    supabase.from("courses").select("*").eq("status", "published").order("position"),
-  ]);
-
-  const services = (servicesData ?? []) as ServiceCard[];
-  const courses = (coursesData ?? []) as Course[];
+  const [services, courses] = await Promise.all([getServices(), getPublishedCourses()]);
 
   return (
     <div dir="rtl">
@@ -166,14 +158,15 @@ export default async function ServicesPage() {
                 className="fade-in-up flex flex-col overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm transition-shadow duration-200 hover:shadow-md"
               >
                 {course.image && (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={course.image}
-                    alt={course.title}
-                    loading="lazy"
-                    decoding="async"
-                    className="h-44 w-full object-cover"
-                  />
+                  <div className="relative h-44 w-full">
+                    <Image
+                      src={course.image}
+                      alt={course.title}
+                      fill
+                      sizes="(max-width: 640px) 100vw, 50vw"
+                      className="object-cover"
+                    />
+                  </div>
                 )}
                 <div className="flex flex-1 flex-col p-7">
                   {course.audience && (

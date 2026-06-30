@@ -18,6 +18,8 @@ export const metadata: Metadata = {
   },
 };
 
+export const revalidate = 300;
+
 export default function ContactPage() {
   return (
     <section className="mx-auto max-w-2xl px-6 py-16 md:py-24">

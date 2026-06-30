@@ -1,13 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, CheckCircle2 } from "lucide-react";
-import { createClient } from "@/lib/supabase/server";
-import { SiteSettings } from "@/lib/types";
+import { getSettings } from "@/lib/data";
 
 export default async function About() {
-  const supabase = createClient();
-  const { data: settings } = await supabase.from("settings").select("*").eq("id", 1).single();
-  const s = settings as SiteSettings | null;
+  const s = await getSettings();
 
   const badge = s?.about_badge || "درباره من";
   const titlePrefix = s?.about_title_prefix || "مشاوره‌ای بر پایه";

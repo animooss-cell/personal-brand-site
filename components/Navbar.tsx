@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 
@@ -19,8 +20,7 @@ export default function Navbar() {
     <header className="sticky top-4 z-50 mx-4 md:mx-8">
       <nav className="mx-auto flex max-w-6xl items-center justify-between rounded-2xl border border-gray-200 bg-white px-5 py-3 shadow-sm">
         <Link href="/" className="flex items-center">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.png" alt="عبدالله احمدیان" style={{ height: "40px", width: "auto" }} />
+          <Image src="/logo.png" alt="عبدالله احمدیان" width={1774} height={887} priority className="h-10 w-auto" />
         </Link>
 
         <ul className="hidden items-center gap-8 md:flex">

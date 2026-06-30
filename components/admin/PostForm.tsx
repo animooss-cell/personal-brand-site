@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
 import { Post } from "@/lib/types";
 import TipTapEditor from "@/components/admin/TipTapEditor";
@@ -244,8 +245,9 @@ export default function PostForm({ post }: { post?: Post }) {
         <div className="rounded-2xl border border-gray-200 bg-white p-6">
           <h2 className="mb-4 text-sm font-semibold text-slate-700">تصویر شاخص</h2>
           {featuredImage && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={featuredImage} alt="" className="mb-3 h-32 w-full rounded-xl object-cover" />
+            <div className="relative mb-3 h-32 w-full">
+              <Image src={featuredImage} alt="" fill sizes="320px" className="rounded-xl object-cover" />
+            </div>
           )}
           <input
             value={featuredImage}

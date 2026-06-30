@@ -1,7 +1,7 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Instagram, Send, MessageCircle } from "lucide-react";
-import { createClient } from "@/lib/supabase/server";
-import { AboutContent, SiteSettings } from "@/lib/types";
+import { getAboutContent, getSettings } from "@/lib/data";
 import { toWhatsappHref } from "@/lib/social";
 import NewsletterForm from "@/components/NewsletterForm";
 
@@ -19,14 +19,7 @@ const categories = [
 ];
 
 export default async function Footer() {
-  const supabase = createClient();
-  const [{ data: about }, { data: settings }] = await Promise.all([
-    supabase.from("about_content").select("*").eq("id", 1).single(),
-    supabase.from("settings").select("*").eq("id", 1).single(),
-  ]);
-
-  const a = about as AboutContent | null;
-  const s = settings as SiteSettings | null;
+  const [a, s] = await Promise.all([getAboutContent(), getSettings()]);
 
   const description =
     s?.site_description ||
@@ -51,8 +44,7 @@ export default async function Footer() {
     <footer className="mt-24 bg-brand-dark text-white" dir="rtl">
       <div className="mx-auto grid max-w-6xl gap-10 px-6 py-16 sm:grid-cols-2 lg:grid-cols-3">
         <div>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.png" alt="لوگو" style={{ height: "40px", width: "auto" }} className="mb-4" />
+          <Image src="/logo.png" alt="لوگو" width={1774} height={887} className="mb-4 h-10 w-auto" />
           <p className="mb-5 max-w-xs text-sm leading-7 text-white/70">{description}</p>
           {socialItems.length > 0 && (
             <div className="flex items-center gap-3">

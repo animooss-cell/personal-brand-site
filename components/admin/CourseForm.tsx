@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
 import { Course } from "@/lib/types";
 import TipTapEditor from "@/components/admin/TipTapEditor";
@@ -193,8 +194,9 @@ export default function CourseForm({ course }: { course?: Course }) {
         <div className="rounded-2xl border border-gray-200 bg-white p-6">
           <h2 className="mb-4 text-sm font-semibold text-slate-700">تصویر دوره</h2>
           {image && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={image} alt="" className="mb-3 h-32 w-full rounded-xl object-cover" />
+            <div className="relative mb-3 h-32 w-full">
+              <Image src={image} alt="" fill sizes="320px" className="rounded-xl object-cover" />
+            </div>
           )}
           <label className="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-dashed border-gray-300 px-3 py-2.5 text-sm font-medium text-slate-600 transition-colors duration-200 hover:border-brand hover:text-brand-700">
             <Upload className="h-4 w-4" aria-hidden="true" />

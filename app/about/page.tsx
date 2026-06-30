@@ -22,12 +22,13 @@ import {
 } from "lucide-react";
 import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
-import { AboutContent, AboutTimelineItem, SiteSettings } from "@/lib/types";
+import { getAboutContent, getSettings } from "@/lib/data";
+import { AboutTimelineItem } from "@/lib/types";
 import AboutContactForm from "@/components/AboutContactForm";
 import { SITE_URL } from "@/lib/site";
 import { toWhatsappHref } from "@/lib/social";
 
-export const revalidate = 0;
+export const revalidate = 300;
 
 const aboutTitle = "درباره من | مشاور هوش مصنوعی اهواز";
 const aboutDescription =
@@ -106,14 +107,12 @@ const defaultTimeline = [
 export default async function AboutPage() {
   const supabase = createClient();
 
-  const [{ data: about }, { data: timelineRows }, { data: settings }] = await Promise.all([
-    supabase.from("about_content").select("*").eq("id", 1).single(),
+  const [a, s, { data: timelineRows }] = await Promise.all([
+    getAboutContent(),
+    getSettings(),
     supabase.from("about_timeline").select("*").order("position"),
-    supabase.from("settings").select("*").eq("id", 1).single(),
   ]);
 
-  const a = about as AboutContent | null;
-  const s = settings as SiteSettings | null;
   const timeline = (timelineRows ?? []) as AboutTimelineItem[];
 
   const fullName = a?.full_name || s?.full_name || "عبدالله احمدیان";

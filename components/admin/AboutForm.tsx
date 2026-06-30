@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
 import { AboutContent, AboutTimelineItem } from "@/lib/types";
 import TagListEditor from "@/components/admin/TagListEditor";
@@ -111,8 +112,13 @@ export default function AboutForm({
           <label className={labelClass}>عکس پروفایل</label>
           <div className="mb-4 flex items-center gap-4">
             {avatarImage && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={avatarImage} alt="پروفایل" className="h-16 w-16 rounded-full object-cover" />
+              <Image
+                src={avatarImage}
+                alt="پروفایل"
+                width={64}
+                height={64}
+                className="h-16 w-16 rounded-full object-cover"
+              />
             )}
             <label className="inline-flex cursor-pointer items-center gap-2 rounded-xl border border-dashed border-gray-300 px-4 py-2.5 text-sm font-medium text-slate-600 transition-colors duration-200 hover:border-brand hover:text-brand-700">
               <Upload className="h-4 w-4" aria-hidden="true" />

@@ -1,27 +1,18 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, CheckCircle2, Clock, BarChart3 } from "lucide-react";
-import { createClient } from "@/lib/supabase/server";
-import { Course } from "@/lib/types";
+import { getCourseBySlug } from "@/lib/data";
 
-async function getCourse(slug: string) {
-  const supabase = createClient();
-  const { data } = await supabase
-    .from("courses")
-    .select("*")
-    .eq("slug", slug)
-    .eq("status", "published")
-    .single();
-  return data as Course | null;
-}
+export const revalidate = 300;
 
 export async function generateMetadata({
   params,
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  const course = await getCourse(params.slug);
+  const course = await getCourseBySlug(params.slug);
   if (!course) return {};
 
   return {
@@ -38,7 +29,7 @@ export async function generateMetadata({
 }
 
 export default async function CourseDetailPage({ params }: { params: { slug: string } }) {
-  const course = await getCourse(params.slug);
+  const course = await getCourseBySlug(params.slug);
   if (!course) notFound();
 
   return (
@@ -71,8 +62,16 @@ export default async function CourseDetailPage({ params }: { params: { slug: str
         </div>
 
         {course.image && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={course.image} alt={course.title} className="mb-10 w-full rounded-3xl" />
+          <div className="relative mb-10 aspect-video w-full overflow-hidden rounded-3xl">
+            <Image
+              src={course.image}
+              alt={course.title}
+              fill
+              priority
+              sizes="(max-width: 768px) 100vw, 768px"
+              className="object-cover"
+            />
+          </div>
         )}
 
         {course.description && (

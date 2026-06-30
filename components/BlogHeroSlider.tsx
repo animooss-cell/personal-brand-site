@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { ChevronRight, ChevronLeft } from "lucide-react";
 import { Post } from "@/lib/types";
@@ -38,11 +39,13 @@ export default function BlogHeroSlider({ posts }: { posts: SlidePost[] }) {
         >
           <Link href={`/blog/${post.slug}`} className="absolute inset-0 cursor-pointer" aria-label={post.title}>
             {post.featured_image && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
+              <Image
                 src={post.featured_image}
                 alt={post.title}
-                className="h-full w-full object-cover"
+                fill
+                priority={i === 0}
+                sizes="100vw"
+                className="object-cover"
               />
             )}
           </Link>
