@@ -1,4 +1,4 @@
-export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://yourdomain.ir";
+export const SITE_URL = process.env.SITE_URL || "https://yourdomain.ir";
 
 export const SITE_NAME = "عبدالله احمدیان | مشاور هوش مصنوعی اهواز";
 
