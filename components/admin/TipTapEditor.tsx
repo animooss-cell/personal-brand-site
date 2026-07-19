@@ -27,6 +27,7 @@ import {
   AlignCenter,
   AlignLeft,
   Upload,
+  CodeXml,
 } from "lucide-react";
 
 function ToolbarButton({
@@ -58,7 +59,15 @@ function ToolbarButton({
   );
 }
 
-function Toolbar({ editor }: { editor: Editor }) {
+function Toolbar({
+  editor,
+  htmlMode,
+  onToggleHtml,
+}: {
+  editor: Editor;
+  htmlMode: boolean;
+  onToggleHtml: () => void;
+}) {
   const supabase = createClient();
   const [uploading, setUploading] = useState(false);
 
@@ -92,6 +101,8 @@ function Toolbar({ editor }: { editor: Editor }) {
 
   return (
     <div className="flex flex-wrap items-center gap-1 border-b border-gray-200 bg-slate-50 p-2">
+      {!htmlMode && (
+      <>
       <ToolbarButton label="ضخیم" active={editor.isActive("bold")} onClick={() => editor.chain().focus().toggleBold().run()}>
         <Bold className="h-4 w-4" aria-hidden="true" />
       </ToolbarButton>
@@ -189,6 +200,18 @@ function Toolbar({ editor }: { editor: Editor }) {
       <ToolbarButton label="ازنو" disabled={!editor.can().redo()} onClick={() => editor.chain().focus().redo().run()}>
         <Redo2 className="h-4 w-4" aria-hidden="true" />
       </ToolbarButton>
+
+      <span className="mx-1 h-5 w-px bg-gray-200" />
+      </>
+      )}
+
+      <ToolbarButton
+        label={htmlMode ? "اعمال HTML" : "ویرایش HTML خام"}
+        active={htmlMode}
+        onClick={onToggleHtml}
+      >
+        <CodeXml className="h-4 w-4" aria-hidden="true" />
+      </ToolbarButton>
     </div>
   );
 }
@@ -200,6 +223,9 @@ export default function TipTapEditor({
   value: string;
   onChange: (html: string) => void;
 }) {
+  const [htmlMode, setHtmlMode] = useState(false);
+  const [htmlDraft, setHtmlDraft] = useState("");
+
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -228,11 +254,31 @@ export default function TipTapEditor({
 
   if (!editor) return null;
 
+  function toggleHtmlMode() {
+    if (htmlMode) {
+      editor!.commands.setContent(htmlDraft, { emitUpdate: true });
+      setHtmlMode(false);
+    } else {
+      setHtmlDraft(editor!.getHTML());
+      setHtmlMode(true);
+    }
+  }
+
   return (
     <div className="overflow-hidden rounded-xl border border-gray-300">
-      <Toolbar editor={editor} />
+      <Toolbar editor={editor} htmlMode={htmlMode} onToggleHtml={toggleHtmlMode} />
       <div className="px-4 py-3">
-        <EditorContent editor={editor} />
+        {htmlMode ? (
+          <textarea
+            value={htmlDraft}
+            onChange={(e) => setHtmlDraft(e.target.value)}
+            dir="ltr"
+            spellCheck={false}
+            className="min-h-[260px] w-full resize-y rounded-lg border border-gray-200 bg-slate-50 p-3 font-mono text-xs text-slate-700 outline-none focus:border-brand focus:ring-1 focus:ring-brand"
+          />
+        ) : (
+          <EditorContent editor={editor} />
+        )}
       </div>
     </div>
   );
