@@ -2,14 +2,22 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import * as Icons from "lucide-react";
-import { Rocket, ArrowLeft, GraduationCap, type LucideIcon } from "lucide-react";
+import {
+  Rocket,
+  ArrowLeft,
+  GraduationCap,
+  Briefcase,
+  TrendingUp,
+  PenTool,
+  type LucideIcon,
+} from "lucide-react";
 import { getServices, getPublishedCourses } from "@/lib/data";
 
 export const revalidate = 300;
 
-const servicesTitle = "خدمات و آموزش | مشاوره کسب و کار اهواز و آموزش هوش مصنوعی خوزستان";
+const servicesTitle = "خدمات و آموزش هوش مصنوعی | عبدالله احمدیان";
 const servicesDescription =
-  "خدمات مشاوره کسب و کار اهواز، آموزش هوش مصنوعی خوزستان و دوره‌های سازمانی اتوماسیون کسب‌وکار با هوش مصنوعی برای تیم‌ها و سازمان‌ها.";
+  "مشاوره کسب‌وکار، مشاوره رشد، آموزش هوش مصنوعی و تولید محتوا با AI — همه خدمات در یک نگاه.";
 
 export const metadata: Metadata = {
   title: servicesTitle,
@@ -29,6 +37,33 @@ function resolveIcon(name: string): LucideIcon {
   return icon || Rocket;
 }
 
+const dedicatedServices = [
+  {
+    href: "/services/ai-business-consulting",
+    icon: Briefcase,
+    title: "مشاور کسب‌وکار با هوش مصنوعی",
+    desc: "برای شروع پیاده‌سازی و اتوماسیون هوش مصنوعی در کسب‌وکارتان.",
+  },
+  {
+    href: "/services/ai-growth-consulting",
+    icon: TrendingUp,
+    title: "مشاور توسعه و رشد کسب‌وکار",
+    desc: "برای کسب‌وکارهایی که راه افتاده‌اند و دنبال مقیاس‌پذیری هستند.",
+  },
+  {
+    href: "/services/ai-training-ahvaz",
+    icon: GraduationCap,
+    title: "مدرس هوش مصنوعی در اهواز",
+    desc: "دوره‌های حضوری و سازمانی برای تیم و سازمان شما.",
+  },
+  {
+    href: "/services/ai-content-generation",
+    icon: PenTool,
+    title: "تولید محتوا با هوش مصنوعی",
+    desc: "محتوای شبکه‌های اجتماعی، وبسایت و کمپین‌های تبلیغاتی.",
+  },
+];
+
 export default async function ServicesPage() {
   const [services, courses] = await Promise.all([getServices(), getPublishedCourses()]);
 
@@ -41,6 +76,31 @@ export default async function ServicesPage() {
           <p className="mx-auto mt-4 max-w-2xl text-base text-slate-300 md:text-lg">
             از مشاوره تا آموزش — همه چیز برای رشد کسب‌وکارت با هوش مصنوعی
           </p>
+        </div>
+      </section>
+
+      {/* خلاصه ۴ خدمت اصلی */}
+      <section className="mx-auto max-w-6xl px-6 py-16">
+        <h2 className="mb-12 text-center text-2xl font-bold text-slate-900 md:text-3xl">همه خدمات</h2>
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {dedicatedServices.map(({ href, icon: Icon, title, desc }, idx) => (
+            <Link
+              key={href}
+              href={href}
+              style={{ animationDelay: `${idx * 100}ms` }}
+              className="fade-in-up flex flex-col rounded-3xl border border-gray-200 bg-white p-6 shadow-sm transition-shadow duration-200 hover:shadow-md"
+            >
+              <div className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-50 text-brand-600">
+                <Icon className="h-5 w-5" aria-hidden="true" />
+              </div>
+              <h3 className="mb-2 text-base font-bold text-slate-900">{title}</h3>
+              <p className="mb-4 text-sm leading-6 text-slate-600">{desc}</p>
+              <span className="mt-auto inline-flex items-center gap-1 text-sm font-semibold text-brand-700">
+                بیشتر بدانید
+                <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+              </span>
+            </Link>
+          ))}
         </div>
       </section>
 
