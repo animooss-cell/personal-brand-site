@@ -13,6 +13,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/`, changeFrequency: "weekly", priority: 1 },
     { url: `${SITE_URL}/about`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${SITE_URL}/services`, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${SITE_URL}/services/ai-business-consulting`, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${SITE_URL}/services/ai-growth-consulting`, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${SITE_URL}/services/ai-training-ahvaz`, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${SITE_URL}/services/ai-content-generation`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${SITE_URL}/blog`, changeFrequency: "daily", priority: 0.8 },
     { url: `${SITE_URL}/contact`, changeFrequency: "monthly", priority: 0.6 },
   ];

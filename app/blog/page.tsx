@@ -62,7 +62,7 @@ export default async function BlogPage({
               مشاوره کسب‌وکار و پیاده‌سازی هوش مصنوعی متناسب با نیاز شما.
             </p>
             <Link
-              href="/services"
+              href="/services/ai-business-consulting"
               className="mt-auto inline-flex cursor-pointer items-center gap-2 rounded-full bg-brand px-6 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:bg-brand-600"
             >
               مشاهده خدمات
@@ -82,7 +82,7 @@ export default async function BlogPage({
               آموزش‌های تخصصی و کاربردی ابزارهای هوش مصنوعی برای تیم و سازمان شما.
             </p>
             <Link
-              href="/services"
+              href="/services/ai-training-ahvaz"
               className="mt-auto inline-flex cursor-pointer items-center gap-2 rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:bg-slate-700"
             >
               مشاهده دوره‌ها
