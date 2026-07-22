@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, CheckCircle2, Clock, BarChart3 } from "lucide-react";
 import { getCourseBySlug } from "@/lib/data";
+import { SITE_URL } from "@/lib/site";
 
 export const revalidate = 300;
 
@@ -32,8 +33,22 @@ export default async function CourseDetailPage({ params }: { params: { slug: str
   const course = await getCourseBySlug(params.slug);
   if (!course) notFound();
 
+  const courseJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    name: course.title,
+    description: course.description || undefined,
+    url: `${SITE_URL}/services/courses/${course.slug}`,
+    provider: {
+      "@type": "Person",
+      name: "عبدالله احمدیان",
+      address: { "@type": "PostalAddress", addressLocality: "اهواز", addressCountry: "IR" },
+    },
+  };
+
   return (
     <div dir="rtl">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(courseJsonLd) }} />
       <article className="mx-auto max-w-3xl px-6 py-16 md:py-24">
         <div className="mb-8 text-center">
           {course.audience && (

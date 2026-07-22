@@ -12,6 +12,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { getServices, getPublishedCourses } from "@/lib/data";
+import { SITE_URL } from "@/lib/site";
 
 export const revalidate = 300;
 
@@ -67,8 +68,21 @@ const dedicatedServices = [
 export default async function ServicesPage() {
   const [services, courses] = await Promise.all([getServices(), getPublishedCourses()]);
 
+  const itemListJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: dedicatedServices.map((service, idx) => ({
+      "@type": "ListItem",
+      position: idx + 1,
+      name: service.title,
+      url: `${SITE_URL}${service.href}`,
+    })),
+  };
+
   return (
     <div dir="rtl">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }} />
+
       {/* هدر */}
       <section className="px-4 pt-6 md:px-8">
         <div className="fade-in-up mx-auto max-w-6xl overflow-hidden rounded-[2rem] bg-gradient-to-br from-slate-900 via-brand-900 to-slate-900 px-6 py-16 text-center md:py-20">
