@@ -41,8 +41,13 @@ export default function AiContentGenerationPage() {
   const serviceJsonLd = {
     "@context": "https://schema.org",
     "@type": "Service",
+    name: "تولید محتوا با هوش مصنوعی در اهواز",
     serviceType: "تولید محتوا با هوش مصنوعی",
-    provider: { "@type": "Person", name: "عبدالله احمدیان" },
+    provider: {
+      "@type": "Person",
+      name: "عبدالله احمدیان",
+      address: { "@type": "PostalAddress", addressLocality: "اهواز", addressCountry: "IR" },
+    },
     areaServed: { "@type": "City", name: "اهواز" },
     url: `${SITE_URL}/services/ai-content-generation`,
     description,

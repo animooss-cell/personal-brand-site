@@ -41,8 +41,13 @@ export default function AiGrowthConsultingPage() {
   const serviceJsonLd = {
     "@context": "https://schema.org",
     "@type": "Service",
+    name: "مشاور توسعه و رشد کسب‌وکار با هوش مصنوعی",
     serviceType: "مشاور توسعه و رشد کسب‌وکار با هوش مصنوعی",
-    provider: { "@type": "Person", name: "عبدالله احمدیان" },
+    provider: {
+      "@type": "Person",
+      name: "عبدالله احمدیان",
+      address: { "@type": "PostalAddress", addressLocality: "اهواز", addressCountry: "IR" },
+    },
     areaServed: { "@type": "City", name: "اهواز" },
     url: `${SITE_URL}/services/ai-growth-consulting`,
     description,

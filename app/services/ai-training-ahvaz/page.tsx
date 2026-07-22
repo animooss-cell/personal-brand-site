@@ -45,8 +45,13 @@ export default async function AiTrainingAhvazPage() {
   const serviceJsonLd = {
     "@context": "https://schema.org",
     "@type": "Service",
+    name: "مدرس هوش مصنوعی در اهواز",
     serviceType: "آموزش هوش مصنوعی",
-    provider: { "@type": "Person", name: "عبدالله احمدیان" },
+    provider: {
+      "@type": "Person",
+      name: "عبدالله احمدیان",
+      address: { "@type": "PostalAddress", addressLocality: "اهواز", addressCountry: "IR" },
+    },
     areaServed: { "@type": "City", name: "اهواز" },
     url: `${SITE_URL}/services/ai-training-ahvaz`,
     description,
