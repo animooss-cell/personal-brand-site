@@ -1,0 +1,36 @@
+# aiabed.ir
+
+## فارسی
+
+aiabed.ir وبسایت شخصی عبدالله احمدیان، مشاور کسب‌وکار با تخصص هوش
+مصنوعی، مستقر در اهواز است. مخاطب اصلی این سایت کسب‌وکارهای کوچک و
+متوسط استان خوزستان هستند که می‌خواهند هوش مصنوعی را وارد فرآیندهای
+کسب‌وکار، بازاریابی یا تولید محتوای خود کنند.
+
+### خدمات اصلی
+- مشاور کسب‌وکار با هوش مصنوعی: https://aiabed.ir/services/ai-business-consulting
+- مشاور توسعه و رشد کسب‌وکار با هوش مصنوعی: https://aiabed.ir/services/ai-growth-consulting
+- مدرس هوش مصنوعی در اهواز: https://aiabed.ir/services/ai-training-ahvaz
+- تولید محتوا با هوش مصنوعی: https://aiabed.ir/services/ai-content-generation
+
+### صفحات دیگر
+- درباره من: https://aiabed.ir/about
+- تماس و رزرو جلسه مشاوره رایگان: https://aiabed.ir/contact
+
+## English
+
+aiabed.ir is the personal website of Abdollah Ahmadian, a business
+consultant specializing in artificial intelligence, based in Ahvaz,
+Iran. The site's primary audience is small and medium-sized businesses
+in Khuzestan province looking to bring AI into their business
+processes, marketing, or content production.
+
+### Core Services
+- AI Business Consulting: https://aiabed.ir/services/ai-business-consulting
+- AI Growth Consulting: https://aiabed.ir/services/ai-growth-consulting
+- AI Training in Ahvaz: https://aiabed.ir/services/ai-training-ahvaz
+- AI Content Generation: https://aiabed.ir/services/ai-content-generation
+
+### Other Pages
+- About: https://aiabed.ir/about
+- Contact / Book a free consultation: https://aiabed.ir/contact
