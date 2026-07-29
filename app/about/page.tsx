@@ -195,19 +195,19 @@ export default async function AboutPage() {
 
       {/* معرفی کوتاه */}
       <section className="mx-auto max-w-3xl px-6 py-16 text-center">
-        <p className="text-base leading-8 text-slate-600 md:text-lg">{shortBio}</p>
+        <p className="text-base leading-8 text-slate-600 dark:text-slate-300 md:text-lg">{shortBio}</p>
       </section>
 
       {/* بیوگرافی کامل */}
       {a?.full_bio && (
         <section className="mx-auto max-w-3xl px-6 pb-16">
-          <div className="whitespace-pre-line text-base leading-8 text-slate-600">{a.full_bio}</div>
+          <div className="whitespace-pre-line text-base leading-8 text-slate-600 dark:text-slate-300">{a.full_bio}</div>
         </section>
       )}
 
       {/* فعالیت‌های جاری */}
       <section className="mx-auto max-w-6xl px-6 py-10">
-        <h2 className="mb-8 text-center text-2xl font-bold text-slate-900 md:text-3xl">
+        <h2 className="mb-8 text-center text-2xl font-bold text-slate-900 dark:text-white md:text-3xl">
           فعالیت‌های جاری
         </h2>
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -217,12 +217,12 @@ export default async function AboutPage() {
               <div
                 key={text}
                 style={{ animationDelay: `${idx * 80}ms` }}
-                className="fade-in-up flex items-start gap-3 rounded-2xl border border-gray-200 bg-white p-5 transition-shadow duration-200 hover:shadow-md"
+                className="fade-in-up flex items-start gap-3 rounded-2xl border border-gray-200 bg-white p-5 transition-shadow duration-200 hover:shadow-md dark:border-slate-700 dark:bg-slate-900"
               >
-                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-600">
+                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-600 dark:bg-brand-900/30">
                   <Icon className="h-5 w-5" aria-hidden="true" />
                 </div>
-                <p className="text-sm leading-6 text-slate-700">{text}</p>
+                <p className="text-sm leading-6 text-slate-700 dark:text-slate-300">{text}</p>
               </div>
             );
           })}
@@ -262,20 +262,20 @@ export default async function AboutPage() {
 
       {/* Timeline تجربیات */}
       <section className="mx-auto max-w-3xl px-6 py-16">
-        <h2 className="mb-12 text-center text-2xl font-bold text-slate-900 md:text-3xl">
+        <h2 className="mb-12 text-center text-2xl font-bold text-slate-900 dark:text-white md:text-3xl">
           مسیر تجربه
         </h2>
 
-        <div className="relative border-r-2 border-brand-100 pr-8">
+        <div className="relative border-r-2 border-brand-100 pr-8 dark:border-brand-900">
           {timelineItems.map((item, idx) => (
             <div
               key={"id" in item ? item.id : item.title}
               style={{ animationDelay: `${idx * 100}ms` }}
               className="fade-in-up relative mb-10 last:mb-0"
             >
-              <span className="absolute -right-[2.55rem] top-1 flex h-5 w-5 items-center justify-center rounded-full bg-brand ring-4 ring-brand-50" />
-              <h3 className="mb-1.5 text-base font-bold text-slate-900">{item.title}</h3>
-              <p className="text-sm leading-6 text-slate-500">{item.place}</p>
+              <span className="absolute -right-[2.55rem] top-1 flex h-5 w-5 items-center justify-center rounded-full bg-brand ring-4 ring-brand-50 dark:ring-brand-900/40" />
+              <h3 className="mb-1.5 text-base font-bold text-slate-900 dark:text-white">{item.title}</h3>
+              <p className="text-sm leading-6 text-slate-500 dark:text-slate-400">{item.place}</p>
             </div>
           ))}
         </div>
@@ -283,14 +283,14 @@ export default async function AboutPage() {
 
       {/* تخصص‌ها */}
       <section className="mx-auto max-w-6xl px-6 py-10">
-        <h2 className="mb-8 text-center text-2xl font-bold text-slate-900 md:text-3xl">
+        <h2 className="mb-8 text-center text-2xl font-bold text-slate-900 dark:text-white md:text-3xl">
           تخصص‌ها و مدارک
         </h2>
         <div className="flex flex-wrap justify-center gap-4">
           {specialties.map((text) => (
             <span
               key={text}
-              className="inline-flex items-center gap-2 rounded-full border border-brand-200 bg-brand-50 px-5 py-3 text-sm font-medium text-brand-700"
+              className="inline-flex items-center gap-2 rounded-full border border-brand-200 bg-brand-50 px-5 py-3 text-sm font-medium text-brand-700 dark:border-brand-800 dark:bg-brand-900/30 dark:text-brand-300"
             >
               <Award className="h-4 w-4" aria-hidden="true" />
               {text}
@@ -301,14 +301,14 @@ export default async function AboutPage() {
 
       {/* همکاری‌ها */}
       <section className="mx-auto max-w-6xl px-6 py-10">
-        <h2 className="mb-8 text-center text-2xl font-bold text-slate-900 md:text-3xl">
+        <h2 className="mb-8 text-center text-2xl font-bold text-slate-900 dark:text-white md:text-3xl">
           همکاری‌ها
         </h2>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {collaborations.map((name) => (
             <div
               key={name}
-              className="flex items-center gap-2.5 rounded-2xl border border-gray-200 bg-white p-4 text-sm font-medium text-slate-700"
+              className="flex items-center gap-2.5 rounded-2xl border border-gray-200 bg-white p-4 text-sm font-medium text-slate-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300"
             >
               <Handshake className="h-4 w-4 flex-shrink-0 text-brand-600" aria-hidden="true" />
               {name}
@@ -319,7 +319,7 @@ export default async function AboutPage() {
 
       {/* شبکه‌های اجتماعی و راه‌های تماس */}
       <section className="mx-auto max-w-3xl px-6 py-10">
-        <h2 className="mb-8 text-center text-2xl font-bold text-slate-900 md:text-3xl">
+        <h2 className="mb-8 text-center text-2xl font-bold text-slate-900 dark:text-white md:text-3xl">
           راه‌های ارتباطی
         </h2>
 
@@ -334,7 +334,7 @@ export default async function AboutPage() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={item.label}
-                  className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-full border border-brand-200 text-brand-600 transition-colors duration-200 hover:bg-brand hover:text-white"
+                  className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-full border border-brand-200 text-brand-600 transition-colors duration-200 hover:bg-brand hover:text-white dark:border-brand-800"
                 >
                   <Icon className="h-5 w-5" aria-hidden="true" />
                 </a>
@@ -350,7 +350,7 @@ export default async function AboutPage() {
                 key={phone}
                 href={`tel:${phone}`}
                 dir="ltr"
-                className="inline-flex cursor-pointer items-center gap-2 rounded-full border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-slate-700 transition-colors duration-200 hover:border-brand hover:text-brand-700"
+                className="inline-flex cursor-pointer items-center gap-2 rounded-full border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-slate-700 transition-colors duration-200 hover:border-brand hover:text-brand-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300"
               >
                 <Phone className="h-4 w-4 text-brand-600" aria-hidden="true" />
                 {phone}
@@ -362,7 +362,7 @@ export default async function AboutPage() {
 
       {/* فرم ارسال پیام */}
       <section className="mx-auto max-w-3xl px-6 py-10">
-        <h2 className="mb-8 text-center text-2xl font-bold text-slate-900 md:text-3xl">
+        <h2 className="mb-8 text-center text-2xl font-bold text-slate-900 dark:text-white md:text-3xl">
           پیام بدهید
         </h2>
         <AboutContactForm />
@@ -370,7 +370,7 @@ export default async function AboutPage() {
 
       {/* CTA */}
       <section className="mx-auto max-w-3xl px-6 py-20 text-center">
-        <h2 className="mb-6 text-2xl font-bold text-slate-900 md:text-3xl">
+        <h2 className="mb-6 text-2xl font-bold text-slate-900 dark:text-white md:text-3xl">
           آماده‌ای با هم کار کنیم؟
         </h2>
         <Link

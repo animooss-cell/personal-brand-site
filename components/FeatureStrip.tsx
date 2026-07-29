@@ -33,7 +33,7 @@ export default function FeatureStrip() {
         <span className="mb-3 inline-block text-sm font-medium text-brand-600">
           رویکرد محرمانه و هدفمند
         </span>
-        <h2 className="text-3xl font-bold text-slate-900 md:text-4xl">
+        <h2 className="text-3xl font-bold text-slate-900 dark:text-white md:text-4xl">
           مشاوران <span className="text-brand-600">باتجربه</span> کسب‌وکار
         </h2>
       </div>
@@ -48,12 +48,12 @@ export default function FeatureStrip() {
               className={`fade-in-up rounded-3xl p-7 transition-shadow duration-200 ${
                 feature.featured
                   ? "bg-gradient-to-br from-brand-700 to-brand-900 text-white shadow-lg"
-                  : "border border-gray-200 bg-white text-slate-900 hover:shadow-md"
+                  : "border border-gray-200 bg-white text-slate-900 hover:shadow-md dark:border-slate-700 dark:bg-slate-900 dark:text-white"
               }`}
             >
               <div
                 className={`mb-5 inline-flex h-11 w-11 items-center justify-center rounded-xl ${
-                  feature.featured ? "bg-white/15 text-white" : "bg-brand-50 text-brand-600"
+                  feature.featured ? "bg-white/15 text-white" : "bg-brand-50 text-brand-600 dark:bg-brand-900/30"
                 }`}
               >
                 <Icon className="h-5 w-5" aria-hidden="true" />
@@ -61,7 +61,7 @@ export default function FeatureStrip() {
               <h3 className="mb-2 text-lg font-bold">{feature.title}</h3>
               <p
                 className={`text-sm leading-6 ${
-                  feature.featured ? "text-white/80" : "text-slate-600"
+                  feature.featured ? "text-white/80" : "text-slate-600 dark:text-slate-300"
                 }`}
               >
                 {feature.description}

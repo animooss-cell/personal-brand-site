@@ -62,10 +62,10 @@ export default function BlogPageGrid({ category }: { category?: string }) {
     <section className="mx-auto max-w-6xl px-6 py-16" dir="rtl">
       {category && (
         <div className="mb-8 flex items-center justify-center gap-2">
-          <span className="rounded-full bg-brand-50 px-4 py-1.5 text-sm font-semibold text-brand-700">
+          <span className="rounded-full bg-brand-50 px-4 py-1.5 text-sm font-semibold text-brand-700 dark:bg-brand-900/30 dark:text-brand-300">
             {category}
           </span>
-          <Link href="/blog" className="text-sm text-slate-400 underline hover:text-slate-600">
+          <Link href="/blog" className="text-sm text-slate-400 underline hover:text-slate-600 dark:hover:text-slate-200">
             حذف فیلتر
           </Link>
         </div>
@@ -74,7 +74,7 @@ export default function BlogPageGrid({ category }: { category?: string }) {
       {loading ? (
         <div className="grid gap-8 md:grid-cols-3">
           {Array.from({ length: PAGE_SIZE }).map((_, i) => (
-            <div key={i} className="h-64 animate-pulse rounded-3xl bg-slate-100" />
+            <div key={i} className="h-64 animate-pulse rounded-3xl bg-slate-100 dark:bg-slate-800" />
           ))}
         </div>
       ) : (
@@ -84,7 +84,7 @@ export default function BlogPageGrid({ category }: { category?: string }) {
               key={post.id}
               href={`/blog/${post.slug}`}
               style={{ animationDelay: `${(idx % PAGE_SIZE) * 60}ms` }}
-              className="fade-in-up flex cursor-pointer flex-col rounded-3xl border border-gray-200 bg-white p-7 text-right shadow-sm transition-shadow duration-200 hover:shadow-md"
+              className="fade-in-up flex cursor-pointer flex-col rounded-3xl border border-gray-200 bg-white p-7 text-right shadow-sm transition-shadow duration-200 hover:shadow-md dark:border-slate-700 dark:bg-slate-900"
             >
               {post.featured_image && (
                 <div className="relative mb-4 h-36 w-full overflow-hidden rounded-2xl">
@@ -98,12 +98,12 @@ export default function BlogPageGrid({ category }: { category?: string }) {
                 </div>
               )}
               {post.category && (
-                <span className="mb-4 inline-block w-fit rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700">
+                <span className="mb-4 inline-block w-fit rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700 dark:bg-brand-900/30 dark:text-brand-300">
                   {post.category}
                 </span>
               )}
-              <h3 className="mb-3 text-lg font-bold leading-7 text-slate-900">{post.title}</h3>
-              <p className="mb-5 line-clamp-3 text-sm leading-6 text-slate-600">{post.excerpt}</p>
+              <h3 className="mb-3 text-lg font-bold leading-7 text-slate-900 dark:text-white">{post.title}</h3>
+              <p className="mb-5 line-clamp-3 text-sm leading-6 text-slate-600 dark:text-slate-300">{post.excerpt}</p>
               {post.published_at && (
                 <time className="mt-auto text-xs text-slate-400">
                   {new Date(post.published_at).toLocaleDateString("fa-IR")}
@@ -129,7 +129,7 @@ export default function BlogPageGrid({ category }: { category?: string }) {
                 key={pageNumber}
                 onClick={() => setPage(pageNumber)}
                 className={`h-9 w-9 cursor-pointer rounded-full text-sm font-semibold transition-colors duration-200 ${
-                  pageNumber === page ? "bg-brand text-white" : "text-slate-600 hover:bg-slate-100"
+                  pageNumber === page ? "bg-brand text-white" : "text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
                 }`}
               >
                 {pageNumber}

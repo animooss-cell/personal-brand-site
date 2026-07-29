@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const links = [
   { href: "/", label: "خانه" },
@@ -18,7 +19,7 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-4 z-50 mx-4 md:mx-8">
-      <nav className="mx-auto flex max-w-6xl items-center justify-between rounded-2xl border border-gray-200 bg-white px-5 py-3 shadow-sm">
+      <nav className="mx-auto flex max-w-6xl items-center justify-between rounded-2xl border border-gray-200 bg-white px-5 py-3 shadow-sm dark:border-slate-700 dark:bg-slate-900">
         <Link href="/" className="flex items-center">
           <Image src="/logo.png" alt="عبدالله احمدیان" width={1774} height={887} priority className="h-10 w-auto" />
         </Link>
@@ -28,7 +29,7 @@ export default function Navbar() {
             <li key={link.href}>
               <Link
                 href={link.href}
-                className="text-sm font-medium text-slate-700 transition-colors duration-200 hover:text-brand-600"
+                className="text-sm font-medium text-slate-700 transition-colors duration-200 hover:text-brand-600 dark:text-slate-300 dark:hover:text-brand-400"
               >
                 {link.label}
               </Link>
@@ -36,32 +37,38 @@ export default function Navbar() {
           ))}
         </ul>
 
-        <Link
-          href="/contact"
-          className="hidden cursor-pointer rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-white transition-colors duration-200 hover:bg-brand-600 md:inline-block"
-        >
-          رزرو جلسه رایگان
-        </Link>
+        <div className="hidden items-center gap-2 md:flex">
+          <ThemeToggle />
+          <Link
+            href="/contact"
+            className="cursor-pointer rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-white transition-colors duration-200 hover:bg-brand-600"
+          >
+            رزرو جلسه رایگان
+          </Link>
+        </div>
 
-        <button
-          type="button"
-          aria-label={open ? "بستن منو" : "باز کردن منو"}
-          className="cursor-pointer rounded-lg p-2 text-slate-700 md:hidden"
-          onClick={() => setOpen((v) => !v)}
-        >
-          {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
+        <div className="flex items-center gap-1 md:hidden">
+          <ThemeToggle />
+          <button
+            type="button"
+            aria-label={open ? "بستن منو" : "باز کردن منو"}
+            className="cursor-pointer rounded-lg p-2 text-slate-700 dark:text-slate-300"
+            onClick={() => setOpen((v) => !v)}
+          >
+            {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
+        </div>
       </nav>
 
       {open && (
-        <div className="mx-auto mt-2 max-w-6xl rounded-2xl border border-gray-200 bg-white p-4 shadow-sm md:hidden">
+        <div className="mx-auto mt-2 max-w-6xl rounded-2xl border border-gray-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900 md:hidden">
           <ul className="flex flex-col gap-3">
             {links.map((link) => (
               <li key={link.href}>
                 <Link
                   href={link.href}
                   onClick={() => setOpen(false)}
-                  className="block rounded-lg px-3 py-2 text-base font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-700"
+                  className="block rounded-lg px-3 py-2 text-base font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-700 dark:text-slate-300 dark:hover:bg-brand-900/30 dark:hover:text-brand-300"
                 >
                   {link.label}
                 </Link>

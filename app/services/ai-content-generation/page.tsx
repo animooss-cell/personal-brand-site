@@ -73,38 +73,38 @@ export default function AiContentGenerationPage() {
       </section>
 
       <section className="mx-auto max-w-4xl px-6 py-16">
-        <h2 className="mb-6 text-2xl font-bold text-slate-900">خدمات تولید محتوا</h2>
+        <h2 className="mb-6 text-2xl font-bold text-slate-900 dark:text-white">خدمات تولید محتوا</h2>
         <div className="mb-12 grid gap-6 sm:grid-cols-3">
           {services.map(({ icon: Icon, title, desc }) => (
-            <div key={title} className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
+            <div key={title} className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900">
               <Icon className="mb-3 h-6 w-6 text-brand-600" aria-hidden="true" />
-              <h3 className="mb-2 text-base font-bold text-slate-900">{title}</h3>
-              <p className="text-sm leading-6 text-slate-600">{desc}</p>
+              <h3 className="mb-2 text-base font-bold text-slate-900 dark:text-white">{title}</h3>
+              <p className="text-sm leading-6 text-slate-600 dark:text-slate-300">{desc}</p>
             </div>
           ))}
         </div>
 
-        <h2 className="mb-3 text-2xl font-bold text-slate-900">برای چه کسب‌وکارهایی مناسب است؟</h2>
-        <p className="mb-10 text-base leading-7 text-slate-600">
+        <h2 className="mb-3 text-2xl font-bold text-slate-900 dark:text-white">برای چه کسب‌وکارهایی مناسب است؟</h2>
+        <p className="mb-10 text-base leading-7 text-slate-600 dark:text-slate-300">
           کسب‌وکارهای اهواز و خوزستان که می‌خواهند حضور منظم و باکیفیت در شبکه‌های اجتماعی و وبسایت داشته
           باشند اما تیم محتوای داخلی ندارند. با ترکیب استراتژی محتوا و ابزارهای هوش مصنوعی، محتوا سریع‌تر
           تولید می‌شود بدون این‌که کیفیت و لحن برند شما قربانی سرعت شود.
         </p>
 
-        <h2 className="mb-4 text-2xl font-bold text-slate-900">سوالات متداول</h2>
+        <h2 className="mb-4 text-2xl font-bold text-slate-900 dark:text-white">سوالات متداول</h2>
         <div className="mb-12 space-y-4">
           {faqs.map((f) => (
-            <div key={f.q} className="rounded-2xl border border-gray-200 p-5">
-              <h3 className="mb-2 flex items-start gap-2 text-base font-bold text-slate-900">
+            <div key={f.q} className="rounded-2xl border border-gray-200 p-5 dark:border-slate-700">
+              <h3 className="mb-2 flex items-start gap-2 text-base font-bold text-slate-900 dark:text-white">
                 <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-brand-600" aria-hidden="true" />
                 {f.q}
               </h3>
-              <p className="text-sm leading-6 text-slate-600">{f.a}</p>
+              <p className="text-sm leading-6 text-slate-600 dark:text-slate-300">{f.a}</p>
             </div>
           ))}
         </div>
 
-        <div className="rounded-2xl bg-brand-50/60 p-6 text-sm leading-7 text-slate-600">
+        <div className="rounded-2xl bg-brand-50/60 p-6 text-sm leading-7 text-slate-600 dark:bg-brand-900/20 dark:text-slate-300">
           می‌خواهید تولید محتوا را بخشی از استراتژی رشد بزرگ‌تر کسب‌وکارتان کنید؟ ببینید{" "}
           <Link href="/services/ai-growth-consulting" className="font-semibold text-brand-700 hover:underline">
             مشاور توسعه و رشد کسب‌وکار با هوش مصنوعی

@@ -16,11 +16,11 @@ export default function ErrorFallback({
       className="mx-auto flex max-w-md flex-col items-center px-6 py-24 text-center"
       dir="rtl"
     >
-      <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-red-50 text-red-500">
+      <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-red-50 text-red-500 dark:bg-red-950/40">
         <AlertTriangle className="h-7 w-7" aria-hidden="true" />
       </div>
-      <h2 className="mb-2 text-xl font-bold text-slate-900">{title}</h2>
-      <p className="mb-7 text-sm leading-7 text-slate-500">{description}</p>
+      <h2 className="mb-2 text-xl font-bold text-slate-900 dark:text-white">{title}</h2>
+      <p className="mb-7 text-sm leading-7 text-slate-500 dark:text-slate-400">{description}</p>
       <button
         onClick={reset}
         className="inline-flex cursor-pointer items-center gap-2 rounded-full bg-brand px-6 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:bg-brand-600"
