@@ -37,9 +37,9 @@ export default function AboutContactForm() {
 
   if (submitted) {
     return (
-      <div className="rounded-3xl border border-brand-200 bg-brand-50 p-8 text-center">
-        <h3 className="mb-2 text-lg font-bold text-brand-700">پیام شما ارسال شد</h3>
-        <p className="text-sm leading-6 text-brand-700/80">به‌زودی پاسخ می‌دهم.</p>
+      <div className="rounded-3xl border border-brand-200 bg-brand-50 p-8 text-center dark:border-brand-800 dark:bg-brand-900/30">
+        <h3 className="mb-2 text-lg font-bold text-brand-700 dark:text-brand-300">پیام شما ارسال شد</h3>
+        <p className="text-sm leading-6 text-brand-700/80 dark:text-brand-300/80">به‌زودی پاسخ می‌دهم.</p>
       </div>
     );
   }
@@ -47,11 +47,11 @@ export default function AboutContactForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="rounded-3xl border border-gray-200 bg-white p-8 shadow-sm"
+      className="rounded-3xl border border-gray-200 bg-white p-8 shadow-sm dark:border-slate-700 dark:bg-slate-900"
     >
       <div className="grid gap-5 md:grid-cols-2">
         <div>
-          <label htmlFor="name" className="mb-2 block text-sm font-medium text-slate-700">
+          <label htmlFor="name" className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">
             نام
           </label>
           <input
@@ -59,13 +59,13 @@ export default function AboutContactForm() {
             name="name"
             type="text"
             required
-            className="w-full rounded-xl border border-gray-300 px-4 py-3 text-base text-slate-900 outline-none transition-colors duration-200 focus:border-brand focus:ring-2 focus:ring-brand-200"
+            className="w-full rounded-xl border border-gray-300 px-4 py-3 text-base text-slate-900 outline-none transition-colors duration-200 focus:border-brand focus:ring-2 focus:ring-brand-200 dark:border-slate-600 dark:bg-slate-800 dark:text-white"
             placeholder="نام و نام خانوادگی"
           />
         </div>
 
         <div>
-          <label htmlFor="email" className="mb-2 block text-sm font-medium text-slate-700">
+          <label htmlFor="email" className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">
             ایمیل
           </label>
           <input
@@ -74,26 +74,26 @@ export default function AboutContactForm() {
             type="email"
             required
             dir="ltr"
-            className="w-full rounded-xl border border-gray-300 px-4 py-3 text-base text-slate-900 outline-none transition-colors duration-200 focus:border-brand focus:ring-2 focus:ring-brand-200"
+            className="w-full rounded-xl border border-gray-300 px-4 py-3 text-base text-slate-900 outline-none transition-colors duration-200 focus:border-brand focus:ring-2 focus:ring-brand-200 dark:border-slate-600 dark:bg-slate-800 dark:text-white"
             placeholder="example@email.com"
           />
         </div>
 
         <div className="md:col-span-2">
-          <label htmlFor="subject" className="mb-2 block text-sm font-medium text-slate-700">
+          <label htmlFor="subject" className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">
             موضوع
           </label>
           <input
             id="subject"
             name="subject"
             type="text"
-            className="w-full rounded-xl border border-gray-300 px-4 py-3 text-base text-slate-900 outline-none transition-colors duration-200 focus:border-brand focus:ring-2 focus:ring-brand-200"
+            className="w-full rounded-xl border border-gray-300 px-4 py-3 text-base text-slate-900 outline-none transition-colors duration-200 focus:border-brand focus:ring-2 focus:ring-brand-200 dark:border-slate-600 dark:bg-slate-800 dark:text-white"
             placeholder="موضوع پیام شما"
           />
         </div>
 
         <div className="md:col-span-2">
-          <label htmlFor="message" className="mb-2 block text-sm font-medium text-slate-700">
+          <label htmlFor="message" className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">
             پیام
           </label>
           <textarea
@@ -101,7 +101,7 @@ export default function AboutContactForm() {
             name="message"
             required
             rows={5}
-            className="w-full rounded-xl border border-gray-300 px-4 py-3 text-base text-slate-900 outline-none transition-colors duration-200 focus:border-brand focus:ring-2 focus:ring-brand-200"
+            className="w-full rounded-xl border border-gray-300 px-4 py-3 text-base text-slate-900 outline-none transition-colors duration-200 focus:border-brand focus:ring-2 focus:ring-brand-200 dark:border-slate-600 dark:bg-slate-800 dark:text-white"
             placeholder="پیام خود را بنویسید..."
           />
         </div>

@@ -87,45 +87,45 @@ export default function AiBusinessConsultingPage() {
             { icon: Cog, text: "اتوماسیون فرآیندهای تکراری با ابزارهای مناسب بودجه و تیم شما" },
             { icon: LineChart, text: "تصمیم‌گیری داده‌محور به‌جای حدس و گمان در مسائل روزمره کسب‌وکار" },
           ].map(({ icon: Icon, text }, i) => (
-            <div key={i} className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
+            <div key={i} className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900">
               <Icon className="mb-3 h-6 w-6 text-brand-600" aria-hidden="true" />
-              <p className="text-sm leading-6 text-slate-600">{text}</p>
+              <p className="text-sm leading-6 text-slate-600 dark:text-slate-300">{text}</p>
             </div>
           ))}
         </div>
 
-        <h2 className="mb-3 text-2xl font-bold text-slate-900">این مشاوره برای چه کسب‌وکارهایی مناسب است؟</h2>
-        <p className="mb-10 text-base leading-7 text-slate-600">
+        <h2 className="mb-3 text-2xl font-bold text-slate-900 dark:text-white">این مشاوره برای چه کسب‌وکارهایی مناسب است؟</h2>
+        <p className="mb-10 text-base leading-7 text-slate-600 dark:text-slate-300">
           اگر تازه می‌خواهید هوش مصنوعی را وارد کسب‌وکارتان کنید — چه یک فروشگاه اینستاگرامی باشید و چه یک
           سازمان صنعتی با چند بخش مختلف — این مشاوره نقطه شروع درستی است. تمرکز روی پیاده‌سازی عملی است، نه
           تئوری؛ خروجی هر جلسه یک نقشه راه اجرایی است که خودتان یا تیم‌تان می‌توانید دنبال کنید.
         </p>
 
-        <h2 className="mb-6 text-2xl font-bold text-slate-900">فرآیند مشاوره</h2>
+        <h2 className="mb-6 text-2xl font-bold text-slate-900 dark:text-white">فرآیند مشاوره</h2>
         <div className="mb-12 grid gap-4 sm:grid-cols-2">
           {steps.map((step, i) => (
-            <div key={step.title} className="rounded-2xl bg-slate-50 p-5">
+            <div key={step.title} className="rounded-2xl bg-slate-50 p-5 dark:bg-slate-800/60">
               <span className="mb-2 block text-xs font-bold text-brand-600">{`گام ${i + 1}`}</span>
-              <h3 className="mb-1 text-base font-bold text-slate-900">{step.title}</h3>
-              <p className="text-sm leading-6 text-slate-600">{step.desc}</p>
+              <h3 className="mb-1 text-base font-bold text-slate-900 dark:text-white">{step.title}</h3>
+              <p className="text-sm leading-6 text-slate-600 dark:text-slate-300">{step.desc}</p>
             </div>
           ))}
         </div>
 
-        <h2 className="mb-4 text-2xl font-bold text-slate-900">سوالات متداول</h2>
+        <h2 className="mb-4 text-2xl font-bold text-slate-900 dark:text-white">سوالات متداول</h2>
         <div className="mb-12 space-y-4">
           {faqs.map((f) => (
-            <div key={f.q} className="rounded-2xl border border-gray-200 p-5">
-              <h3 className="mb-2 flex items-start gap-2 text-base font-bold text-slate-900">
+            <div key={f.q} className="rounded-2xl border border-gray-200 p-5 dark:border-slate-700">
+              <h3 className="mb-2 flex items-start gap-2 text-base font-bold text-slate-900 dark:text-white">
                 <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-brand-600" aria-hidden="true" />
                 {f.q}
               </h3>
-              <p className="text-sm leading-6 text-slate-600">{f.a}</p>
+              <p className="text-sm leading-6 text-slate-600 dark:text-slate-300">{f.a}</p>
             </div>
           ))}
         </div>
 
-        <div className="rounded-2xl bg-brand-50/60 p-6 text-sm leading-7 text-slate-600">
+        <div className="rounded-2xl bg-brand-50/60 p-6 text-sm leading-7 text-slate-600 dark:bg-brand-900/20 dark:text-slate-300">
           کسب‌وکارتان از قبل راه افتاده و دنبال رشد و مقیاس‌پذیری هستید؟ سراغ{" "}
           <Link href="/services/ai-growth-consulting" className="font-semibold text-brand-700 hover:underline">
             مشاور توسعه و رشد کسب‌وکار با هوش مصنوعی

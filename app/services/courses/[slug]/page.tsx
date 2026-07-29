@@ -52,15 +52,15 @@ export default async function CourseDetailPage({ params }: { params: { slug: str
       <article className="mx-auto max-w-3xl px-6 py-16 md:py-24">
         <div className="mb-8 text-center">
           {course.audience && (
-            <span className="mb-4 inline-block rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700">
+            <span className="mb-4 inline-block rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700 dark:bg-brand-900/30 dark:text-brand-300">
               {course.audience}
             </span>
           )}
-          <h1 className="text-3xl font-bold leading-tight text-slate-900 md:text-4xl">
+          <h1 className="text-3xl font-bold leading-tight text-slate-900 dark:text-white md:text-4xl">
             {course.title}
           </h1>
 
-          <div className="mt-5 flex flex-wrap items-center justify-center gap-4 text-sm text-slate-500">
+          <div className="mt-5 flex flex-wrap items-center justify-center gap-4 text-sm text-slate-500 dark:text-slate-400">
             {course.duration && (
               <span className="inline-flex items-center gap-1.5">
                 <Clock className="h-4 w-4 text-brand-600" aria-hidden="true" />
@@ -90,15 +90,15 @@ export default async function CourseDetailPage({ params }: { params: { slug: str
         )}
 
         {course.description && (
-          <p className="mb-10 text-base leading-8 text-slate-600">{course.description}</p>
+          <p className="mb-10 text-base leading-8 text-slate-600 dark:text-slate-300">{course.description}</p>
         )}
 
         {course.outline.length > 0 && (
-          <div className="mb-10 rounded-3xl border border-gray-200 bg-slate-50 p-7">
-            <h2 className="mb-4 text-lg font-bold text-slate-900">سرفصل‌های آموزشی</h2>
+          <div className="mb-10 rounded-3xl border border-gray-200 bg-slate-50 p-7 dark:border-slate-700 dark:bg-slate-800/60">
+            <h2 className="mb-4 text-lg font-bold text-slate-900 dark:text-white">سرفصل‌های آموزشی</h2>
             <ul className="flex flex-col gap-3">
               {course.outline.map((item) => (
-                <li key={item} className="flex items-start gap-2 text-sm leading-6 text-slate-700">
+                <li key={item} className="flex items-start gap-2 text-sm leading-6 text-slate-700 dark:text-slate-300">
                   <CheckCircle2 className="mt-0.5 h-4 w-4 flex-shrink-0 text-brand-600" aria-hidden="true" />
                   {item}
                 </li>

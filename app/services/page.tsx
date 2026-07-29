@@ -95,20 +95,20 @@ export default async function ServicesPage() {
 
       {/* خلاصه ۴ خدمت اصلی */}
       <section className="mx-auto max-w-6xl px-6 py-16">
-        <h2 className="mb-12 text-center text-2xl font-bold text-slate-900 md:text-3xl">همه خدمات</h2>
+        <h2 className="mb-12 text-center text-2xl font-bold text-slate-900 dark:text-white md:text-3xl">همه خدمات</h2>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {dedicatedServices.map(({ href, icon: Icon, title, desc }, idx) => (
             <Link
               key={href}
               href={href}
               style={{ animationDelay: `${idx * 100}ms` }}
-              className="fade-in-up flex flex-col rounded-3xl border border-gray-200 bg-white p-6 shadow-sm transition-shadow duration-200 hover:shadow-md"
+              className="fade-in-up flex flex-col rounded-3xl border border-gray-200 bg-white p-6 shadow-sm transition-shadow duration-200 hover:shadow-md dark:border-slate-700 dark:bg-slate-900"
             >
-              <div className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-50 text-brand-600">
+              <div className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-50 text-brand-600 dark:bg-brand-900/30">
                 <Icon className="h-5 w-5" aria-hidden="true" />
               </div>
-              <h3 className="mb-2 text-base font-bold text-slate-900">{title}</h3>
-              <p className="mb-4 text-sm leading-6 text-slate-600">{desc}</p>
+              <h3 className="mb-2 text-base font-bold text-slate-900 dark:text-white">{title}</h3>
+              <p className="mb-4 text-sm leading-6 text-slate-600 dark:text-slate-300">{desc}</p>
               <span className="mt-auto inline-flex items-center gap-1 text-sm font-semibold text-brand-700">
                 بیشتر بدانید
                 <ArrowLeft className="h-4 w-4" aria-hidden="true" />
@@ -120,7 +120,7 @@ export default async function ServicesPage() {
 
       {/* بخش ۱ — خدمات مشاوره */}
       <section className="mx-auto max-w-6xl px-6 py-16">
-        <h2 className="mb-12 text-center text-2xl font-bold text-slate-900 md:text-3xl">
+        <h2 className="mb-12 text-center text-2xl font-bold text-slate-900 dark:text-white md:text-3xl">
           خدمات مشاوره
         </h2>
 
@@ -131,10 +131,10 @@ export default async function ServicesPage() {
               <div
                 key={service.id}
                 style={{ animationDelay: `${idx * 120}ms` }}
-                className={`fade-in-up relative flex flex-col rounded-3xl border bg-white p-8 shadow-sm transition-shadow duration-200 hover:shadow-md ${
+                className={`fade-in-up relative flex flex-col rounded-3xl border bg-white p-8 shadow-sm transition-shadow duration-200 hover:shadow-md dark:bg-slate-900 ${
                   service.featured
                     ? "border-2 border-brand md:-translate-y-3 md:shadow-lg"
-                    : "border-gray-200"
+                    : "border-gray-200 dark:border-slate-700"
                 }`}
               >
                 {service.featured && (
@@ -145,25 +145,25 @@ export default async function ServicesPage() {
 
                 <div
                   className={`mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl ${
-                    service.featured ? "bg-brand text-white" : "bg-brand-50 text-brand-600"
+                    service.featured ? "bg-brand text-white" : "bg-brand-50 text-brand-600 dark:bg-brand-900/30"
                   }`}
                 >
                   <Icon className="h-6 w-6" aria-hidden="true" />
                 </div>
 
-                <h3 className="mb-1 text-xl font-bold text-slate-900">{service.title}</h3>
+                <h3 className="mb-1 text-xl font-bold text-slate-900 dark:text-white">{service.title}</h3>
                 {service.subtitle && (
                   <p className="mb-4 text-sm font-medium text-brand-600">{service.subtitle}</p>
                 )}
                 {service.description && (
-                  <p className="mb-5 text-sm leading-6 text-slate-600">{service.description}</p>
+                  <p className="mb-5 text-sm leading-6 text-slate-600 dark:text-slate-300">{service.description}</p>
                 )}
 
                 <div className="mb-6 flex flex-wrap gap-2">
                   {service.audience.map((tag) => (
                     <span
                       key={tag}
-                      className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600"
+                      className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-300"
                     >
                       {tag}
                     </span>
@@ -172,12 +172,12 @@ export default async function ServicesPage() {
 
                 {service.steps.length > 0 && (
                   <>
-                    <p className="mb-2 text-xs font-bold text-slate-500">فرآیند کار</p>
+                    <p className="mb-2 text-xs font-bold text-slate-500 dark:text-slate-400">فرآیند کار</p>
                     <div className="mb-6 grid grid-cols-2 gap-3">
                       {service.steps.map((step, i) => (
                         <div
                           key={step}
-                          className="rounded-xl bg-slate-50 p-3 text-xs leading-5 text-slate-700"
+                          className="rounded-xl bg-slate-50 p-3 text-xs leading-5 text-slate-700 dark:bg-slate-800/60 dark:text-slate-300"
                         >
                           <span className="mb-1 block font-bold text-brand-600">{`گام ${i + 1}`}</span>
                           {step}
@@ -213,11 +213,11 @@ export default async function ServicesPage() {
       {/* بخش ۲ — آموزش‌ها */}
       <section className="mx-auto max-w-6xl px-6 py-16">
         <div className="mx-auto mb-12 max-w-2xl text-center">
-          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-50 text-brand-600">
+          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-50 text-brand-600 dark:bg-brand-900/30">
             <GraduationCap className="h-6 w-6" aria-hidden="true" />
           </div>
-          <h2 className="text-2xl font-bold text-slate-900 md:text-3xl">آموزش‌ها</h2>
-          <p className="mt-4 text-base leading-7 text-slate-600">
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-white md:text-3xl">آموزش‌ها</h2>
+          <p className="mt-4 text-base leading-7 text-slate-600 dark:text-slate-300">
             آموزش‌های تخصصی ابزارهای هوش مصنوعی برای رشد سازمان‌ها و کسب‌وکارها
           </p>
         </div>
@@ -229,7 +229,7 @@ export default async function ServicesPage() {
                 key={course.id}
                 href={`/services/courses/${course.slug}`}
                 style={{ animationDelay: `${idx * 100}ms` }}
-                className="fade-in-up flex flex-col overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm transition-shadow duration-200 hover:shadow-md"
+                className="fade-in-up flex flex-col overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm transition-shadow duration-200 hover:shadow-md dark:border-slate-700 dark:bg-slate-900"
               >
                 {course.image && (
                   <div className="relative h-44 w-full">
@@ -244,16 +244,16 @@ export default async function ServicesPage() {
                 )}
                 <div className="flex flex-1 flex-col p-7">
                   {course.audience && (
-                    <span className="mb-3 inline-block w-fit rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700">
+                    <span className="mb-3 inline-block w-fit rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700 dark:bg-brand-900/30 dark:text-brand-300">
                       {course.audience}
                     </span>
                   )}
-                  <h3 className="mb-2 text-lg font-bold text-slate-900">{course.title}</h3>
+                  <h3 className="mb-2 text-lg font-bold text-slate-900 dark:text-white">{course.title}</h3>
                   {course.description && (
-                    <p className="text-sm leading-6 text-slate-600">{course.description}</p>
+                    <p className="text-sm leading-6 text-slate-600 dark:text-slate-300">{course.description}</p>
                   )}
                   {(course.duration || course.level) && (
-                    <div className="mt-4 flex flex-wrap gap-3 text-xs text-slate-500">
+                    <div className="mt-4 flex flex-wrap gap-3 text-xs text-slate-500 dark:text-slate-400">
                       {course.duration && <span>{course.duration}</span>}
                       {course.level && <span>{course.level}</span>}
                     </div>
@@ -267,8 +267,8 @@ export default async function ServicesPage() {
         )}
 
         {/* دوره‌های در راه */}
-        <div className="fade-in-up mt-8 rounded-3xl border border-dashed border-brand-200 bg-brand-50/40 p-8 text-center">
-          <p className="text-base font-medium text-brand-700">
+        <div className="fade-in-up mt-8 rounded-3xl border border-dashed border-brand-200 bg-brand-50/40 p-8 text-center dark:border-brand-800 dark:bg-brand-900/10">
+          <p className="text-base font-medium text-brand-700 dark:text-brand-300">
             دوره‌های جدید به زودی اضافه می‌شوند
           </p>
           <Link

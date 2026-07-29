@@ -136,13 +136,13 @@ export default async function PostPage({ params }: { params: { slug: string } })
       />
       <div className="mb-8 text-center">
         {post.category && (
-          <span className="mb-4 inline-block rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700">
+          <span className="mb-4 inline-block rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700 dark:bg-brand-900/30 dark:text-brand-300">
             {post.category}
           </span>
         )}
-        <h1 className="text-3xl font-bold leading-tight text-slate-900 md:text-4xl">{post.title}</h1>
+        <h1 className="text-3xl font-bold leading-tight text-slate-900 dark:text-white md:text-4xl">{post.title}</h1>
         {post.published_at && (
-          <time className="mt-4 block text-sm text-slate-400">
+          <time className="mt-4 block text-sm text-slate-400 dark:text-slate-500">
             {new Date(post.published_at).toLocaleDateString("fa-IR")}
           </time>
         )}
@@ -161,7 +161,7 @@ export default async function PostPage({ params }: { params: { slug: string } })
         </div>
       )}
 
-      <div className="mb-10 flex items-center gap-3 border-b border-gray-100 pb-6 text-sm">
+      <div className="mb-10 flex items-center gap-3 border-b border-gray-100 pb-6 text-sm dark:border-slate-800">
         <Image
           src={author.avatar}
           alt={author.name}
@@ -169,7 +169,7 @@ export default async function PostPage({ params }: { params: { slug: string } })
           height={36}
           className="h-9 w-9 rounded-full object-cover"
         />
-        <span className="font-medium text-slate-700">{author.name}</span>
+        <span className="font-medium text-slate-700 dark:text-slate-300">{author.name}</span>
         {authorSocialItems.length > 0 && (
           <div className="mr-auto flex items-center gap-2">
             {authorSocialItems.map((item) => {
@@ -180,7 +180,7 @@ export default async function PostPage({ params }: { params: { slug: string } })
                   href={item.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-full text-brand-600 transition-colors duration-200 hover:bg-brand-50"
+                  className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-full text-brand-600 transition-colors duration-200 hover:bg-brand-50 dark:hover:bg-brand-900/30"
                 >
                   <Icon className="h-3.5 w-3.5" aria-hidden="true" />
                 </a>
@@ -193,9 +193,9 @@ export default async function PostPage({ params }: { params: { slug: string } })
       <div className="prose-content" dir="rtl" dangerouslySetInnerHTML={{ __html: post.content }} />
 
       {post.tags?.length > 0 && (
-        <div className="mt-10 flex flex-wrap gap-2 border-t border-gray-100 pt-6">
+        <div className="mt-10 flex flex-wrap gap-2 border-t border-gray-100 pt-6 dark:border-slate-800">
           {post.tags.map((tag) => (
-            <span key={tag} className="rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-600">
+            <span key={tag} className="rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-600 dark:bg-slate-800 dark:text-slate-300">
               #{tag}
             </span>
           ))}
@@ -205,7 +205,7 @@ export default async function PostPage({ params }: { params: { slug: string } })
 
     {relatedPosts.length > 0 && (
       <section className="mx-auto max-w-6xl px-6 py-16">
-        <h2 className="mb-10 text-center text-2xl font-bold text-slate-900 md:text-3xl">
+        <h2 className="mb-10 text-center text-2xl font-bold text-slate-900 dark:text-white md:text-3xl">
           مطالب پیشنهادی
         </h2>
         <div className="grid gap-8 md:grid-cols-3">
@@ -213,7 +213,7 @@ export default async function PostPage({ params }: { params: { slug: string } })
             <Link
               key={related.slug}
               href={`/blog/${related.slug}`}
-              className="flex flex-col rounded-3xl border border-gray-200 bg-white p-6 shadow-sm transition-shadow duration-200 hover:shadow-md"
+              className="flex flex-col rounded-3xl border border-gray-200 bg-white p-6 shadow-sm transition-shadow duration-200 hover:shadow-md dark:border-slate-700 dark:bg-slate-900"
             >
               {related.featured_image && (
                 <div className="relative mb-4 h-36 w-full overflow-hidden rounded-2xl">
@@ -227,12 +227,12 @@ export default async function PostPage({ params }: { params: { slug: string } })
                 </div>
               )}
               {related.category && (
-                <span className="mb-3 inline-block w-fit rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700">
+                <span className="mb-3 inline-block w-fit rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700 dark:bg-brand-900/30 dark:text-brand-300">
                   {related.category}
                 </span>
               )}
-              <h3 className="mb-2 text-base font-bold leading-7 text-slate-900">{related.title}</h3>
-              <p className="mb-4 line-clamp-2 text-sm leading-6 text-slate-600">{related.excerpt}</p>
+              <h3 className="mb-2 text-base font-bold leading-7 text-slate-900 dark:text-white">{related.title}</h3>
+              <p className="mb-4 line-clamp-2 text-sm leading-6 text-slate-600 dark:text-slate-300">{related.excerpt}</p>
               {related.published_at && (
                 <time className="mt-auto text-xs text-slate-400">
                   {new Date(related.published_at).toLocaleDateString("fa-IR")}

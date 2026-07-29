@@ -11,6 +11,11 @@ body {
   color: #0F172A;
 }
 
+.dark body {
+  background-color: #020617;
+  color: #F1F5F9;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
@@ -111,4 +116,21 @@ body {
 .prose-content a {
   color: #007553;
   text-decoration: underline;
+}
+
+.dark .prose-content {
+  color: #cbd5e1;
+}
+
+.dark .prose-content h2,
+.dark .prose-content h3 {
+  color: #f1f5f9;
+}
+
+.dark .prose-content blockquote {
+  background-color: rgba(0, 195, 137, 0.08);
+}
+
+.dark .prose-content a {
+  color: #66e0b3;
 }

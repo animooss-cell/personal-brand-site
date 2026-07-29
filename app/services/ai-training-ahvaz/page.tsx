@@ -82,7 +82,7 @@ export default async function AiTrainingAhvazPage() {
       </section>
 
       <section className="mx-auto max-w-6xl px-6 py-16">
-        <h2 className="mb-6 text-center text-2xl font-bold text-slate-900 md:text-3xl">دوره‌های آموزشی موجود</h2>
+        <h2 className="mb-6 text-center text-2xl font-bold text-slate-900 dark:text-white md:text-3xl">دوره‌های آموزشی موجود</h2>
 
         {courses.length > 0 ? (
           <div className="mb-12 grid gap-6 sm:grid-cols-2">
@@ -91,7 +91,7 @@ export default async function AiTrainingAhvazPage() {
                 key={course.id}
                 href={`/services/courses/${course.slug}`}
                 style={{ animationDelay: `${idx * 100}ms` }}
-                className="fade-in-up flex flex-col overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm transition-shadow duration-200 hover:shadow-md"
+                className="fade-in-up flex flex-col overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm transition-shadow duration-200 hover:shadow-md dark:border-slate-700 dark:bg-slate-900"
               >
                 {course.image && (
                   <div className="relative h-44 w-full">
@@ -106,13 +106,13 @@ export default async function AiTrainingAhvazPage() {
                 )}
                 <div className="flex flex-1 flex-col p-7">
                   {course.audience && (
-                    <span className="mb-3 inline-block w-fit rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700">
+                    <span className="mb-3 inline-block w-fit rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700 dark:bg-brand-900/30 dark:text-brand-300">
                       {course.audience}
                     </span>
                   )}
-                  <h3 className="mb-2 text-lg font-bold text-slate-900">{course.title}</h3>
+                  <h3 className="mb-2 text-lg font-bold text-slate-900 dark:text-white">{course.title}</h3>
                   {course.description && (
-                    <p className="text-sm leading-6 text-slate-600">{course.description}</p>
+                    <p className="text-sm leading-6 text-slate-600 dark:text-slate-300">{course.description}</p>
                   )}
                 </div>
               </Link>
@@ -122,40 +122,40 @@ export default async function AiTrainingAhvazPage() {
           <p className="mb-12 text-center text-slate-400">هنوز دوره‌ای منتشر نشده است.</p>
         )}
 
-        <h2 className="mb-6 text-center text-2xl font-bold text-slate-900 md:text-3xl">مسیرهای آموزشی</h2>
+        <h2 className="mb-6 text-center text-2xl font-bold text-slate-900 dark:text-white md:text-3xl">مسیرهای آموزشی</h2>
         <div className="mb-12 grid gap-6 sm:grid-cols-3">
           {trainingTracks.map(({ icon: Icon, title, desc }) => (
-            <div key={title} className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
+            <div key={title} className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900">
               <Icon className="mb-3 h-6 w-6 text-brand-600" aria-hidden="true" />
-              <h3 className="mb-2 text-base font-bold text-slate-900">{title}</h3>
-              <p className="text-sm leading-6 text-slate-600">{desc}</p>
+              <h3 className="mb-2 text-base font-bold text-slate-900 dark:text-white">{title}</h3>
+              <p className="text-sm leading-6 text-slate-600 dark:text-slate-300">{desc}</p>
             </div>
           ))}
         </div>
 
         <div className="mx-auto max-w-3xl">
-          <h2 className="mb-4 text-2xl font-bold text-slate-900">سوابق تدریس</h2>
-          <ul className="mb-12 space-y-2 text-sm leading-7 text-slate-600">
+          <h2 className="mb-4 text-2xl font-bold text-slate-900 dark:text-white">سوابق تدریس</h2>
+          <ul className="mb-12 space-y-2 text-sm leading-7 text-slate-600 dark:text-slate-300">
             <li>— مشاور تیم هوش مصنوعی شرکت فولاد خوزستان</li>
             <li>— مدرس دوره هوش مصنوعی در خدمت روابط عمومی برای شرکت فولاد خوزستان</li>
             <li>— آموزش ابزارهای هوش مصنوعی برای فروش و بازاریابی شرکت فولاد خوزستان</li>
             <li>— مشاور کانتنت مارکتینگ با هوش مصنوعی برای سازمان بسیج رسانه استان خوزستان</li>
           </ul>
 
-          <h2 className="mb-4 text-2xl font-bold text-slate-900">سوالات متداول</h2>
+          <h2 className="mb-4 text-2xl font-bold text-slate-900 dark:text-white">سوالات متداول</h2>
           <div className="mb-12 space-y-4">
             {faqs.map((f) => (
-              <div key={f.q} className="rounded-2xl border border-gray-200 p-5">
-                <h3 className="mb-2 flex items-start gap-2 text-base font-bold text-slate-900">
+              <div key={f.q} className="rounded-2xl border border-gray-200 p-5 dark:border-slate-700">
+                <h3 className="mb-2 flex items-start gap-2 text-base font-bold text-slate-900 dark:text-white">
                   <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-brand-600" aria-hidden="true" />
                   {f.q}
                 </h3>
-                <p className="text-sm leading-6 text-slate-600">{f.a}</p>
+                <p className="text-sm leading-6 text-slate-600 dark:text-slate-300">{f.a}</p>
               </div>
             ))}
           </div>
 
-          <div className="rounded-2xl bg-brand-50/60 p-6 text-sm leading-7 text-slate-600">
+          <div className="rounded-2xl bg-brand-50/60 p-6 text-sm leading-7 text-slate-600 dark:bg-brand-900/20 dark:text-slate-300">
             دنبال مشاوره برای پیاده‌سازی هوش مصنوعی در کسب‌وکارتان هستید، نه فقط آموزش تیم؟ سراغ{" "}
             <Link href="/services/ai-business-consulting" className="font-semibold text-brand-700 hover:underline">
               مشاور کسب‌وکار با هوش مصنوعی

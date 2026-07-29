@@ -36,21 +36,21 @@ export default async function About() {
     <section className="mx-auto max-w-6xl px-6 py-16">
       <div className="mx-auto mb-12 max-w-2xl text-center">
         <span className="mb-3 inline-block text-sm font-medium text-brand-600">{badge}</span>
-        <h2 className="text-3xl font-bold leading-tight text-slate-900 md:text-4xl">
+        <h2 className="text-3xl font-bold leading-tight text-slate-900 dark:text-white md:text-4xl">
           {titlePrefix} <span className="text-brand-600">{titleHighlight}</span>
         </h2>
-        <p className="mt-4 text-base leading-7 text-slate-600">{description}</p>
+        <p className="mt-4 text-base leading-7 text-slate-600 dark:text-slate-300">{description}</p>
       </div>
 
       <div className="grid gap-6 md:grid-cols-3">
-        <div className="fade-in-up flex flex-col justify-between rounded-3xl bg-brand-50 p-7">
+        <div className="fade-in-up flex flex-col justify-between rounded-3xl bg-brand-50 p-7 dark:bg-brand-900/30">
           <div>
-            <h3 className="mb-3 text-lg font-bold text-brand-800">{cardTitle}</h3>
-            <p className="mb-6 text-sm leading-6 text-brand-700/80">{cardDescription}</p>
+            <h3 className="mb-3 text-lg font-bold text-brand-800 dark:text-brand-200">{cardTitle}</h3>
+            <p className="mb-6 text-sm leading-6 text-brand-700/80 dark:text-brand-300/80">{cardDescription}</p>
           </div>
           <Link
             href="/contact"
-            className="inline-flex w-fit cursor-pointer items-center gap-2 text-sm font-semibold text-brand-700 transition-colors duration-200 hover:text-brand-800"
+            className="inline-flex w-fit cursor-pointer items-center gap-2 text-sm font-semibold text-brand-700 transition-colors duration-200 hover:text-brand-800 dark:text-brand-300 dark:hover:text-brand-200"
           >
             رزرو جلسه
             <ArrowLeft className="h-4 w-4" aria-hidden="true" />
@@ -72,10 +72,10 @@ export default async function About() {
 
         <div
           style={{ animationDelay: "240ms" }}
-          className="fade-in-up rounded-3xl border border-gray-200 bg-white p-7"
+          className="fade-in-up rounded-3xl border border-gray-200 bg-white p-7 dark:border-slate-700 dark:bg-slate-900"
         >
-          <h3 className="mb-4 text-lg font-bold text-slate-900">اصول کار من</h3>
-          <ul className="flex flex-col gap-3 text-sm leading-6 text-slate-600">
+          <h3 className="mb-4 text-lg font-bold text-slate-900 dark:text-white">اصول کار من</h3>
+          <ul className="flex flex-col gap-3 text-sm leading-6 text-slate-600 dark:text-slate-300">
             {principles.map((item) => (
               <li key={item} className="flex items-start gap-2">
                 <CheckCircle2 className="mt-0.5 h-4 w-4 flex-shrink-0 text-brand-600" aria-hidden="true" />

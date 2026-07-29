@@ -72,13 +72,13 @@ export default async function BlogPage({
 
           <div
             style={{ animationDelay: "100ms" }}
-            className="fade-in-up flex flex-col items-start rounded-3xl border-2 border-brand bg-white p-8 md:p-10"
+            className="fade-in-up flex flex-col items-start rounded-3xl border-2 border-brand bg-white p-8 dark:bg-slate-900 md:p-10"
           >
-            <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-50 text-brand-600">
+            <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-50 text-brand-600 dark:bg-brand-900/30">
               <GraduationCap className="h-6 w-6" aria-hidden="true" />
             </div>
-            <h2 className="mb-3 text-2xl font-bold text-slate-900">دوره‌های آموزشی هوش مصنوعی</h2>
-            <p className="mb-7 text-sm leading-7 text-slate-600">
+            <h2 className="mb-3 text-2xl font-bold text-slate-900 dark:text-white">دوره‌های آموزشی هوش مصنوعی</h2>
+            <p className="mb-7 text-sm leading-7 text-slate-600 dark:text-slate-300">
               آموزش‌های تخصصی و کاربردی ابزارهای هوش مصنوعی برای تیم و سازمان شما.
             </p>
             <Link
