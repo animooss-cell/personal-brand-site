@@ -73,12 +73,19 @@ export default function RootLayout({
       "@type": "City",
       name: "اهواز",
     },
-    address: {
+        address: {
       "@type": "PostalAddress",
       addressLocality: "اهواز",
       addressRegion: "خوزستان",
       addressCountry: "IR",
     },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: 31.3183,
+      longitude: 48.6706,
+    },
+    telephone: "+989161002550",
+    priceRange: "$$",
     founder: {
       "@type": "Person",
       name: "عبدالله احمدیان",
