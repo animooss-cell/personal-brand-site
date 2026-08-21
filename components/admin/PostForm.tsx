@@ -9,8 +9,16 @@ import TipTapEditor from "@/components/admin/TipTapEditor";
 import { Upload, Save, Trash2 } from "lucide-react";
 
 function slugify(value: string) {
-  return value
-    .trim()
+  let v = value.trim();
+  // اگه یه URL کامل پیست شده، فقط مسیرش رو نگه دار
+  try {
+    if (/^https?:\/\//i.test(v)) {
+      v = new URL(v).pathname.replace(/^\/+|\/+$/g, "");
+    }
+  } catch {
+    // URL معتبر نبود، همون مقدار اصلی رو نگه دار
+  }
+  return v
     .toLowerCase()
     .replace(/[^؀-ۿa-z0-9\s-]/g, "")
     .replace(/\s+/g, "-");
