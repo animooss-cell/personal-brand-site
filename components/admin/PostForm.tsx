@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
 import { Post } from "@/lib/types";
+import { BLOG_CATEGORIES } from "@/lib/categories";
 import TipTapEditor from "@/components/admin/TipTapEditor";
 import { Upload, Save, Trash2 } from "lucide-react";
 
@@ -40,6 +41,11 @@ export default function PostForm({ post }: { post?: Post }) {
   );
   const [category, setCategory] = useState(post?.category ?? "");
   const [tags, setTags] = useState(post?.tags?.join(", ") ?? "");
+
+  const categoryOptions =
+    post?.category && !BLOG_CATEGORIES.some((c) => c.value === post.category)
+      ? [...BLOG_CATEGORIES, { label: post.category, value: post.category }]
+      : BLOG_CATEGORIES;
 
   const [seoTitle, setSeoTitle] = useState(post?.seo_title ?? "");
   const [metaDescription, setMetaDescription] = useState(post?.meta_description ?? "");
@@ -236,11 +242,18 @@ export default function PostForm({ post }: { post?: Post }) {
           />
 
           <label className="mb-1 block text-sm font-medium text-slate-600">دسته‌بندی</label>
-          <input
+          <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
             className="mb-4 w-full rounded-xl border border-gray-300 px-3 py-2.5 text-sm outline-none focus:border-brand focus:ring-1 focus:ring-brand"
-          />
+          >
+            <option value="">بدون دسته‌بندی</option>
+            {categoryOptions.map((c) => (
+              <option key={c.value} value={c.value}>
+                {c.label}
+              </option>
+            ))}
+          </select>
 
           <label className="mb-1 block text-sm font-medium text-slate-600">تگ‌ها (با کاما جدا کنید)</label>
           <input
