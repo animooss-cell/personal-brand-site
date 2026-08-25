@@ -33,7 +33,12 @@ export default async function Hero() {
               <span className="text-brand-300">{titleHighlight}</span> {titleSuffix}
             </h1>
 
-            <p className="mt-5 max-w-xl text-base leading-7 text-slate-300">{description}</p>
+            <p className="mt-4 max-w-xl text-base font-medium leading-7 text-brand-100 md:text-lg">
+              هر کسب‌وکاری یه جایی گیر می‌کنه. من کمک می‌کنم بفهمی کجایی، چرا گیر کردی، و دقیقاً چی
+              باید انجام بدی.
+            </p>
+
+            <p className="mt-3 max-w-xl text-base leading-7 text-slate-300">{description}</p>
 
             <div className="mt-8 flex flex-col gap-4 sm:flex-row">
               <Link

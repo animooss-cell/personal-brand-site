@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Hero from "@/components/Hero";
+import HomeServicesStrip from "@/components/HomeServicesStrip";
 import FeatureStrip from "@/components/FeatureStrip";
 import BlogGrid from "@/components/BlogGrid";
 import About from "@/components/About";
@@ -31,10 +32,11 @@ export default function Home() {
   return (
     <>
       <Hero />
+      <HomeServicesStrip />
+      <Services />
       <FeatureStrip />
       <BlogGrid />
       <About />
-      <Services />
       <CTASection />
     </>
   );
