@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Instagram, Send, MessageCircle } from "lucide-react";
 import { getAboutContent, getSettings } from "@/lib/data";
 import { toWhatsappHref } from "@/lib/social";
+import { BLOG_CATEGORIES } from "@/lib/categories";
 import NewsletterForm from "@/components/NewsletterForm";
 
 const defaultSocialLinks: Record<string, string> = {
@@ -11,11 +12,11 @@ const defaultSocialLinks: Record<string, string> = {
   whatsapp: "09161002550",
 };
 
-const categories = [
-  { label: "هوش مصنوعی", value: "هوش مصنوعی" },
-  { label: "کسب‌وکار و استارتاپ", value: "کسب‌وکار" },
-  { label: "تکنولوژی", value: "تکنولوژی" },
-  { label: "مارکتینگ", value: "مارکتینگ" },
+const services = [
+  { label: "مشاوره هوش مصنوعی کسب‌وکار", href: "/services/ai-business-consulting" },
+  { label: "مشاوره رشد کسب‌وکار با هوش مصنوعی", href: "/services/ai-growth-consulting" },
+  { label: "آموزش حضوری هوش مصنوعی در اهواز", href: "/services/ai-training-ahvaz" },
+  { label: "تولید محتوا با هوش مصنوعی", href: "/services/ai-content-generation" },
 ];
 
 export default async function Footer() {
@@ -42,7 +43,7 @@ export default async function Footer() {
 
   return (
     <footer className="mt-24 bg-gradient-to-br from-slate-900 via-brand-900 to-slate-900 text-white" dir="rtl">
-      <div className="mx-auto grid max-w-6xl gap-10 px-6 py-16 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mx-auto grid max-w-6xl gap-10 px-6 py-16 sm:grid-cols-2 lg:grid-cols-4">
         <div>
           <Image src="/logo.png" alt="لوگو" width={1774} height={887} className="mb-4 h-10 w-auto" />
           <p className="mb-5 max-w-xs text-sm leading-7 text-slate-300">{description}</p>
@@ -67,9 +68,25 @@ export default async function Footer() {
         </div>
 
         <div>
+          <h3 className="mb-4 text-sm font-bold text-white">خدمات</h3>
+          <ul className="flex flex-col gap-3">
+            {services.map((service) => (
+              <li key={service.href}>
+                <Link
+                  href={service.href}
+                  className="text-sm text-slate-300 transition-colors duration-200 hover:text-brand-300"
+                >
+                  {service.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
           <h3 className="mb-4 text-sm font-bold text-white">دسته‌بندی‌های وبلاگ</h3>
           <ul className="flex flex-col gap-3">
-            {categories.map((category) => (
+            {BLOG_CATEGORIES.map((category) => (
               <li key={category.value}>
                 <Link
                   href={`/blog?category=${encodeURIComponent(category.value)}`}
