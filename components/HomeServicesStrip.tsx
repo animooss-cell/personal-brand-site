@@ -17,7 +17,7 @@ const items = [
   {
     href: "/services/ai-training-ahvaz",
     icon: GraduationCap,
-    title: "آموزش حضوری هوش مصنوعی در اهواز",
+    title: "آموزش هوش مصنوعی در اهواز",
     featured: true,
   },
   {

@@ -15,7 +15,7 @@ const defaultSocialLinks: Record<string, string> = {
 const services = [
   { label: "مشاوره هوش مصنوعی کسب‌وکار", href: "/services/ai-business-consulting" },
   { label: "مشاوره رشد کسب‌وکار با هوش مصنوعی", href: "/services/ai-growth-consulting" },
-  { label: "آموزش حضوری هوش مصنوعی در اهواز", href: "/services/ai-training-ahvaz" },
+  { label: "آموزش هوش مصنوعی در اهواز", href: "/services/ai-training-ahvaz" },
   { label: "تولید محتوا با هوش مصنوعی", href: "/services/ai-content-generation" },
 ];
 
