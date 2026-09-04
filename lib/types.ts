@@ -115,3 +115,25 @@ export type AboutTimelineItem = {
   title: string;
   place: string | null;
 };
+
+export type DownloadResourceType = "prompt" | "book" | "skill" | "other";
+
+export type Download = {
+  id: string;
+  title: string;
+  slug: string;
+  category: string | null;
+  resource_type: DownloadResourceType;
+  tags: string[];
+  excerpt: string | null;
+  content: string;
+  featured_image: string | null;
+  file_url: string | null;
+  file_name: string | null;
+  file_size: number | null;
+  seo_title: string | null;
+  meta_description: string | null;
+  published: boolean;
+  created_at: string;
+  updated_at: string;
+};

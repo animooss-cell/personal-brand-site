@@ -8,6 +8,7 @@ import {
   Newspaper,
   Briefcase,
   GraduationCap,
+  Download,
   UserCircle,
   Mail,
   Settings,
@@ -17,6 +18,7 @@ import {
 const links = [
   { href: "/admin/dashboard", label: "داشبورد", icon: LayoutDashboard },
   { href: "/admin/blog", label: "وبلاگ", icon: Newspaper },
+  { href: "/admin/downloads", label: "منابع دانلودی", icon: Download },
   { href: "/admin/services", label: "خدمات", icon: Briefcase },
   { href: "/admin/courses", label: "دوره‌ها", icon: GraduationCap },
   { href: "/admin/about", label: "درباره من", icon: UserCircle },

@@ -11,6 +11,7 @@ const links = [
   { href: "/about", label: "درباره من" },
   { href: "/services", label: "خدمات" },
   { href: "/blog", label: "وبلاگ" },
+  { href: "/downloads", label: "منابع" },
   { href: "/contact", label: "تماس" },
 ];
 
