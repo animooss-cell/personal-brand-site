@@ -113,6 +113,32 @@ body {
   border-radius: 1rem;
 }
 
+.prose-content .video-embed {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 1rem;
+  overflow: hidden;
+  background-color: #0f172a;
+}
+
+.prose-content .video-embed iframe,
+.prose-content .video-embed video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.prose-content .audio-embed {
+  width: 100%;
+}
+
+.prose-content .audio-embed audio {
+  width: 100%;
+}
+
 .prose-content a {
   color: #007553;
   text-decoration: underline;

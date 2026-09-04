@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useEditor, EditorContent, type Editor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import TiptapImage from "@tiptap/extension-image";
@@ -8,6 +8,8 @@ import TiptapLink from "@tiptap/extension-link";
 import TiptapUnderline from "@tiptap/extension-underline";
 import TextAlign from "@tiptap/extension-text-align";
 import { createClient } from "@/lib/supabase/client";
+import { VideoEmbed, AudioEmbed } from "@/components/admin/tiptap-media-extensions";
+import { resolveVideoInput } from "@/lib/embedUrl";
 import {
   Bold,
   Italic,
@@ -28,6 +30,8 @@ import {
   AlignLeft,
   Upload,
   CodeXml,
+  Video as VideoIcon,
+  Music,
 } from "lucide-react";
 
 function ToolbarButton({
@@ -70,6 +74,8 @@ function Toolbar({
 }) {
   const supabase = createClient();
   const [uploading, setUploading] = useState(false);
+  const [uploadingAudio, setUploadingAudio] = useState(false);
+  const audioInputRef = useRef<HTMLInputElement>(null);
 
   async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -86,6 +92,52 @@ function Toolbar({
 
     const { data } = supabase.storage.from("media").getPublicUrl(path);
     editor.chain().focus().setImage({ src: data.publicUrl }).run();
+  }
+
+  function handleInsertVideo() {
+    const input = window.prompt(
+      "آدرس ویدیو (یوتیوب، آپارات، ویمئو، فایل مستقیم) یا کد embed را وارد کنید:",
+      "https://"
+    );
+    if (!input) return;
+
+    const resolved = resolveVideoInput(input);
+    if (!resolved) return;
+
+    editor.chain().focus().insertVideoEmbed(resolved).run();
+  }
+
+  function handleInsertAudioClick() {
+    const url = window.prompt(
+      "آدرس فایل صوتی را وارد کنید؛ برای آپلود از رایانه، این کادر را خالی بگذارید و تأیید کنید:",
+      ""
+    );
+    if (url === null) return;
+
+    if (url.trim()) {
+      editor.chain().focus().insertAudioEmbed({ src: url.trim() }).run();
+      return;
+    }
+
+    audioInputRef.current?.click();
+  }
+
+  async function handleAudioFileSelected(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+
+    setUploadingAudio(true);
+    const ext = file.name.split(".").pop();
+    const path = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+
+    const { error } = await supabase.storage.from("media").upload(path, file);
+    setUploadingAudio(false);
+
+    if (error) return;
+
+    const { data } = supabase.storage.from("media").getPublicUrl(path);
+    editor.chain().focus().insertAudioEmbed({ src: data.publicUrl }).run();
   }
 
   function handleLink() {
@@ -192,6 +244,22 @@ function Toolbar({
         <input type="file" accept="image/*" className="hidden" disabled={uploading} onChange={handleImageUpload} />
       </label>
 
+      <ToolbarButton label="درج ویدیو" onClick={handleInsertVideo}>
+        <VideoIcon className="h-4 w-4" aria-hidden="true" />
+      </ToolbarButton>
+
+      <ToolbarButton label="درج فایل صوتی" disabled={uploadingAudio} onClick={handleInsertAudioClick}>
+        {uploadingAudio ? <Upload className="h-4 w-4 animate-pulse" aria-hidden="true" /> : <Music className="h-4 w-4" aria-hidden="true" />}
+      </ToolbarButton>
+      <input
+        ref={audioInputRef}
+        type="file"
+        accept="audio/*"
+        className="hidden"
+        disabled={uploadingAudio}
+        onChange={handleAudioFileSelected}
+      />
+
       <span className="mx-1 h-5 w-px bg-gray-200" />
 
       <ToolbarButton label="واگرد" disabled={!editor.can().undo()} onClick={() => editor.chain().focus().undo().run()}>
@@ -233,6 +301,8 @@ export default function TipTapEditor({
       TiptapLink.configure({ openOnClick: false, autolink: true }),
       TiptapImage,
       TextAlign.configure({ types: ["heading", "paragraph"] }),
+      VideoEmbed,
+      AudioEmbed,
     ],
     content: value,
     immediatelyRender: false,
