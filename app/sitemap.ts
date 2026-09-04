@@ -4,10 +4,11 @@ import { SITE_URL } from "@/lib/site";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const supabase = createClient();
-  const [{ data: posts }, { data: courses }, { data: downloads }] = await Promise.all([
+  const [{ data: posts }, { data: courses }, { data: downloads }, { data: videos }] = await Promise.all([
     supabase.from("posts").select("slug, updated_at").eq("status", "published"),
     supabase.from("courses").select("slug, updated_at").eq("status", "published"),
     supabase.from("downloads").select("slug, updated_at").eq("published", true),
+    supabase.from("videos").select("slug, updated_at").eq("published", true),
   ]);
 
   const staticRoutes: MetadataRoute.Sitemap = [
@@ -20,6 +21,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/services/ai-content-generation`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${SITE_URL}/blog`, changeFrequency: "daily", priority: 0.8 },
     { url: `${SITE_URL}/downloads`, changeFrequency: "weekly", priority: 0.7 },
+    { url: `${SITE_URL}/videos`, changeFrequency: "weekly", priority: 0.7 },
     { url: `${SITE_URL}/contact`, changeFrequency: "monthly", priority: 0.6 },
   ];
 
@@ -46,5 +48,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }));
 
-  return [...staticRoutes, ...postRoutes, ...courseRoutes, ...downloadRoutes];
+  const videoRoutes: MetadataRoute.Sitemap = (videos ?? []).map((item) => ({
+    url: `${SITE_URL}/videos/${item.slug}`,
+    lastModified: item.updated_at,
+    changeFrequency: "monthly",
+    priority: 0.6,
+  }));
+
+  return [...staticRoutes, ...postRoutes, ...courseRoutes, ...downloadRoutes, ...videoRoutes];
 }

@@ -137,3 +137,31 @@ export type Download = {
   created_at: string;
   updated_at: string;
 };
+
+export type VideoPlatform =
+  | "youtube"
+  | "aparat"
+  | "vimeo"
+  | "twitter"
+  | "instagram"
+  | "custom"
+  | "other";
+
+export type Video = {
+  id: string;
+  title: string;
+  slug: string;
+  category: string | null;
+  tags: string[];
+  description: string;
+  video_url: string;
+  video_platform: VideoPlatform;
+  embed_code: string | null;
+  thumbnail: string | null;
+  duration: string | null;
+  seo_title: string | null;
+  meta_description: string | null;
+  published: boolean;
+  created_at: string;
+  updated_at: string;
+};

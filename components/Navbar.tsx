@@ -12,6 +12,7 @@ const links = [
   { href: "/services", label: "خدمات" },
   { href: "/blog", label: "وبلاگ" },
   { href: "/downloads", label: "منابع" },
+  { href: "/videos", label: "ویدیوها" },
   { href: "/contact", label: "تماس" },
 ];
 
