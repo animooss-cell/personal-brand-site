@@ -1,6 +1,6 @@
 import { cache } from "react";
 import { createClient } from "@/lib/supabase/server";
-import { SiteSettings, AboutContent, ServiceCard, Course, Post } from "@/lib/types";
+import { SiteSettings, AboutContent, ServiceCard, Course, Post, Download } from "@/lib/types";
 
 // با React cache() درخواست‌های تکراری به یک جدول در طول یک رندر واحد (مثلاً
 // Hero + About + Footer که هرکدام به settings نیاز دارند) فقط یک بار به Supabase ارسال می‌شود.
@@ -53,4 +53,25 @@ export const getPostBySlug = cache(async (slug: string): Promise<Post | null> =>
     .eq("status", "published")
     .single();
   return data as Post | null;
+});
+
+export const getPublishedDownloads = cache(async (): Promise<Download[]> => {
+  const supabase = createClient();
+  const { data } = await supabase
+    .from("downloads")
+    .select("*")
+    .eq("published", true)
+    .order("created_at", { ascending: false });
+  return (data ?? []) as Download[];
+});
+
+export const getDownloadBySlug = cache(async (slug: string): Promise<Download | null> => {
+  const supabase = createClient();
+  const { data } = await supabase
+    .from("downloads")
+    .select("*")
+    .eq("slug", slug)
+    .eq("published", true)
+    .single();
+  return data as Download | null;
 });
