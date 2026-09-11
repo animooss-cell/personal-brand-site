@@ -55,6 +55,7 @@ export type ContactMessage = {
   name: string;
   business: string | null;
   email: string;
+  phone: string | null;
   message: string;
   read: boolean;
   created_at: string;

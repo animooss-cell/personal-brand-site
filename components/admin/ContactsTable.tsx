@@ -41,6 +41,7 @@ export default function ContactsTable({ contacts }: { contacts: ContactMessage[]
           </div>
           <p dir="ltr" className="mb-2 text-left text-sm text-slate-500">
             {contact.email}
+            {contact.phone && <span className="mr-3">{contact.phone}</span>}
           </p>
           <p className="text-sm leading-6 text-slate-700">{contact.message}</p>
           <p className="mt-3 text-xs text-slate-400">
