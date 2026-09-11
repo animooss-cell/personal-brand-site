@@ -48,6 +48,7 @@ create table if not exists contacts (
   name text not null,
   business text,
   email text not null,
+  phone text,
   message text not null,
   read boolean not null default false,
   created_at timestamptz not null default now()
