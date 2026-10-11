@@ -8,17 +8,8 @@ import { BLOG_CATEGORIES } from "@/lib/categories";
 
 export const revalidate = 300;
 
-// در رندر استاتیک (generateStaticParams) مقدار params فارسی هنوز percent-encode
-// شده به کامپوننت می‌رسد (یک رفتار خاص Next.js برای پارام‌های غیر-ASCII)، در حالی
-// که در درخواست‌های معمولی دیکد شده است؛ هر دو حالت را پوشش می‌دهیم.
-function findCategory(raw: string) {
-  let decoded = raw;
-  try {
-    decoded = decodeURIComponent(raw);
-  } catch {
-    // raw از قبل دیکد شده یا معتبر نیست؛ همان را نگه می‌داریم
-  }
-  return BLOG_CATEGORIES.find((c) => c.value === raw || c.value === decoded);
+function findCategory(slug: string) {
+  return BLOG_CATEGORIES.find((c) => c.slug === slug);
 }
 
 function parsePageParam(raw: string): number | null {
@@ -33,7 +24,7 @@ export async function generateStaticParams() {
     const total = await getPublishedPostsCount(c.value);
     const totalPages = Math.max(1, Math.ceil(total / BLOG_PAGE_SIZE));
     for (let p = 2; p <= totalPages; p++) {
-      params.push({ category: c.value, page: String(p) });
+      params.push({ category: c.slug, page: String(p) });
     }
   }
 
@@ -50,7 +41,7 @@ export async function generateMetadata({
   if (!category || !page || page === 1) return {};
 
   const title = `مقالات ${category.label} | صفحه ${page}`;
-  const canonical = `/blog/category/${encodeURIComponent(category.value)}/page/${page}`;
+  const canonical = `/blog/category/${category.slug}/page/${page}`;
 
   return {
     title,
@@ -70,7 +61,7 @@ export default async function BlogCategoryPaginatedPage({
   const page = parsePageParam(params.page);
   if (!page) notFound();
 
-  const basePath = `/blog/category/${encodeURIComponent(category.value)}`;
+  const basePath = `/blog/category/${category.slug}`;
   if (page === 1) permanentRedirect(basePath);
 
   const { posts, totalPages } = await getPaginatedPosts({ page, category: category.value });

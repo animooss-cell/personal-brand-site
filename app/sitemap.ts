@@ -76,7 +76,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const categoryRoutes: MetadataRoute.Sitemap = [];
   BLOG_CATEGORIES.forEach((category, i) => {
-    const basePath = `${SITE_URL}/blog/category/${encodeURIComponent(category.value)}`;
+    const basePath = `${SITE_URL}/blog/category/${category.slug}`;
     categoryRoutes.push({ url: basePath, changeFrequency: "daily", priority: 0.6 });
 
     const count = categoryCounts[i].count ?? 0;
