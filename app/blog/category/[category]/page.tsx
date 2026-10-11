@@ -8,21 +8,12 @@ import { BLOG_CATEGORIES } from "@/lib/categories";
 
 export const revalidate = 300;
 
-// در رندر استاتیک (generateStaticParams) مقدار params فارسی هنوز percent-encode
-// شده به کامپوننت می‌رسد (یک رفتار خاص Next.js برای پارام‌های غیر-ASCII)، در حالی
-// که در درخواست‌های معمولی دیکد شده است؛ هر دو حالت را پوشش می‌دهیم.
-function findCategory(raw: string) {
-  let decoded = raw;
-  try {
-    decoded = decodeURIComponent(raw);
-  } catch {
-    // raw از قبل دیکد شده یا معتبر نیست؛ همان را نگه می‌داریم
-  }
-  return BLOG_CATEGORIES.find((c) => c.value === raw || c.value === decoded);
+function findCategory(slug: string) {
+  return BLOG_CATEGORIES.find((c) => c.slug === slug);
 }
 
 export async function generateStaticParams() {
-  return BLOG_CATEGORIES.map((c) => ({ category: c.value }));
+  return BLOG_CATEGORIES.map((c) => ({ category: c.slug }));
 }
 
 export async function generateMetadata({
@@ -35,7 +26,7 @@ export async function generateMetadata({
 
   const title = `مقالات ${category.label}`;
   const description = `مجموعه مقالات وبلاگ در دسته‌بندی ${category.label}.`;
-  const canonical = `/blog/category/${encodeURIComponent(category.value)}`;
+  const canonical = `/blog/category/${category.slug}`;
 
   return {
     title,
@@ -50,7 +41,7 @@ export default async function BlogCategoryPage({ params }: { params: { category:
   if (!category) notFound();
 
   const { posts, totalPages } = await getPaginatedPosts({ page: 1, category: category.value });
-  const basePath = `/blog/category/${encodeURIComponent(category.value)}`;
+  const basePath = `/blog/category/${category.slug}`;
 
   return (
     <div dir="rtl">
