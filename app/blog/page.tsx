@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Briefcase, GraduationCap, ArrowLeft } from "lucide-react";
-import { createClient } from "@/lib/supabase/server";
-import { Post } from "@/lib/types";
 import BlogHeroSlider from "@/components/BlogHeroSlider";
-import BlogPageGrid from "@/components/BlogPageGrid";
+import BlogPostCard from "@/components/BlogPostCard";
+import BlogPagination from "@/components/BlogPagination";
+import { getLatestPosts, getPaginatedPosts } from "@/lib/data";
 
 const blogTitle = "وبلاگ | آموزش هوش مصنوعی خوزستان و مشاوره کسب و کار اهواز";
 const blogDescription =
@@ -25,31 +25,29 @@ export const metadata: Metadata = {
 
 export const revalidate = 300;
 
-export default async function BlogPage({
-  searchParams,
-}: {
-  searchParams: { category?: string };
-}) {
-  const category = searchParams.category;
-
-  const supabase = createClient();
-  const { data: latestPosts } = await supabase
-    .from("posts")
-    .select("slug, title, excerpt, category, featured_image")
-    .eq("status", "published")
-    .order("published_at", { ascending: false })
-    .limit(4);
-
-  const slides = (latestPosts ?? []) as Pick<
-    Post,
-    "slug" | "title" | "excerpt" | "category" | "featured_image"
-  >[];
+export default async function BlogPage() {
+  const [slides, { posts, totalPages }] = await Promise.all([
+    getLatestPosts(4),
+    getPaginatedPosts({ page: 1 }),
+  ]);
 
   return (
     <div dir="rtl">
       <BlogHeroSlider posts={slides} />
 
-      <BlogPageGrid category={category} />
+      <section className="mx-auto max-w-6xl px-6 py-16">
+        {posts.length ? (
+          <div className="grid gap-8 md:grid-cols-3">
+            {posts.map((post, idx) => (
+              <BlogPostCard key={post.id} post={post} priority={idx < 3} />
+            ))}
+          </div>
+        ) : (
+          <p className="text-center text-slate-400">هنوز پستی منتشر نشده است.</p>
+        )}
+
+        <BlogPagination currentPage={1} totalPages={totalPages} basePath="/blog" />
+      </section>
 
       <section className="mx-auto max-w-6xl px-6 pb-20">
         <div className="grid gap-6 md:grid-cols-2">

@@ -1,13 +1,31 @@
 import type { MetadataRoute } from "next";
 import { createClient } from "@/lib/supabase/server";
 import { SITE_URL } from "@/lib/site";
+import { BLOG_PAGE_SIZE } from "@/lib/data";
+import { BLOG_CATEGORIES } from "@/lib/categories";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const supabase = createClient();
-  const [{ data: posts }, { data: courses }, { data: downloads }] = await Promise.all([
+  const [
+    { data: posts },
+    { data: courses },
+    { data: downloads },
+    { count: totalPublishedPosts },
+    categoryCounts,
+  ] = await Promise.all([
     supabase.from("posts").select("slug, updated_at").eq("status", "published"),
     supabase.from("courses").select("slug, updated_at").eq("status", "published"),
     supabase.from("downloads").select("slug, updated_at").eq("published", true),
+    supabase.from("posts").select("id", { count: "exact", head: true }).eq("status", "published"),
+    Promise.all(
+      BLOG_CATEGORIES.map((category) =>
+        supabase
+          .from("posts")
+          .select("id", { count: "exact", head: true })
+          .eq("status", "published")
+          .eq("category", category.value)
+      )
+    ),
   ]);
 
   const staticRoutes: MetadataRoute.Sitemap = [
@@ -46,5 +64,34 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }));
 
-  return [...staticRoutes, ...postRoutes, ...courseRoutes, ...downloadRoutes];
+  const blogTotalPages = Math.max(1, Math.ceil((totalPublishedPosts ?? 0) / BLOG_PAGE_SIZE));
+  const blogPageRoutes: MetadataRoute.Sitemap = Array.from(
+    { length: Math.max(0, blogTotalPages - 1) },
+    (_, i) => ({
+      url: `${SITE_URL}/blog/page/${i + 2}`,
+      changeFrequency: "daily",
+      priority: 0.6,
+    })
+  );
+
+  const categoryRoutes: MetadataRoute.Sitemap = [];
+  BLOG_CATEGORIES.forEach((category, i) => {
+    const basePath = `${SITE_URL}/blog/category/${encodeURIComponent(category.value)}`;
+    categoryRoutes.push({ url: basePath, changeFrequency: "daily", priority: 0.6 });
+
+    const count = categoryCounts[i].count ?? 0;
+    const categoryTotalPages = Math.max(1, Math.ceil(count / BLOG_PAGE_SIZE));
+    for (let page = 2; page <= categoryTotalPages; page++) {
+      categoryRoutes.push({ url: `${basePath}/page/${page}`, changeFrequency: "daily", priority: 0.5 });
+    }
+  });
+
+  return [
+    ...staticRoutes,
+    ...blogPageRoutes,
+    ...categoryRoutes,
+    ...postRoutes,
+    ...courseRoutes,
+    ...downloadRoutes,
+  ];
 }

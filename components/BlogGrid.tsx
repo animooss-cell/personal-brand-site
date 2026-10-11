@@ -1,53 +1,10 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import { createClient } from "@/lib/supabase/client";
-import { Post } from "@/lib/types";
+import { getLatestPosts } from "@/lib/data";
+import BlogPostCard from "@/components/BlogPostCard";
 
-const PAGE_SIZE = 9;
-
-type PostSummary = Pick<
-  Post,
-  "id" | "slug" | "title" | "excerpt" | "category" | "featured_image" | "published_at"
->;
-
-export default function BlogGrid() {
-  const supabase = createClient();
-
-  const [posts, setPosts] = useState<PostSummary[]>([]);
-  const [total, setTotal] = useState(0);
-  const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(true);
-
-  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
-
-  useEffect(() => {
-    let active = true;
-    setLoading(true);
-
-    const from = (page - 1) * PAGE_SIZE;
-    const to = from + PAGE_SIZE - 1;
-
-    supabase
-      .from("posts")
-      .select("id, slug, title, excerpt, category, featured_image, published_at", { count: "exact" })
-      .eq("status", "published")
-      .order("published_at", { ascending: false })
-      .range(from, to)
-      .then(({ data, count }) => {
-        if (!active) return;
-        setPosts((data ?? []) as PostSummary[]);
-        setTotal(count ?? 0);
-        setLoading(false);
-      });
-
-    return () => {
-      active = false;
-    };
-  }, [page, supabase]);
+export default async function BlogGrid() {
+  const posts = await getLatestPosts(3);
 
   return (
     <section className="mx-auto max-w-6xl px-6 py-20" dir="rtl">
@@ -58,71 +15,14 @@ export default function BlogGrid() {
         </p>
       </div>
 
-      {loading ? (
+      {posts.length ? (
         <div className="grid gap-8 md:grid-cols-3">
-          {Array.from({ length: PAGE_SIZE }).map((_, i) => (
-            <div key={i} className="h-64 animate-pulse rounded-3xl bg-slate-100 dark:bg-slate-800" />
+          {posts.map((post, idx) => (
+            <BlogPostCard key={post.id} post={post} priority={idx === 0} />
           ))}
         </div>
       ) : (
-        <div className="grid gap-8 md:grid-cols-3">
-          {posts.map((post) => (
-            <Link
-              key={post.id}
-              href={`/blog/${post.slug}`}
-              className="fade-in-up flex cursor-pointer flex-col rounded-3xl border border-gray-200 bg-white p-7 text-right shadow-sm transition-shadow duration-200 hover:shadow-md dark:border-slate-700 dark:bg-slate-900"
-            >
-              {post.featured_image && (
-                <div className="relative mb-4 h-36 w-full overflow-hidden rounded-2xl">
-                  <Image
-                    src={post.featured_image}
-                    alt={post.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                    className="object-cover"
-                  />
-                </div>
-              )}
-              {post.category && (
-                <span className="mb-4 inline-block w-fit rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700 dark:bg-brand-900/30 dark:text-brand-300">
-                  {post.category}
-                </span>
-              )}
-              <h3 className="mb-3 text-lg font-bold leading-7 text-slate-900 dark:text-white">{post.title}</h3>
-              <p className="mb-5 line-clamp-3 text-sm leading-6 text-slate-600 dark:text-slate-300">{post.excerpt}</p>
-              {post.published_at && (
-                <time className="mt-auto text-xs text-slate-400">
-                  {new Date(post.published_at).toLocaleDateString("fa-IR")}
-                </time>
-              )}
-            </Link>
-          ))}
-
-          {!posts.length && (
-            <p className="col-span-3 text-center text-slate-400">هنوز پستی منتشر نشده است.</p>
-          )}
-        </div>
-      )}
-
-      {totalPages > 1 && (
-        <div className="mt-12 flex items-center justify-center gap-2">
-          {Array.from({ length: totalPages }).map((_, i) => {
-            const pageNumber = i + 1;
-            return (
-              <button
-                key={pageNumber}
-                onClick={() => setPage(pageNumber)}
-                className={`h-9 w-9 cursor-pointer rounded-full text-sm font-semibold transition-colors duration-200 ${
-                  pageNumber === page
-                    ? "bg-brand text-white"
-                    : "text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
-                }`}
-              >
-                {pageNumber}
-              </button>
-            );
-          })}
-        </div>
+        <p className="text-center text-slate-400">هنوز پستی منتشر نشده است.</p>
       )}
 
       <div className="mt-10 flex justify-center">

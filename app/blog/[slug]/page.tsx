@@ -16,6 +16,8 @@ type RelatedPost = Pick<
   "slug" | "title" | "excerpt" | "category" | "featured_image" | "published_at"
 >;
 
+const RELATED_POSTS_LIMIT = 6;
+
 async function getRelatedPosts(post: Post): Promise<RelatedPost[]> {
   const supabase = createClient();
   const fields = "slug, title, excerpt, category, featured_image, published_at";
@@ -28,12 +30,12 @@ async function getRelatedPosts(post: Post): Promise<RelatedPost[]> {
         .eq("category", post.category)
         .neq("slug", post.slug)
         .order("published_at", { ascending: false })
-        .limit(3)
+        .limit(RELATED_POSTS_LIMIT)
     : { data: [] };
 
   const related = (sameCategory.data ?? []) as RelatedPost[];
 
-  if (related.length < 3) {
+  if (related.length < RELATED_POSTS_LIMIT) {
     const excludeSlugs = [post.slug, ...related.map((p) => p.slug)];
     const { data: fillerPosts } = await supabase
       .from("posts")
@@ -41,7 +43,7 @@ async function getRelatedPosts(post: Post): Promise<RelatedPost[]> {
       .eq("status", "published")
       .not("slug", "in", `(${excludeSlugs.join(",")})`)
       .order("published_at", { ascending: false })
-      .limit(3 - related.length);
+      .limit(RELATED_POSTS_LIMIT - related.length);
 
     related.push(...((fillerPosts ?? []) as RelatedPost[]));
   }

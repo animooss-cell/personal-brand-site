@@ -89,7 +89,7 @@ export default async function Footer() {
             {BLOG_CATEGORIES.map((category) => (
               <li key={category.value}>
                 <Link
-                  href={`/blog?category=${encodeURIComponent(category.value)}`}
+                  href={`/blog/category/${encodeURIComponent(category.value)}`}
                   className="text-sm text-slate-300 transition-colors duration-200 hover:text-brand-300"
                 >
                   {category.label}
