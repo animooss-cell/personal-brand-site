@@ -4,6 +4,12 @@ import { BLOG_CATEGORIES } from "@/lib/categories";
 
 const CATEGORY_VALUE_TO_SLUG = new Map(BLOG_CATEGORIES.map((c) => [c.value, c.slug]));
 
+// لینک‌های خراب قدیمی دوره‌ها (از یک دوره‌ی قبلی import/سئو) که مستقیماً به مسیر درست ریدایرکت می‌شوند.
+const LEGACY_COURSE_REDIRECTS: Record<string, string> = {
+  "/services/courses/httpsaiabedirsmart-office-manager-ahvaz": "/services/courses/smart-office-manager-ahvaz",
+  "/services/courses/servicescoursessmart-office-manager-ahvaz": "/services/courses/smart-office-manager-ahvaz",
+};
+
 // ریدایرکت دائمی ۳۰۱ برای دو حالت قدیمی، بدون تماس با Supabase:
 // ۱) /blog/category/<نام فارسی قبلی>[/page/N] → /blog/category/<اسلاگ انگلیسی>[/page/N]
 // ۲) ?page=N روی /blog یا /blog/category/<...> → مسیر صفحه‌بندی‌شده‌ی جدید (/page/N)
@@ -51,6 +57,13 @@ function redirectLegacyBlogUrl(request: NextRequest): NextResponse | null {
 }
 
 export async function middleware(request: NextRequest) {
+  const legacyCourseTarget = LEGACY_COURSE_REDIRECTS[request.nextUrl.pathname];
+  if (legacyCourseTarget) {
+    const url = request.nextUrl.clone();
+    url.pathname = legacyCourseTarget;
+    return NextResponse.redirect(url, 301);
+  }
+
   const legacyRedirect = redirectLegacyBlogUrl(request);
   if (legacyRedirect) return legacyRedirect;
 
@@ -62,5 +75,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/blog", "/blog/category/:path*"],
+  matcher: ["/admin/:path*", "/blog", "/blog/category/:path*", "/services/courses/:path*"],
 };
