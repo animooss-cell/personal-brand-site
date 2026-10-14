@@ -7,9 +7,11 @@ import TiptapImage from "@tiptap/extension-image";
 import TiptapLink from "@tiptap/extension-link";
 import TiptapUnderline from "@tiptap/extension-underline";
 import TextAlign from "@tiptap/extension-text-align";
+import { Table, TableRow, TableHeader, TableCell } from "@tiptap/extension-table";
 import { createClient } from "@/lib/supabase/client";
 import { VideoEmbed, AudioEmbed } from "@/components/admin/tiptap-media-extensions";
 import { resolveVideoInput } from "@/lib/embedUrl";
+import { restoreTheadTbody } from "@/lib/tiptapTableHtml";
 import {
   Bold,
   Italic,
@@ -32,6 +34,12 @@ import {
   CodeXml,
   Video as VideoIcon,
   Music,
+  Table as TableIcon,
+  Rows3,
+  Rows2,
+  Columns3,
+  Columns2,
+  Trash2,
 } from "lucide-react";
 
 function ToolbarButton({
@@ -262,6 +270,50 @@ function Toolbar({
 
       <span className="mx-1 h-5 w-px bg-gray-200" />
 
+      <ToolbarButton
+        label="درج جدول ۳×۳"
+        onClick={() => editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()}
+      >
+        <TableIcon className="h-4 w-4" aria-hidden="true" />
+      </ToolbarButton>
+      <ToolbarButton
+        label="افزودن ردیف"
+        disabled={!editor.can().addRowAfter()}
+        onClick={() => editor.chain().focus().addRowAfter().run()}
+      >
+        <Rows3 className="h-4 w-4" aria-hidden="true" />
+      </ToolbarButton>
+      <ToolbarButton
+        label="حذف ردیف"
+        disabled={!editor.can().deleteRow()}
+        onClick={() => editor.chain().focus().deleteRow().run()}
+      >
+        <Rows2 className="h-4 w-4" aria-hidden="true" />
+      </ToolbarButton>
+      <ToolbarButton
+        label="افزودن ستون"
+        disabled={!editor.can().addColumnAfter()}
+        onClick={() => editor.chain().focus().addColumnAfter().run()}
+      >
+        <Columns3 className="h-4 w-4" aria-hidden="true" />
+      </ToolbarButton>
+      <ToolbarButton
+        label="حذف ستون"
+        disabled={!editor.can().deleteColumn()}
+        onClick={() => editor.chain().focus().deleteColumn().run()}
+      >
+        <Columns2 className="h-4 w-4" aria-hidden="true" />
+      </ToolbarButton>
+      <ToolbarButton
+        label="حذف جدول"
+        disabled={!editor.can().deleteTable()}
+        onClick={() => editor.chain().focus().deleteTable().run()}
+      >
+        <Trash2 className="h-4 w-4" aria-hidden="true" />
+      </ToolbarButton>
+
+      <span className="mx-1 h-5 w-px bg-gray-200" />
+
       <ToolbarButton label="واگرد" disabled={!editor.can().undo()} onClick={() => editor.chain().focus().undo().run()}>
         <Undo2 className="h-4 w-4" aria-hidden="true" />
       </ToolbarButton>
@@ -303,10 +355,14 @@ export default function TipTapEditor({
       TextAlign.configure({ types: ["heading", "paragraph"] }),
       VideoEmbed,
       AudioEmbed,
+      Table.configure({ resizable: false, renderWrapper: true }),
+      TableRow,
+      TableHeader,
+      TableCell,
     ],
     content: value,
     immediatelyRender: false,
-    onUpdate: ({ editor }) => onChange(editor.getHTML()),
+    onUpdate: ({ editor }) => onChange(restoreTheadTbody(editor.getHTML())),
     editorProps: {
       attributes: {
         dir: "rtl",
@@ -329,7 +385,7 @@ export default function TipTapEditor({
       editor!.commands.setContent(htmlDraft, { emitUpdate: true });
       setHtmlMode(false);
     } else {
-      setHtmlDraft(editor!.getHTML());
+      setHtmlDraft(restoreTheadTbody(editor!.getHTML()));
       setHtmlMode(true);
     }
   }
