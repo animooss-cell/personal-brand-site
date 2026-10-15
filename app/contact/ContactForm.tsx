@@ -3,9 +3,7 @@
 import { useState, type FormEvent } from "react";
 import { Send, MessageCircle } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
-
-const WHATSAPP_URL = "https://wa.me/989161002550";
-const TELEGRAM_URL = "https://t.me/abedahm";
+import { CONTACT_WHATSAPP_URL, CONTACT_TELEGRAM_URL } from "@/lib/contactInfo";
 
 function normalizeDigits(value: string) {
   const persian = "۰۱۲۳۴۵۶۷۸۹";
@@ -26,7 +24,7 @@ function DirectContactLinks() {
   return (
     <div className="flex items-center gap-3">
       <a
-        href={WHATSAPP_URL}
+        href={CONTACT_WHATSAPP_URL}
         target="_blank"
         rel="noopener noreferrer"
         aria-label="تماس از طریق واتساپ"
@@ -35,7 +33,7 @@ function DirectContactLinks() {
         <MessageCircle className="h-5 w-5" aria-hidden="true" />
       </a>
       <a
-        href={TELEGRAM_URL}
+        href={CONTACT_TELEGRAM_URL}
         target="_blank"
         rel="noopener noreferrer"
         aria-label="تماس از طریق تلگرام"

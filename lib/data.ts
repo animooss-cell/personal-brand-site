@@ -2,6 +2,7 @@ import { cache } from "react";
 import { createClient } from "@/lib/supabase/server";
 import { createStaticClient } from "@/lib/supabase/static";
 import { SiteSettings, AboutContent, ServiceCard, Course, Post, Download } from "@/lib/types";
+import { BLOG_ARTICLE_CATEGORIES, NEWS_CATEGORY } from "@/lib/categories";
 
 export const BLOG_PAGE_SIZE = 12;
 
@@ -16,10 +17,12 @@ export async function getPaginatedPosts({
   page,
   pageSize = BLOG_PAGE_SIZE,
   category,
+  excludeCategory,
 }: {
   page: number;
   pageSize?: number;
   category?: string;
+  excludeCategory?: string;
 }): Promise<{ posts: PostListItem[]; total: number; totalPages: number }> {
   // کوئری فقط خواندنی عمومی (بدون نیاز به کوکی احراز هویت)؛ با کلاینت استاتیک
   // اجرا می‌شود تا صفحات /blog/page/N و /blog/category/X/page/N واقعاً استاتیک
@@ -36,6 +39,9 @@ export async function getPaginatedPosts({
   if (category) {
     query = query.eq("category", category);
   }
+  if (excludeCategory) {
+    query = query.neq("category", excludeCategory);
+  }
 
   const { data, count } = await query.order("published_at", { ascending: false }).range(from, to);
 
@@ -46,28 +52,54 @@ export async function getPaginatedPosts({
 }
 
 // برای generateStaticParams (خارج از request scope) — فقط شمارش، بدون نیاز به کوکی.
-export async function getPublishedPostsCount(category?: string): Promise<number> {
+export async function getPublishedPostsCount(category?: string, excludeCategory?: string): Promise<number> {
   const supabase = createStaticClient();
   let query = supabase.from("posts").select("id", { count: "exact", head: true }).eq("status", "published");
 
   if (category) {
     query = query.eq("category", category);
   }
+  if (excludeCategory) {
+    query = query.neq("category", excludeCategory);
+  }
 
   const { count } = await query;
   return count ?? 0;
 }
 
-export async function getLatestPosts(limit: number): Promise<PostListItem[]> {
+export async function getLatestPosts(limit: number, excludeCategory?: string): Promise<PostListItem[]> {
+  const supabase = createStaticClient();
+  let query = supabase
+    .from("posts")
+    .select(POST_LIST_FIELDS)
+    .eq("status", "published");
+
+  if (excludeCategory) {
+    query = query.neq("category", excludeCategory);
+  }
+
+  const { data } = await query.order("published_at", { ascending: false }).limit(limit);
+  return (data ?? []) as PostListItem[];
+}
+
+export type BlogCategoryWithCount = { label: string; slug: string; value: string };
+
+// لیست دسته‌بندی‌های وبلاگ (بدون اخبار) که واقعاً حداقل یک پست منتشرشده دارند —
+// برای زیرمنوی هدر؛ به‌جای هاردکد کل BLOG_ARTICLE_CATEGORIES، مستقیم از
+// دیتابیس خوانده می‌شود تا دسته‌ی بدون پست در منو دیده نشود.
+export const getActiveBlogCategories = cache(async (): Promise<BlogCategoryWithCount[]> => {
   const supabase = createStaticClient();
   const { data } = await supabase
     .from("posts")
-    .select(POST_LIST_FIELDS)
+    .select("category")
     .eq("status", "published")
-    .order("published_at", { ascending: false })
-    .limit(limit);
-  return (data ?? []) as PostListItem[];
-}
+    .not("category", "is", null)
+    .neq("category", NEWS_CATEGORY.value);
+
+  const activeValues = new Set((data ?? []).map((row) => row.category as string));
+
+  return BLOG_ARTICLE_CATEGORIES.filter((c) => activeValues.has(c.value));
+});
 
 // با React cache() درخواست‌های تکراری به یک جدول در طول یک رندر واحد (مثلاً
 // Hero + About + Footer که هرکدام به settings نیاز دارند) فقط یک بار به Supabase ارسال می‌شود.

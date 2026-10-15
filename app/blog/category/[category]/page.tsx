@@ -1,19 +1,20 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import BlogPostCard from "@/components/BlogPostCard";
 import BlogPagination from "@/components/BlogPagination";
+import BlogCategoryChips from "@/components/BlogCategoryChips";
 import { getPaginatedPosts } from "@/lib/data";
-import { BLOG_CATEGORIES } from "@/lib/categories";
+import { BLOG_ARTICLE_CATEGORIES, NEWS_CATEGORY } from "@/lib/categories";
 
 export const revalidate = 300;
 
 function findCategory(slug: string) {
-  return BLOG_CATEGORIES.find((c) => c.slug === slug);
+  return BLOG_ARTICLE_CATEGORIES.find((c) => c.slug === slug);
 }
 
 export async function generateStaticParams() {
-  return BLOG_CATEGORIES.map((c) => ({ category: c.slug }));
+  return BLOG_ARTICLE_CATEGORIES.map((c) => ({ category: c.slug }));
 }
 
 export async function generateMetadata({
@@ -37,6 +38,10 @@ export async function generateMetadata({
 }
 
 export default async function BlogCategoryPage({ params }: { params: { category: string } }) {
+  if (params.category === NEWS_CATEGORY.slug) {
+    permanentRedirect("/news");
+  }
+
   const category = findCategory(params.category);
   if (!category) notFound();
 
@@ -55,6 +60,8 @@ export default async function BlogCategoryPage({ params }: { params: { category:
             همه مقالات
           </Link>
         </div>
+
+        <BlogCategoryChips activeSlug={category.slug} />
 
         {posts.length ? (
           <div className="grid gap-8 md:grid-cols-3">
