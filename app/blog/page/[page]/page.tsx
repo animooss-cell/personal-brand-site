@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { notFound, permanentRedirect } from "next/navigation";
 import BlogPostCard from "@/components/BlogPostCard";
 import BlogPagination from "@/components/BlogPagination";
+import BlogCategoryChips from "@/components/BlogCategoryChips";
 import { getPaginatedPosts, getPublishedPostsCount, BLOG_PAGE_SIZE } from "@/lib/data";
+import { NEWS_CATEGORY } from "@/lib/categories";
 
 export const revalidate = 300;
 
@@ -15,7 +17,7 @@ function parsePageParam(raw: string): number | null {
 }
 
 export async function generateStaticParams() {
-  const total = await getPublishedPostsCount();
+  const total = await getPublishedPostsCount(undefined, NEWS_CATEGORY.value);
   const totalPages = Math.max(1, Math.ceil(total / BLOG_PAGE_SIZE));
   return Array.from({ length: Math.max(0, totalPages - 1) }, (_, i) => ({
     page: String(i + 2),
@@ -49,7 +51,7 @@ export default async function BlogPaginatedPage({ params }: { params: { page: st
   if (!page) notFound();
   if (page === 1) permanentRedirect("/blog");
 
-  const { posts, totalPages } = await getPaginatedPosts({ page });
+  const { posts, totalPages } = await getPaginatedPosts({ page, excludeCategory: NEWS_CATEGORY.value });
   if (page > totalPages) notFound();
 
   return (
@@ -59,6 +61,8 @@ export default async function BlogPaginatedPage({ params }: { params: { page: st
           <h1 className="text-3xl font-bold text-slate-900 dark:text-white md:text-4xl">وبلاگ — صفحه {page}</h1>
           <p className="mt-4 text-base leading-7 text-slate-600 dark:text-slate-300">{blogDescription}</p>
         </div>
+
+        <BlogCategoryChips />
 
         <div className="grid gap-8 md:grid-cols-3">
           {posts.map((post) => (

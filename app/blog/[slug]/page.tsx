@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,6 +8,7 @@ import { getPostBySlug, getAboutContent, getSettings } from "@/lib/data";
 import { Post } from "@/lib/types";
 import { SITE_URL } from "@/lib/site";
 import { toWhatsappHref } from "@/lib/social";
+import { NEWS_CATEGORY } from "@/lib/categories";
 
 export const revalidate = 300;
 
@@ -41,6 +42,7 @@ async function getRelatedPosts(post: Post): Promise<RelatedPost[]> {
       .from("posts")
       .select(fields)
       .eq("status", "published")
+      .or(`category.is.null,category.neq.${NEWS_CATEGORY.value}`)
       .not("slug", "in", `(${excludeSlugs.join(",")})`)
       .order("published_at", { ascending: false })
       .limit(RELATED_POSTS_LIMIT - related.length);
@@ -100,6 +102,11 @@ export async function generateMetadata({
 export default async function PostPage({ params }: { params: { slug: string } }) {
   const [post, author] = await Promise.all([getPostBySlug(params.slug), getAuthor()]);
   if (!post) notFound();
+
+  // اخبار دیگر زیر /blog نیستند؛ لینک‌های قدیمی به‌طور دائمی به /news هدایت می‌شوند.
+  if (post.category === NEWS_CATEGORY.value) {
+    permanentRedirect(`/news/${post.slug}`);
+  }
 
   const relatedPosts = await getRelatedPosts(post);
 

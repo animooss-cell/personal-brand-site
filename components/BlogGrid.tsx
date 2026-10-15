@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { getLatestPosts } from "@/lib/data";
+import { NEWS_CATEGORY } from "@/lib/categories";
 import BlogPostCard from "@/components/BlogPostCard";
 
 export default async function BlogGrid() {
-  const posts = await getLatestPosts(3);
+  const posts = await getLatestPosts(3, NEWS_CATEGORY.value);
 
   return (
     <section className="mx-auto max-w-6xl px-6 py-20" dir="rtl">

@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Providers from "@/app/providers";
 import { SITE_URL, SITE_NAME } from "@/lib/site";
+import { CONTACT_PHONE_E164 } from "@/lib/contactInfo";
 
 const vazirmatn = Vazirmatn({
   subsets: ["arabic"],
@@ -84,7 +85,7 @@ export default function RootLayout({
       latitude: 31.3183,
       longitude: 48.6706,
     },
-    telephone: "+989161002550",
+    telephone: CONTACT_PHONE_E164,
     priceRange: "$$",
     founder: {
       "@type": "Person",

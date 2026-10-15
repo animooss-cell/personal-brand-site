@@ -1,22 +1,25 @@
 import Image from "next/image";
 import Link from "next/link";
 import { PostListItem } from "@/lib/data";
-import { BLOG_CATEGORIES } from "@/lib/categories";
+import { BLOG_CATEGORIES, NEWS_CATEGORY } from "@/lib/categories";
 
 export default function BlogPostCard({
   post,
   priority = false,
+  basePath = "/blog",
 }: {
   post: PostListItem;
   priority?: boolean;
+  basePath?: string;
 }) {
   const category = post.category ? BLOG_CATEGORIES.find((c) => c.value === post.category) : null;
+  const categoryHref = category ? (category.slug === NEWS_CATEGORY.slug ? "/news" : `/blog/category/${category.slug}`) : null;
 
   return (
     <article className="fade-in-up flex flex-col rounded-3xl border border-gray-200 bg-white p-7 text-right shadow-sm transition-shadow duration-200 hover:shadow-md dark:border-slate-700 dark:bg-slate-900">
       {post.featured_image && (
         <Link
-          href={`/blog/${post.slug}`}
+          href={`${basePath}/${post.slug}`}
           className="relative mb-4 block h-36 w-full cursor-pointer overflow-hidden rounded-2xl"
         >
           <Image
@@ -30,19 +33,19 @@ export default function BlogPostCard({
         </Link>
       )}
       {post.category &&
-        (category ? (
+        (categoryHref ? (
           <Link
-            href={`/blog/category/${category.slug}`}
+            href={categoryHref}
             className="mb-4 inline-block w-fit cursor-pointer rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700 transition-colors duration-200 hover:bg-brand-100 dark:bg-brand-900/30 dark:text-brand-300 dark:hover:bg-brand-900/50"
           >
-            {category.label}
+            {category!.label}
           </Link>
         ) : (
           <span className="mb-4 inline-block w-fit rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700 dark:bg-brand-900/30 dark:text-brand-300">
             {post.category}
           </span>
         ))}
-      <Link href={`/blog/${post.slug}`} className="cursor-pointer">
+      <Link href={`${basePath}/${post.slug}`} className="cursor-pointer">
         <h3 className="mb-3 text-lg font-bold leading-7 text-slate-900 dark:text-white">{post.title}</h3>
         <p className="mb-5 line-clamp-3 text-sm leading-6 text-slate-600 dark:text-slate-300">{post.excerpt}</p>
       </Link>

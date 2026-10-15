@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { updateSession } from "@/lib/supabase/middleware";
-import { BLOG_CATEGORIES } from "@/lib/categories";
+import { BLOG_CATEGORIES, NEWS_CATEGORY } from "@/lib/categories";
 
 const CATEGORY_VALUE_TO_SLUG = new Map(BLOG_CATEGORIES.map((c) => [c.value, c.slug]));
 
@@ -30,7 +30,9 @@ function redirectLegacyBlogUrl(request: NextRequest): NextResponse | null {
     }
     const slug = CATEGORY_VALUE_TO_SLUG.get(decoded);
     if (slug) {
-      targetPathname = `/blog/category/${slug}${rest}`;
+      // اخبار دیگر یک دسته‌بندی وبلاگ نیست؛ هر مسیر /blog/category/ai-news
+      // (با هر نام قدیمی/جدید و هر /page/N) مستقیم به /news هدایت می‌شود.
+      targetPathname = slug === NEWS_CATEGORY.slug ? "/news" : `/blog/category/${slug}${rest}`;
       changed = true;
     }
   }

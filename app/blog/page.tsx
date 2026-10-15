@@ -4,7 +4,9 @@ import { Briefcase, GraduationCap, ArrowLeft } from "lucide-react";
 import BlogHeroSlider from "@/components/BlogHeroSlider";
 import BlogPostCard from "@/components/BlogPostCard";
 import BlogPagination from "@/components/BlogPagination";
+import BlogCategoryChips from "@/components/BlogCategoryChips";
 import { getLatestPosts, getPaginatedPosts } from "@/lib/data";
+import { NEWS_CATEGORY } from "@/lib/categories";
 
 const blogTitle = "وبلاگ | آموزش هوش مصنوعی خوزستان و مشاوره کسب و کار اهواز";
 const blogDescription =
@@ -27,8 +29,8 @@ export const revalidate = 300;
 
 export default async function BlogPage() {
   const [slides, { posts, totalPages }] = await Promise.all([
-    getLatestPosts(4),
-    getPaginatedPosts({ page: 1 }),
+    getLatestPosts(4, NEWS_CATEGORY.value),
+    getPaginatedPosts({ page: 1, excludeCategory: NEWS_CATEGORY.value }),
   ]);
 
   return (
@@ -36,6 +38,8 @@ export default async function BlogPage() {
       <BlogHeroSlider posts={slides} />
 
       <section className="mx-auto max-w-6xl px-6 py-16">
+        <BlogCategoryChips />
+
         {posts.length ? (
           <div className="grid gap-8 md:grid-cols-3">
             {posts.map((post, idx) => (

@@ -1,9 +1,16 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Instagram, Send, MessageCircle } from "lucide-react";
+import { Instagram, Send, MessageCircle, Phone } from "lucide-react";
 import { getAboutContent, getSettings } from "@/lib/data";
 import { toWhatsappHref } from "@/lib/social";
-import { BLOG_CATEGORIES } from "@/lib/categories";
+import { BLOG_ARTICLE_CATEGORIES } from "@/lib/categories";
+import {
+  CONTACT_PHONE_DISPLAY_FA,
+  CONTACT_PHONE_TEL_HREF,
+  CONTACT_TELEGRAM_HANDLE,
+  CONTACT_TELEGRAM_URL,
+  CONTACT_WHATSAPP_URL,
+} from "@/lib/contactInfo";
 import NewsletterForm from "@/components/NewsletterForm";
 
 const defaultSocialLinks: Record<string, string> = {
@@ -86,7 +93,7 @@ export default async function Footer() {
         <div>
           <h3 className="mb-4 text-sm font-bold text-white">دسته‌بندی‌های وبلاگ</h3>
           <ul className="flex flex-col gap-3">
-            {BLOG_CATEGORIES.map((category) => (
+            {BLOG_ARTICLE_CATEGORIES.map((category) => (
               <li key={category.value}>
                 <Link
                   href={`/blog/category/${category.slug}`}
@@ -96,10 +103,57 @@ export default async function Footer() {
                 </Link>
               </li>
             ))}
+            <li>
+              <Link
+                href="/news"
+                className="text-sm text-slate-300 transition-colors duration-200 hover:text-brand-300"
+              >
+                اخبار هوش مصنوعی
+              </Link>
+            </li>
           </ul>
         </div>
 
         <div>
+          <h3 className="mb-4 text-sm font-bold text-white">راه‌های ارتباطی</h3>
+          <ul className="mb-6 flex flex-col gap-3 text-sm text-slate-300">
+            <li>
+              <a
+                href={CONTACT_PHONE_TEL_HREF}
+                dir="ltr"
+                aria-label="تماس تلفنی"
+                className="inline-flex items-center gap-2 transition-colors duration-200 hover:text-brand-300"
+              >
+                <Phone className="h-4 w-4 shrink-0" aria-hidden="true" />
+                <span dir="rtl">{CONTACT_PHONE_DISPLAY_FA}</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href={CONTACT_TELEGRAM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="تماس از طریق تلگرام"
+                className="inline-flex items-center gap-2 transition-colors duration-200 hover:text-brand-300"
+              >
+                <Send className="h-4 w-4 shrink-0" aria-hidden="true" />
+                <span dir="ltr">{CONTACT_TELEGRAM_HANDLE}</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href={CONTACT_WHATSAPP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="تماس از طریق واتساپ"
+                className="inline-flex items-center gap-2 transition-colors duration-200 hover:text-brand-300"
+              >
+                <MessageCircle className="h-4 w-4 shrink-0" aria-hidden="true" />
+                واتساپ
+              </a>
+            </li>
+          </ul>
+
           <h3 className="mb-4 text-sm font-bold text-white">بهترین مطالب را دریافت کن</h3>
           <NewsletterForm />
         </div>

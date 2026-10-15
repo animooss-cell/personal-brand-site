@@ -3,13 +3,14 @@ import Link from "next/link";
 import { notFound, permanentRedirect } from "next/navigation";
 import BlogPostCard from "@/components/BlogPostCard";
 import BlogPagination from "@/components/BlogPagination";
+import BlogCategoryChips from "@/components/BlogCategoryChips";
 import { getPaginatedPosts, getPublishedPostsCount, BLOG_PAGE_SIZE } from "@/lib/data";
-import { BLOG_CATEGORIES } from "@/lib/categories";
+import { BLOG_ARTICLE_CATEGORIES, NEWS_CATEGORY } from "@/lib/categories";
 
 export const revalidate = 300;
 
 function findCategory(slug: string) {
-  return BLOG_CATEGORIES.find((c) => c.slug === slug);
+  return BLOG_ARTICLE_CATEGORIES.find((c) => c.slug === slug);
 }
 
 function parsePageParam(raw: string): number | null {
@@ -20,7 +21,7 @@ function parsePageParam(raw: string): number | null {
 export async function generateStaticParams() {
   const params: { category: string; page: string }[] = [];
 
-  for (const c of BLOG_CATEGORIES) {
+  for (const c of BLOG_ARTICLE_CATEGORIES) {
     const total = await getPublishedPostsCount(c.value);
     const totalPages = Math.max(1, Math.ceil(total / BLOG_PAGE_SIZE));
     for (let p = 2; p <= totalPages; p++) {
@@ -55,6 +56,10 @@ export default async function BlogCategoryPaginatedPage({
 }: {
   params: { category: string; page: string };
 }) {
+  if (params.category === NEWS_CATEGORY.slug) {
+    permanentRedirect("/news");
+  }
+
   const category = findCategory(params.category);
   if (!category) notFound();
 
@@ -81,6 +86,8 @@ export default async function BlogCategoryPaginatedPage({
             همه مقالات
           </Link>
         </div>
+
+        <BlogCategoryChips activeSlug={category.slug} />
 
         <div className="grid gap-8 md:grid-cols-3">
           {posts.map((post) => (
