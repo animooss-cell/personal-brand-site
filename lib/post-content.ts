@@ -158,8 +158,18 @@ const FAQ_HEADING_TARGETS = new Set(
   )
 );
 
+// تیتر را FAQ می‌داند اگر دقیقاً برابر یکی از FAQ_HEADING_TARGETS باشد، یا با
+// یکی از آن‌ها شروع شود و بلافاصله یک فاصله بیاید (مثل «سوالات متداول درباره
+// هوش مصنوعی در اکسل»). این یعنی عبارت باید در همان ابتدای تیتر بیاید، نه
+// وسط یا آخر آن (مثل «چرا سوالات متداول مهم‌اند» که نباید FAQ حساب شود).
 function isFaqHeading(text: string): boolean {
-  return FAQ_HEADING_TARGETS.has(normalizePersianHeading(text));
+  const normalized = normalizePersianHeading(text);
+  if (FAQ_HEADING_TARGETS.has(normalized)) return true;
+
+  for (const target of FAQ_HEADING_TARGETS) {
+    if (normalized.startsWith(`${target} `)) return true;
+  }
+  return false;
 }
 
 export function extractFaq(html: string): FaqItem[] {
