@@ -9,7 +9,7 @@ import { Post } from "@/lib/types";
 import { SITE_URL } from "@/lib/site";
 import { toWhatsappHref } from "@/lib/social";
 import { NEWS_CATEGORY } from "@/lib/categories";
-import { normalizeContentLinks } from "@/lib/post-content";
+import { normalizeContentLinks, serializeJsonLd } from "@/lib/post-content";
 
 export const revalidate = 300;
 
@@ -129,7 +129,7 @@ export default async function NewsItemPage({ params }: { params: { slug: string 
       <article className="mx-auto max-w-3xl px-6 py-16 md:py-24">
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(newsJsonLd) }}
+          dangerouslySetInnerHTML={{ __html: serializeJsonLd(newsJsonLd) }}
         />
         <div className="mb-8 text-center">
           <span className="mb-4 inline-block rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700 dark:bg-brand-900/30 dark:text-brand-300">

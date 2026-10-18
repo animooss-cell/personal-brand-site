@@ -27,6 +27,7 @@ import { AboutTimelineItem } from "@/lib/types";
 import AboutContactForm from "@/components/AboutContactForm";
 import { SITE_URL } from "@/lib/site";
 import { toWhatsappHref } from "@/lib/social";
+import { serializeJsonLd } from "@/lib/post-content";
 
 export const revalidate = 300;
 
@@ -171,7 +172,7 @@ export default async function AboutPage() {
     <div dir="rtl">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(personJsonLd) }}
       />
 
       {/* هدر */}

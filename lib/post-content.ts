@@ -126,13 +126,47 @@ function collectHeadings(html: string): HeadingMatch[] {
   return headings;
 }
 
-const FAQ_HEADING_RE = /^(سؤالات متداول|سوالات متداول|پرسش‌های متداول)/;
+// نسخه‌های املایی/تایپی مختلف تیتر «سؤالات متداول» را به یک شکل یکسان
+// برمی‌گرداند تا تشخیص این تیتر به نگارش دقیق ادمین حساس نباشد: حذف
+// تگ/اینتیتی‌های HTML، یکسان‌سازی حروف عربی (ي/ك/ؤ) به فارسی، حذف نیم‌فاصله
+// و اعراب، حذف نشانه‌های نگارشی رایج در پایان تیتر، و یکدست‌سازی فاصله‌ها.
+export function normalizePersianHeading(text: string): string {
+  return text
+    .replace(/<[^>]*>/g, " ")
+    .replace(/&nbsp;/gi, " ")
+    .replace(/&amp;/gi, "&")
+    .replace(/&lt;/gi, "<")
+    .replace(/&gt;/gi, ">")
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;|&apos;/gi, "'")
+    .replace(/[\u064b-\u0652]/g, "")
+    .replace(/\u200c/g, "")
+    .replace(/ي/g, "ی")
+    .replace(/ك/g, "ک")
+    .replace(/ؤ/g, "و")
+    .replace(/[:؟?.]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+// دو حالت فاصله‌گذاری «پرسش‌های» (با نیم‌فاصله، که بعد از نرمال‌سازی به‌هم
+// می‌چسبد) و «پرسش های» (با فاصله‌ی معمولی، که نیم‌فاصله حساب نمی‌شود و بعد
+// از نرمال‌سازی جدا می‌ماند) هر دو باید به‌عنوان تیتر سؤالات متداول شناخته شوند.
+const FAQ_HEADING_TARGETS = new Set(
+  ["سوالات متداول", "پرسشهای متداول", "پرسش های متداول", "پرسش و پاسخ", "سوالات رایج"].map(
+    normalizePersianHeading
+  )
+);
+
+function isFaqHeading(text: string): boolean {
+  return FAQ_HEADING_TARGETS.has(normalizePersianHeading(text));
+}
 
 export function extractFaq(html: string): FaqItem[] {
   if (!html) return [];
 
   const headings = collectHeadings(html);
-  const faqIndex = headings.findIndex((h) => h.level === 2 && FAQ_HEADING_RE.test(h.text));
+  const faqIndex = headings.findIndex((h) => h.level === 2 && isFaqHeading(h.text));
   if (faqIndex === -1) return [];
 
   const items: FaqItem[] = [];
@@ -191,6 +225,19 @@ export function fillEmptyImageAlt(html: string, fallbackAlt: string): string {
     const nextAttrs = removeAttr(attrs, "alt");
     return `<${tagName}${nextAttrs} alt="${safeFallback}">`;
   });
+}
+
+// JSON.stringify به‌تنهایی کاراکترهای </script> یا <!-- را escape نمی‌کند؛
+// یک رشته‌ی حاوی این دنباله‌ها داخل <script type="application/ld+json">
+// می‌تواند تگ را زودتر ببندد (شکستن اسکیما یا حتی XSS). خروجی این تابع باز
+// هم دقیقاً همان دادهٔ اصلی را JSON.parse می‌کند، فقط امن‌تر در HTML تزریق می‌شود.
+export function serializeJsonLd(data: unknown): string {
+  return JSON.stringify(data)
+    .replace(/</g, "\\u003c")
+    .replace(/>/g, "\\u003e")
+    .replace(/&/g, "\\u0026")
+    .replace(/\u2028/g, "\\u2028")
+    .replace(/\u2029/g, "\\u2029");
 }
 
 export type BreadcrumbItem = { name: string; path: string };

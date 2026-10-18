@@ -11,6 +11,7 @@ import {
   extractFaq,
   buildFaqJsonLd,
   buildBreadcrumbJsonLd,
+  serializeJsonLd,
 } from "@/lib/post-content";
 
 export const revalidate = 300;
@@ -67,10 +68,10 @@ export default async function CourseDetailPage({ params }: { params: { slug: str
 
   return (
     <div dir="rtl">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(courseJsonLd) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(courseJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbJsonLd) }} />
       {faqJsonLd && (
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(faqJsonLd) }} />
       )}
       <article className="mx-auto max-w-3xl px-6 py-16 md:py-24">
         <div className="mb-8 text-center">
