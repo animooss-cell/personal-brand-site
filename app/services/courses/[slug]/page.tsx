@@ -5,7 +5,13 @@ import Link from "next/link";
 import { ArrowLeft, CheckCircle2, Clock, BarChart3 } from "lucide-react";
 import { getCourseBySlug } from "@/lib/data";
 import { SITE_URL } from "@/lib/site";
-import { normalizeContentLinks } from "@/lib/post-content";
+import {
+  normalizeContentLinks,
+  fillEmptyImageAlt,
+  extractFaq,
+  buildFaqJsonLd,
+  buildBreadcrumbJsonLd,
+} from "@/lib/post-content";
 
 export const revalidate = 300;
 
@@ -17,13 +23,15 @@ export async function generateMetadata({
   const course = await getCourseBySlug(params.slug);
   if (!course) return {};
 
+  const trimmedDescription = course.description?.trim() || undefined;
+
   return {
-    title: `${course.title} | دوره آموزشی`,
-    description: course.description || undefined,
+    title: course.title,
+    description: trimmedDescription,
     alternates: { canonical: `/services/courses/${course.slug}` },
     openGraph: {
       title: course.title,
-      description: course.description || undefined,
+      description: trimmedDescription,
       url: `/services/courses/${course.slug}`,
       images: course.image ? [course.image] : undefined,
     },
@@ -34,13 +42,15 @@ export default async function CourseDetailPage({ params }: { params: { slug: str
   const course = await getCourseBySlug(params.slug);
   if (!course) notFound();
 
-  const normalizedContent = normalizeContentLinks(course.content);
+  const normalizedContent = fillEmptyImageAlt(normalizeContentLinks(course.content), course.title);
+  const faqItems = extractFaq(normalizedContent);
+  const faqJsonLd = buildFaqJsonLd(faqItems);
 
   const courseJsonLd = {
     "@context": "https://schema.org",
     "@type": "Course",
     name: course.title,
-    description: course.description || undefined,
+    description: course.description?.trim() || undefined,
     url: `${SITE_URL}/services/courses/${course.slug}`,
     provider: {
       "@type": "Person",
@@ -49,9 +59,19 @@ export default async function CourseDetailPage({ params }: { params: { slug: str
     },
   };
 
+  const breadcrumbJsonLd = buildBreadcrumbJsonLd([
+    { name: "خانه", path: "/" },
+    { name: "خدمات", path: "/services" },
+    { name: course.title, path: `/services/courses/${course.slug}` },
+  ]);
+
   return (
     <div dir="rtl">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(courseJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      {faqJsonLd && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      )}
       <article className="mx-auto max-w-3xl px-6 py-16 md:py-24">
         <div className="mb-8 text-center">
           {course.audience && (
@@ -92,8 +112,8 @@ export default async function CourseDetailPage({ params }: { params: { slug: str
           </div>
         )}
 
-        {course.description && (
-          <p className="mb-10 text-base leading-8 text-slate-600 dark:text-slate-300">{course.description}</p>
+        {course.description?.trim() && (
+          <p className="mb-10 text-base leading-8 text-slate-600 dark:text-slate-300">{course.description.trim()}</p>
         )}
 
         {course.outline.length > 0 && (

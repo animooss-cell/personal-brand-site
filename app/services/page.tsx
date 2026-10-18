@@ -13,12 +13,13 @@ import {
 } from "lucide-react";
 import { getServices, getPublishedCourses } from "@/lib/data";
 import { SITE_URL } from "@/lib/site";
+import { buildBreadcrumbJsonLd } from "@/lib/post-content";
 
 export const revalidate = 300;
 
-const servicesTitle = "خدمات و آموزش هوش مصنوعی | عبدالله احمدیان";
+const servicesTitle = "خدمات مشاوره و آموزش هوش مصنوعی در اهواز";
 const servicesDescription =
-  "مشاوره کسب‌وکار، مشاوره رشد، آموزش هوش مصنوعی و تولید محتوا با AI — همه خدمات در یک نگاه.";
+  "مشاوره کسب‌وکار، مشاوره رشد، آموزش هوش مصنوعی و تولید محتوا با AI برای کسب‌وکارهای اهواز و خوزستان — همه‌ی خدمات در یک نگاه، با جلسه‌ی اول رایگان.";
 
 export const metadata: Metadata = {
   title: servicesTitle,
@@ -54,7 +55,7 @@ const dedicatedServices = [
   {
     href: "/services/ai-training-ahvaz",
     icon: GraduationCap,
-    title: "مدرس هوش مصنوعی در اهواز",
+    title: "آموزش هوش مصنوعی در اهواز",
     desc: "دوره‌های حضوری و سازمانی برای تیم و سازمان شما.",
   },
   {
@@ -79,18 +80,37 @@ export default async function ServicesPage() {
     })),
   };
 
+  const breadcrumbJsonLd = buildBreadcrumbJsonLd([
+    { name: "خانه", path: "/" },
+    { name: "خدمات", path: "/services" },
+  ]);
+
   return (
     <div dir="rtl">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
 
       {/* هدر */}
       <section className="px-4 pt-6 md:px-8">
         <div className="fade-in-up mx-auto max-w-6xl overflow-hidden rounded-[2rem] bg-gradient-to-br from-slate-900 via-brand-900 to-slate-900 px-6 py-16 text-center md:py-20">
-          <h1 className="text-3xl font-extrabold text-white md:text-5xl">خدمات و آموزش</h1>
+          <h1 className="text-3xl font-extrabold text-white md:text-5xl">
+            خدمات مشاوره و آموزش هوش مصنوعی در اهواز
+          </h1>
           <p className="mx-auto mt-4 max-w-2xl text-base text-slate-300 md:text-lg">
             از مشاوره تا آموزش — همه چیز برای رشد کسب‌وکارت با هوش مصنوعی
           </p>
         </div>
+      </section>
+
+      <section className="px-4 pt-10 md:px-8">
+        <p className="fade-in-up mx-auto max-w-3xl text-center text-base leading-7 text-slate-600 dark:text-slate-300">
+          اینجا خدمات مشاوره و آموزش هوش مصنوعی برای کسب‌وکارهای اهواز و خوزستان را در یک نگاه می‌بینید: از
+          اولین قدم در پیاده‌سازی هوش مصنوعی تا مشاوره‌ی رشد، تولید محتوا و آموزش تیم شما. هر خدمت صفحه‌ی
+          مستقل خودش را دارد تا دقیقاً ببینید فرآیند کار، خروجی‌ها و نحوه‌ی همکاری در هرکدام چگونه است. از
+          جمله‌ی همکاری‌های اخیر، می‌توان به آموزش هوش مصنوعی برای فولاد خوزستان و همکاری با بسیج رسانه
+          خوزستان در آموزش و به‌کارگیری هوش مصنوعی اشاره کرد. اگر هنوز نمی‌دانید کدام خدمت متناسب با وضعیت
+          فعلی کسب‌وکار شماست، می‌توانید مستقیم یک جلسه‌ی رایگان رزرو کنید تا با هم مسیر درست را پیدا کنیم.
+        </p>
       </section>
 
       {/* خلاصه ۴ خدمت اصلی */}
