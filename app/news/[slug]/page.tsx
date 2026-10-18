@@ -9,6 +9,7 @@ import { Post } from "@/lib/types";
 import { SITE_URL } from "@/lib/site";
 import { toWhatsappHref } from "@/lib/social";
 import { NEWS_CATEGORY } from "@/lib/categories";
+import { normalizeContentLinks } from "@/lib/post-content";
 
 export const revalidate = 300;
 
@@ -87,6 +88,7 @@ export default async function NewsItemPage({ params }: { params: { slug: string 
   if (!post) notFound();
 
   const relatedNews = await getRelatedNews(post);
+  const normalizedContent = normalizeContentLinks(post.content);
 
   const authorSocialItems = [
     { key: "instagram", icon: Instagram, href: author.socialLinks.instagram },
@@ -183,7 +185,7 @@ export default async function NewsItemPage({ params }: { params: { slug: string 
           )}
         </div>
 
-        <div className="prose-content" dir="rtl" dangerouslySetInnerHTML={{ __html: post.content }} />
+        <div className="prose-content" dir="rtl" dangerouslySetInnerHTML={{ __html: normalizedContent }} />
 
         {post.tags?.length > 0 && (
           <div className="mt-10 flex flex-wrap gap-2 border-t border-gray-100 pt-6 dark:border-slate-800">

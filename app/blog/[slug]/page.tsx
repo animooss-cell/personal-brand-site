@@ -8,7 +8,8 @@ import { getPostBySlug, getAboutContent, getSettings } from "@/lib/data";
 import { Post } from "@/lib/types";
 import { SITE_URL } from "@/lib/site";
 import { toWhatsappHref } from "@/lib/social";
-import { NEWS_CATEGORY } from "@/lib/categories";
+import { BLOG_ARTICLE_CATEGORIES, NEWS_CATEGORY } from "@/lib/categories";
+import { normalizeContentLinks, extractFaq, buildFaqJsonLd, buildBreadcrumbJsonLd } from "@/lib/post-content";
 
 export const revalidate = 300;
 
@@ -109,6 +110,19 @@ export default async function PostPage({ params }: { params: { slug: string } })
   }
 
   const relatedPosts = await getRelatedPosts(post);
+  const normalizedContent = normalizeContentLinks(post.content);
+  const faqItems = extractFaq(normalizedContent);
+  const faqJsonLd = buildFaqJsonLd(faqItems);
+
+  const postCategory = post.category
+    ? BLOG_ARTICLE_CATEGORIES.find((c) => c.value === post.category)
+    : undefined;
+  const breadcrumbJsonLd = buildBreadcrumbJsonLd([
+    { name: "خانه", path: "/" },
+    { name: "وبلاگ", path: "/blog" },
+    ...(postCategory ? [{ name: postCategory.label, path: `/blog/category/${postCategory.slug}` }] : []),
+    { name: post.title, path: `/blog/${post.slug}` },
+  ]);
 
   const authorSocialItems = [
     { key: "instagram", icon: Instagram, href: author.socialLinks.instagram },
@@ -143,6 +157,16 @@ export default async function PostPage({ params }: { params: { slug: string } })
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(postJsonLd) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+      {faqJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+      )}
       <div className="mb-8 text-center">
         {post.category && (
           <span className="mb-4 inline-block rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700 dark:bg-brand-900/30 dark:text-brand-300">
@@ -199,7 +223,7 @@ export default async function PostPage({ params }: { params: { slug: string } })
         )}
       </div>
 
-      <div className="prose-content" dir="rtl" dangerouslySetInnerHTML={{ __html: post.content }} />
+      <div className="prose-content" dir="rtl" dangerouslySetInnerHTML={{ __html: normalizedContent }} />
 
       {post.tags?.length > 0 && (
         <div className="mt-10 flex flex-wrap gap-2 border-t border-gray-100 pt-6 dark:border-slate-800">

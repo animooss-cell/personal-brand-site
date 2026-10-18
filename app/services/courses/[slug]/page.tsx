@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowLeft, CheckCircle2, Clock, BarChart3 } from "lucide-react";
 import { getCourseBySlug } from "@/lib/data";
 import { SITE_URL } from "@/lib/site";
+import { normalizeContentLinks } from "@/lib/post-content";
 
 export const revalidate = 300;
 
@@ -32,6 +33,8 @@ export async function generateMetadata({
 export default async function CourseDetailPage({ params }: { params: { slug: string } }) {
   const course = await getCourseBySlug(params.slug);
   if (!course) notFound();
+
+  const normalizedContent = normalizeContentLinks(course.content);
 
   const courseJsonLd = {
     "@context": "https://schema.org",
@@ -107,7 +110,7 @@ export default async function CourseDetailPage({ params }: { params: { slug: str
           </div>
         )}
 
-        <div className="prose-content" dir="rtl" dangerouslySetInnerHTML={{ __html: course.content }} />
+        <div className="prose-content" dir="rtl" dangerouslySetInnerHTML={{ __html: normalizedContent }} />
       </article>
 
       <section className="px-4 pb-16 md:px-8">
