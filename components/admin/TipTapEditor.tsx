@@ -348,9 +348,15 @@ export default function TipTapEditor({
 
   const editor = useEditor({
     extensions: [
-      StarterKit,
+      // StarterKit در TipTap v3 خودش Link دارد؛ غیرفعالش می‌کنیم تا تنظیمات
+      // TiptapLink زیر (از جمله HTMLAttributes) بی‌اثر نشود.
+      StarterKit.configure({ link: false }),
       TiptapUnderline,
-      TiptapLink.configure({ openOnClick: false, autolink: true }),
+      TiptapLink.configure({
+        openOnClick: false,
+        autolink: true,
+        HTMLAttributes: { target: null, rel: null },
+      }),
       TiptapImage,
       TextAlign.configure({ types: ["heading", "paragraph"] }),
       VideoEmbed,
