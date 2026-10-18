@@ -6,6 +6,7 @@ import { Download as DownloadIcon, ArrowLeft, FileText } from "lucide-react";
 import { getDownloadBySlug } from "@/lib/data";
 import { SITE_URL } from "@/lib/site";
 import { resourceTypeLabel, resourceSchemaType, formatFileSize } from "@/lib/downloadTypes";
+import { serializeJsonLd } from "@/lib/post-content";
 
 export const revalidate = 300;
 
@@ -57,7 +58,7 @@ export default async function DownloadDetailPage({ params }: { params: { slug: s
   return (
     <div dir="rtl">
       <article className="mx-auto max-w-3xl px-6 py-16 md:py-24">
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }} />
 
         <div className="mb-8 text-center">
           <div className="mb-4 flex flex-wrap items-center justify-center gap-2">

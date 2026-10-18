@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import { getServices, getPublishedCourses } from "@/lib/data";
 import { SITE_URL } from "@/lib/site";
-import { buildBreadcrumbJsonLd } from "@/lib/post-content";
+import { buildBreadcrumbJsonLd, serializeJsonLd } from "@/lib/post-content";
 
 export const revalidate = 300;
 
@@ -87,8 +87,8 @@ export default async function ServicesPage() {
 
   return (
     <div dir="rtl">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(itemListJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbJsonLd) }} />
 
       {/* هدر */}
       <section className="px-4 pt-6 md:px-8">

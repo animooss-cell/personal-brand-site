@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import Providers from "@/app/providers";
 import { SITE_URL, SITE_NAME } from "@/lib/site";
 import { CONTACT_PHONE_E164 } from "@/lib/contactInfo";
+import { serializeJsonLd } from "@/lib/post-content";
 
 const vazirmatn = Vazirmatn({
   subsets: ["arabic"],
@@ -98,7 +99,7 @@ export default function RootLayout({
       <body className={`${vazirmatn.variable} font-vazir antialiased`}>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
         />
         <Providers>
           <Navbar />
