@@ -1,13 +1,23 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, GraduationCap, Building2, Users, CheckCircle2, ListChecks, MapPin } from "lucide-react";
+import {
+  ArrowLeft,
+  GraduationCap,
+  Building2,
+  Users,
+  CheckCircle2,
+  ListChecks,
+  MapPin,
+  Briefcase,
+} from "lucide-react";
 import { getPublishedCourses } from "@/lib/data";
 import { SITE_URL } from "@/lib/site";
+import { buildBreadcrumbJsonLd } from "@/lib/post-content";
 
 export const revalidate = 300;
 
-const title = "آموزش هوش مصنوعی در اهواز | دوره‌های حضوری و سازمانی";
+const title = "آموزش هوش مصنوعی در اهواز";
 const description =
   "آموزش هوش مصنوعی در اهواز برای تیم‌ها و سازمان‌ها؛ دوره‌های حضوری و سازمانی با سرفصل عملی، بدون نیاز به دانش فنی قبلی. جلسه رایگان رزرو کنید.";
 
@@ -33,6 +43,47 @@ const trainingTracks = [
   { icon: GraduationCap, title: "دوره سازمانی اختصاصی", desc: "طراحی دوره متناسب با نیاز واقعی تیم شما، نه یک دوره عمومی و یکسان برای همه." },
 ];
 
+const trainingSteps = [
+  {
+    title: "شناخت نیاز تیم",
+    desc: "یک گفت‌وگوی اولیه برای شناخت سطح دانش فعلی تیم شما و فرآیندهایی که قرار است با هوش مصنوعی ساده‌تر شوند.",
+  },
+  {
+    title: "طراحی سرفصل اختصاصی",
+    desc: "تنظیم سرفصل دوره بر اساس نقش‌های شغلی حاضر در جلسه، نه یک برنامه‌ی عمومی و یکسان برای همه.",
+  },
+  {
+    title: "برگزاری دوره",
+    desc: "برگزاری کارگاه یا دوره‌ی سازمانی، حضوری در اهواز یا آنلاین، با تمرین عملی روی ابزارها و مثال‌های واقعی.",
+  },
+  {
+    title: "تمرین و پرسش‌وپاسخ زنده",
+    desc: "تمرین مستقیم شرکت‌کنندگان با ابزارها در طول دوره و پاسخ به سؤال‌های واقعی‌شان، نه فقط پخش اسلاید.",
+  },
+  {
+    title: "پیگیری پس از دوره",
+    desc: "در دسترس بودن برای پرسش‌های تیم شما در هفته‌های اول استفاده‌ی عملی از آنچه آموزش دیده‌اند.",
+  },
+];
+
+const trainingDeliverables = [
+  "سرفصل دوره، متناسب با نقش‌های شغلی شرکت‌کنندگان",
+  "چند ابزار هوش مصنوعی مشخص برای استفاده‌ی روزمره هر شرکت‌کننده",
+  "چند پرامپت آماده برای کار روزمره هر نقش شغلی",
+  "یک برنامه‌ی عملی برای ادامه‌ی استفاده از هوش مصنوعی بعد از پایان دوره",
+  "کانال ارتباطی برای پرسش‌های تیم شما در هفته‌های اول پس از دوره",
+];
+
+const relatedArticles = [
+  { href: "/blog/modares-hoosh-masnooei-ahvaz", label: "مدرس هوش مصنوعی در اهواز چه کمکی به تیم شما می‌کند؟" },
+  {
+    href: "/blog/onsite-vs-online-ai-training-ahvaz",
+    label: "آموزش حضوری یا آنلاین هوش مصنوعی در اهواز؛ کدام را انتخاب کنیم؟",
+  },
+  { href: "/blog/chatgpt-for-business-10-prompts", label: "۱۰ پرامپت کاربردی چت‌جی‌پی‌تی برای کسب‌وکار" },
+  { href: "/blog/ai-excel-consultant-ahvaz", label: "استفاده از هوش مصنوعی در اکسل برای کسب‌وکارهای اهواز" },
+];
+
 const faqs = [
   {
     q: "آموزش هوش مصنوعی در اهواز حضوری برگزار می‌شود یا آنلاین؟",
@@ -48,7 +99,7 @@ const faqs = [
   },
   {
     q: "آیا سابقه آموزش سازمانی دارید؟",
-    a: "بله؛ از جمله آموزش ابزارهای هوش مصنوعی برای تیم فروش و بازاریابی شرکت فولاد خوزستان و دوره هوش مصنوعی در خدمت روابط عمومی برای همین سازمان.",
+    a: "بله؛ از جمله آموزش هوش مصنوعی برای شرکت فولاد خوزستان، از جمله دوره‌ی داشبوردسازی مالی برای مدیران مالی این شرکت، و همکاری با بسیج رسانه خوزستان در آموزش و به‌کارگیری هوش مصنوعی.",
   },
   {
     q: "دوره برای چه سطحی از دانش مناسب است؟",
@@ -109,11 +160,18 @@ export default async function AiTrainingAhvazPage() {
     })),
   };
 
+  const breadcrumbJsonLd = buildBreadcrumbJsonLd([
+    { name: "خانه", path: "/" },
+    { name: "خدمات", path: "/services" },
+    { name: "آموزش هوش مصنوعی در اهواز", path: "/services/ai-training-ahvaz" },
+  ]);
+
   return (
     <div dir="rtl">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(courseJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
 
       <section className="px-4 pt-6 md:px-8">
         <div className="fade-in-up mx-auto max-w-6xl overflow-hidden rounded-[2rem] bg-gradient-to-br from-slate-900 via-brand-900 to-slate-900 px-6 py-16 text-center md:py-20">
@@ -191,7 +249,9 @@ export default async function AiTrainingAhvazPage() {
           </ul>
         </div>
 
-        <h2 className="mb-3 text-center text-2xl font-bold text-slate-900 dark:text-white md:text-3xl">این آموزش برای چه کسانی مناسب است؟</h2>
+        <h2 className="mb-3 text-center text-2xl font-bold text-slate-900 dark:text-white md:text-3xl">
+          آموزش هوش مصنوعی در اهواز برای چه کسانی مناسب است؟
+        </h2>
         <p className="mx-auto mb-6 max-w-3xl text-center text-sm leading-7 text-slate-600 dark:text-slate-300">
           آموزش هوش مصنوعی در اهواز برای هر تیمی که می‌خواهد کار روزمره‌اش را با AI سریع‌تر و ساده‌تر کند طراحی
           شده — از تیم‌های فروش و بازاریابی گرفته تا مدیرانی که می‌خواهند بدانند سرمایه‌گذاری روی هوش مصنوعی از
@@ -207,6 +267,53 @@ export default async function AiTrainingAhvazPage() {
           ))}
         </div>
 
+        <h2 className="mb-3 text-center text-2xl font-bold text-slate-900 dark:text-white md:text-3xl">
+          برای چه کسانی مناسب نیست؟
+        </h2>
+        <p className="mx-auto mb-12 max-w-3xl text-center text-sm leading-7 text-slate-600 dark:text-slate-300">
+          اگر دنبال توسعه‌ی مدل اختصاصی هوش مصنوعی یا راهکارهای فنی پیچیده برای تیم مهندسی هستید، این دوره
+          مناسب شما نیست؛ تمرکز این آموزش روی استفاده‌ی عملی از ابزارهای موجود در کار روزمره است، نه
+          برنامه‌نویسی یا توسعه‌ی مدل. همچنین اگر تیم شما از قبل به‌طور حرفه‌ای با این ابزارها کار می‌کند،
+          احتمالاً به یک دوره‌ی پیشرفته‌تر و تخصصی‌تر نیاز دارید.
+        </p>
+
+        <h2 className="mb-6 text-center text-2xl font-bold text-slate-900 dark:text-white md:text-3xl">
+          فرآیند برگزاری آموزش هوش مصنوعی در اهواز
+        </h2>
+        <div className="mb-12 grid gap-4 sm:grid-cols-2">
+          {trainingSteps.map((step, i) => (
+            <div key={step.title} className="rounded-2xl bg-slate-50 p-5 dark:bg-slate-800/60">
+              <span className="mb-2 block text-xs font-bold text-brand-600">{`گام ${i + 1}`}</span>
+              <h3 className="mb-1 text-base font-bold text-slate-900 dark:text-white">{step.title}</h3>
+              <p className="text-sm leading-6 text-slate-600 dark:text-slate-300">{step.desc}</p>
+            </div>
+          ))}
+        </div>
+
+        <h2 className="mb-4 flex items-center gap-2 text-2xl font-bold text-slate-900 dark:text-white">
+          <ListChecks className="h-6 w-6 text-brand-600" aria-hidden="true" />
+          خروجی‌هایی که تیم شما تحویل می‌گیرد
+        </h2>
+        <ul className="mb-12 space-y-2 text-sm leading-7 text-slate-600 dark:text-slate-300">
+          {trainingDeliverables.map((item) => (
+            <li key={item} className="flex items-start gap-2">
+              <CheckCircle2 className="mt-0.5 h-4 w-4 flex-shrink-0 text-brand-600" aria-hidden="true" />
+              {item}
+            </li>
+          ))}
+        </ul>
+
+        <h2 className="mb-3 flex items-center gap-2 text-2xl font-bold text-slate-900 dark:text-white">
+          <Briefcase className="h-6 w-6 text-brand-600" aria-hidden="true" />
+          نحوه‌ی همکاری و قیمت‌گذاری
+        </h2>
+        <p className="mb-12 text-sm leading-7 text-slate-600 dark:text-slate-300">
+          هزینه‌ی دوره عدد ثابتی ندارد و به چند عامل بستگی دارد: تعداد نفرات، تعداد جلسات و میزان
+          سفارشی‌سازی سرفصل برای نقش‌های شغلی تیم شما. به همین دلیل، یک تماس کوتاه اولیه برای شناخت نیاز
+          تیم‌تان همیشه رایگان است؛ بعد از همان تماس، پیشنهاد قیمت شفاف و متناسب با دامنه‌ی دوره ارائه
+          می‌شود.
+        </p>
+
         <div className="mx-auto max-w-3xl">
           <h2 className="mb-4 flex items-center gap-2 text-2xl font-bold text-slate-900 dark:text-white">
             <MapPin className="h-6 w-6 text-brand-600" aria-hidden="true" />
@@ -219,12 +326,30 @@ export default async function AiTrainingAhvazPage() {
             مدت‌زمان و تعداد جلسات بر اساس نیاز واقعی تیم شما تنظیم می‌شود، نه یک قالب ثابت و یکسان برای همه.
           </p>
 
-          <h2 className="mb-4 text-2xl font-bold text-slate-900 dark:text-white">سوابق تدریس</h2>
+          <h2 className="mb-4 flex items-center gap-2 text-2xl font-bold text-slate-900 dark:text-white">
+            <Building2 className="h-6 w-6 text-brand-600" aria-hidden="true" />
+            سوابق همکاری
+          </h2>
           <ul className="mb-12 space-y-2 text-sm leading-7 text-slate-600 dark:text-slate-300">
-            <li>— مشاور تیم هوش مصنوعی شرکت فولاد خوزستان</li>
-            <li>— مدرس دوره هوش مصنوعی در خدمت روابط عمومی برای شرکت فولاد خوزستان</li>
-            <li>— آموزش ابزارهای هوش مصنوعی برای فروش و بازاریابی شرکت فولاد خوزستان</li>
-            <li>— مشاور کانتنت مارکتینگ با هوش مصنوعی برای سازمان بسیج رسانه استان خوزستان</li>
+            <li className="flex items-start gap-2">
+              <CheckCircle2 className="mt-0.5 h-4 w-4 flex-shrink-0 text-brand-600" aria-hidden="true" />
+              آموزش هوش مصنوعی برای شرکت فولاد خوزستان، از جمله دوره‌ی داشبوردسازی مالی برای مدیران مالی این شرکت
+            </li>
+            <li className="flex items-start gap-2">
+              <CheckCircle2 className="mt-0.5 h-4 w-4 flex-shrink-0 text-brand-600" aria-hidden="true" />
+              همکاری با بسیج رسانه خوزستان در آموزش و به‌کارگیری هوش مصنوعی
+            </li>
+          </ul>
+
+          <h2 className="mb-4 text-2xl font-bold text-slate-900 dark:text-white">مقالات مرتبط</h2>
+          <ul className="mb-12 space-y-2 text-sm leading-7">
+            {relatedArticles.map((article) => (
+              <li key={article.href}>
+                <Link href={article.href} className="font-semibold text-brand-700 hover:underline">
+                  {article.label}
+                </Link>
+              </li>
+            ))}
           </ul>
 
           <h2 className="mb-4 text-2xl font-bold text-slate-900 dark:text-white">سوالات متداول</h2>

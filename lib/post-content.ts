@@ -167,6 +167,32 @@ export function buildFaqJsonLd(items: FaqItem[]) {
   };
 }
 
+function escapeHtmlAttr(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+const IMG_OPEN_TAG = /<(img)\b([^>]*)>/gi;
+
+// برای تصویرهایی داخل محتوای دوره/پست که alt خالی یا بدون alt هستند — در زمان
+// رندر، alt را با یک متن جایگزین (مثلاً عنوان دوره) پر می‌کند تا دسترس‌پذیری
+// و سئوی تصویر حفظ شود.
+export function fillEmptyImageAlt(html: string, fallbackAlt: string): string {
+  if (!html) return html;
+  const safeFallback = escapeHtmlAttr(fallbackAlt);
+
+  return html.replace(IMG_OPEN_TAG, (fullMatch, tagName: string, attrs: string) => {
+    const altValue = getAttr(attrs, "alt");
+    if (altValue !== null && altValue.trim() !== "") return fullMatch;
+
+    const nextAttrs = removeAttr(attrs, "alt");
+    return `<${tagName}${nextAttrs} alt="${safeFallback}">`;
+  });
+}
+
 export type BreadcrumbItem = { name: string; path: string };
 
 export function buildBreadcrumbJsonLd(items: BreadcrumbItem[]) {
