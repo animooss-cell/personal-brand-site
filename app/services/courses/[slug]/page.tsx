@@ -12,6 +12,7 @@ import {
   buildFaqJsonLd,
   buildBreadcrumbJsonLd,
   serializeJsonLd,
+  wrapFaqAccordion,
 } from "@/lib/post-content";
 
 export const revalidate = 300;
@@ -43,9 +44,13 @@ export default async function CourseDetailPage({ params }: { params: { slug: str
   const course = await getCourseBySlug(params.slug);
   if (!course) notFound();
 
-  const normalizedContent = fillEmptyImageAlt(normalizeContentLinks(course.content), course.title);
-  const faqItems = extractFaq(normalizedContent);
+  // ترتیب مهم است: اول extractFaq روی HTML اصلی برای JSON-LD، بعد نرمال‌سازی
+  // لینک‌ها و alt تصویرها، و در آخر wrapFaqAccordion فقط برای نمایش.
+  const faqItems = extractFaq(course.content);
   const faqJsonLd = buildFaqJsonLd(faqItems);
+  const normalizedContent = wrapFaqAccordion(
+    fillEmptyImageAlt(normalizeContentLinks(course.content), course.title)
+  );
 
   const courseJsonLd = {
     "@context": "https://schema.org",

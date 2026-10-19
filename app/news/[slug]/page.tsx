@@ -9,7 +9,7 @@ import { Post } from "@/lib/types";
 import { SITE_URL } from "@/lib/site";
 import { toWhatsappHref } from "@/lib/social";
 import { NEWS_CATEGORY } from "@/lib/categories";
-import { normalizeContentLinks, serializeJsonLd } from "@/lib/post-content";
+import { normalizeContentLinks, serializeJsonLd, wrapFaqAccordion } from "@/lib/post-content";
 
 export const revalidate = 300;
 
@@ -88,7 +88,7 @@ export default async function NewsItemPage({ params }: { params: { slug: string 
   if (!post) notFound();
 
   const relatedNews = await getRelatedNews(post);
-  const normalizedContent = normalizeContentLinks(post.content);
+  const normalizedContent = wrapFaqAccordion(normalizeContentLinks(post.content));
 
   const authorSocialItems = [
     { key: "instagram", icon: Instagram, href: author.socialLinks.instagram },

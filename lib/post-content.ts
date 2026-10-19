@@ -250,6 +250,61 @@ export function serializeJsonLd(data: unknown): string {
     .replace(/\u2029/g, "\\u2029");
 }
 
+const H3_OPEN_TAG = /<h3\b[^>]*>([\s\S]*?)<\/h3>/gi;
+
+// بخش «سؤالات متداول» را به چند <details>/<summary> بومی HTML تبدیل می‌کند تا
+// بدون جاوااسکریپت به‌صورت آکاردئون نمایش داده شود. دقیقاً همان منطق تشخیص
+// extractFaq را برای پیدا کردن مرز بخش FAQ به کار می‌برد (تیتر H2ای که
+// isFaqHeading است تا اولین H2 بعدی یا پایان HTML)، اما به‌جای استخراج متن
+// ساده برای JSON-LD، HTML خام سؤال و جواب را دست‌نخورده نگه می‌دارد تا
+// قالب‌بندی‌های داخل جواب (پاراگراف، لیست و ...) از بین نرود. تیتر H2 خودِ
+// بخش FAQ دست‌نخورده باقی می‌ماند. اگر بخشی برای تبدیل پیدا نشود، HTML اصلی
+// بدون تغییر برمی‌گردد.
+export function wrapFaqAccordion(html: string): string {
+  if (!html) return html;
+
+  const headings = collectHeadings(html);
+  const faqIndex = headings.findIndex((h) => h.level === 2 && isFaqHeading(h.text));
+  if (faqIndex === -1) return html;
+
+  let sectionEnd = html.length;
+  for (let i = faqIndex + 1; i < headings.length; i++) {
+    if (headings[i].level === 2) {
+      sectionEnd = headings[i].start;
+      break;
+    }
+  }
+
+  const faqHeadingEnd = headings[faqIndex].end;
+  const sectionHtml = html.slice(faqHeadingEnd, sectionEnd);
+
+  const questions: { start: number; end: number; innerHtml: string }[] = [];
+  let match: RegExpExecArray | null;
+  H3_OPEN_TAG.lastIndex = 0;
+  while ((match = H3_OPEN_TAG.exec(sectionHtml)) !== null) {
+    questions.push({ start: match.index, end: match.index + match[0].length, innerHtml: match[1] });
+  }
+
+  // بخش FAQ پیدا شد اما هیچ سؤالی (H3) داخلش نیست؛ چیزی برای تبدیل به
+  // آکاردئون وجود ندارد.
+  if (questions.length === 0) return html;
+
+  // متنی که بین تیتر H2 و اولین H3 باشد (مثلاً یک پاراگراف مقدمه) دست‌نخورده
+  // و خارج از هر <details> باقی می‌ماند.
+  let rebuilt = sectionHtml.slice(0, questions[0].start);
+
+  for (let i = 0; i < questions.length; i++) {
+    const question = questions[i];
+    const answerStart = question.end;
+    const answerEnd = i + 1 < questions.length ? questions[i + 1].start : sectionHtml.length;
+    const answerHtml = sectionHtml.slice(answerStart, answerEnd);
+
+    rebuilt += `<details class="faq-item"><summary class="faq-q"><h3>${question.innerHtml}</h3></summary><div class="faq-a">${answerHtml}</div></details>`;
+  }
+
+  return html.slice(0, faqHeadingEnd) + rebuilt + html.slice(sectionEnd);
+}
+
 export type BreadcrumbItem = { name: string; path: string };
 
 export function buildBreadcrumbJsonLd(items: BreadcrumbItem[]) {
