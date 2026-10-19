@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { SITE_URL } from "@/lib/site";
 import { buildBreadcrumbJsonLd, serializeJsonLd } from "@/lib/post-content";
+import FaqAccordion from "@/components/FaqAccordion";
 
 export const revalidate = 300;
 
@@ -251,16 +252,8 @@ export default function AiContentGenerationPage() {
         </ul>
 
         <h2 className="mb-4 text-2xl font-bold text-slate-900 dark:text-white">سوالات متداول</h2>
-        <div className="mb-12 space-y-4">
-          {faqs.map((f) => (
-            <div key={f.q} className="rounded-2xl border border-gray-200 p-5 dark:border-slate-700">
-              <h3 className="mb-2 flex items-start gap-2 text-base font-bold text-slate-900 dark:text-white">
-                <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-brand-600" aria-hidden="true" />
-                {f.q}
-              </h3>
-              <p className="text-sm leading-6 text-slate-600 dark:text-slate-300">{f.a}</p>
-            </div>
-          ))}
+        <div className="mb-12">
+          <FaqAccordion items={faqs.map((f) => ({ question: f.q, answer: f.a }))} />
         </div>
 
         <div className="rounded-2xl bg-brand-50/60 p-6 text-sm leading-7 text-slate-600 dark:bg-brand-900/20 dark:text-slate-300">

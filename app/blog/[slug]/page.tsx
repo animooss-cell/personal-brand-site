@@ -15,6 +15,7 @@ import {
   buildFaqJsonLd,
   buildBreadcrumbJsonLd,
   serializeJsonLd,
+  wrapFaqAccordion,
 } from "@/lib/post-content";
 
 export const revalidate = 300;
@@ -116,9 +117,12 @@ export default async function PostPage({ params }: { params: { slug: string } })
   }
 
   const relatedPosts = await getRelatedPosts(post);
-  const normalizedContent = normalizeContentLinks(post.content);
-  const faqItems = extractFaq(normalizedContent);
+
+  // ترتیب مهم است: اول extractFaq روی HTML اصلی برای JSON-LD، بعد نرمال‌سازی
+  // لینک‌ها، و در آخر wrapFaqAccordion فقط برای نمایش.
+  const faqItems = extractFaq(post.content);
   const faqJsonLd = buildFaqJsonLd(faqItems);
+  const normalizedContent = wrapFaqAccordion(normalizeContentLinks(post.content));
 
   const postCategory = post.category
     ? BLOG_ARTICLE_CATEGORIES.find((c) => c.value === post.category)
