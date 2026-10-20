@@ -7,20 +7,23 @@ import { SITE_URL } from "@/lib/site";
 //                  .../storage/v1/render/image/public/<bucket>/<path>?width=W&quality=Q
 //   «cloudflare» → Cloudflare Image Resizing روی دامنه‌ی سایت (باید در
 //                  Cloudflare فعال باشد): https://aiabed.ir/cdn-cgi/image/width=W,quality=Q,format=auto/<src>
-// چون در محیط توسعه امکان تست زنده‌ی هیچ‌کدام نبود، انتخاب روش با متغیر محیطی
-// NEXT_PUBLIC_IMAGE_TRANSFORM کنترل می‌شود. تا وقتی این متغیر تنظیم نشده،
-// آدرس تصویر دست‌نخورده برمی‌گردد (دقیقاً همان رفتار فعلی سایت) — هیچ تصویری
-// با این تغییر خراب نمی‌شود؛ وقتی مشخص شد کدام روش در حساب/زون فعال است،
-// کافی است همین متغیر محیطی تنظیم شود، بدون نیاز به تغییر کد یا دیپلوی دوباره.
+// با تست مرورگری تأیید شد که روش supabase در حساب فعلی کار می‌کند (PNG
+// ۱۵۰۶KB → WebP حدود ۴۵KB با width=1200)، پس پیش‌فرض همین است. متغیر محیطی
+// NEXT_PUBLIC_IMAGE_TRANSFORM می‌تواند این را عوض کند: "cloudflare" برای روش
+// دوم، یا "off"/"none" برای خاموش کردن کامل (رفتار قدیمی، URL دست‌نخورده).
 export type ImageTransformMethod = "supabase" | "cloudflare";
+
+const DEFAULT_METHOD: ImageTransformMethod = "supabase";
 
 const SUPABASE_OBJECT_PATH = "/storage/v1/object/public/";
 const SUPABASE_RENDER_PATH = "/storage/v1/render/image/public/";
 
 function getConfiguredMethod(): ImageTransformMethod | null {
   const raw = process.env.NEXT_PUBLIC_IMAGE_TRANSFORM?.trim().toLowerCase();
+  if (!raw) return DEFAULT_METHOD;
+  if (raw === "off" || raw === "none") return null;
   if (raw === "supabase" || raw === "cloudflare") return raw;
-  return null;
+  return DEFAULT_METHOD;
 }
 
 // فقط فایل‌های باکت عمومی Supabase Storage را تشخیص می‌دهد (نه هر عکس
