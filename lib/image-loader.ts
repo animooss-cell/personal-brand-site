@@ -56,6 +56,10 @@ export function transformImageUrl(src: string, width: number, quality = 75): str
     const params = new URLSearchParams(query);
     params.set("width", String(width));
     params.set("quality", String(quality));
+    // بدون resize=contain، Supabase ارتفاع اصلی تصویر را نگه می‌دارد و با
+    // width جدید crop می‌کند (تست شده: 1536x1024 با width=1080 → 1080x1024ی
+    // بریده). با contain، نسبت ابعاد اصلی حفظ می‌شود (→ 1080x720).
+    params.set("resize", "contain");
     return `${renderUrl}?${params.toString()}${hash ? `#${hash}` : ""}`;
   }
 
