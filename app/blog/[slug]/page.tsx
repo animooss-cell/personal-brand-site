@@ -16,6 +16,7 @@ import {
   buildBreadcrumbJsonLd,
   serializeJsonLd,
   wrapFaqAccordion,
+  optimizeContentImages,
 } from "@/lib/post-content";
 
 export const revalidate = 300;
@@ -122,7 +123,7 @@ export default async function PostPage({ params }: { params: { slug: string } })
   // لینک‌ها، و در آخر wrapFaqAccordion فقط برای نمایش.
   const faqItems = extractFaq(post.content);
   const faqJsonLd = buildFaqJsonLd(faqItems);
-  const normalizedContent = wrapFaqAccordion(normalizeContentLinks(post.content));
+  const normalizedContent = wrapFaqAccordion(optimizeContentImages(normalizeContentLinks(post.content)));
 
   const postCategory = post.category
     ? BLOG_ARTICLE_CATEGORIES.find((c) => c.value === post.category)
@@ -264,7 +265,7 @@ export default async function PostPage({ params }: { params: { slug: string } })
                     src={related.featured_image}
                     alt={related.title}
                     fill
-                    sizes="(max-width: 768px) 100vw, 33vw"
+                    sizes="(max-width: 768px) 100vw, 400px"
                     className="object-cover"
                   />
                 </div>

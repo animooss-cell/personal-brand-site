@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
+import { compressImage } from "@/lib/compress-image";
 import { AboutContent, AboutTimelineItem } from "@/lib/types";
 import TagListEditor from "@/components/admin/TagListEditor";
 import TimelineEditor, { TimelineDraftItem } from "@/components/admin/TimelineEditor";
@@ -47,12 +48,13 @@ export default function AboutForm({
   const [saved, setSaved] = useState(false);
 
   async function handleAvatarUpload(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    if (!file) return;
+    const rawFile = e.target.files?.[0];
+    if (!rawFile) return;
 
     setUploadingAvatar(true);
     setAvatarError(null);
 
+    const file = await compressImage(rawFile);
     const ext = file.name.split(".").pop();
     const path = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
 
