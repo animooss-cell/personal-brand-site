@@ -9,6 +9,7 @@ import TiptapUnderline from "@tiptap/extension-underline";
 import TextAlign from "@tiptap/extension-text-align";
 import { Table, TableRow, TableHeader, TableCell } from "@tiptap/extension-table";
 import { createClient } from "@/lib/supabase/client";
+import { compressImage } from "@/lib/compress-image";
 import { VideoEmbed, AudioEmbed } from "@/components/admin/tiptap-media-extensions";
 import { resolveVideoInput } from "@/lib/embedUrl";
 import { restoreTheadTbody } from "@/lib/tiptapTableHtml";
@@ -86,10 +87,11 @@ function Toolbar({
   const audioInputRef = useRef<HTMLInputElement>(null);
 
   async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    if (!file) return;
+    const rawFile = e.target.files?.[0];
+    if (!rawFile) return;
 
     setUploading(true);
+    const file = await compressImage(rawFile);
     const ext = file.name.split(".").pop();
     const path = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
 

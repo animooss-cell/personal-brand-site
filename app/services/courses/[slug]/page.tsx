@@ -13,6 +13,7 @@ import {
   buildBreadcrumbJsonLd,
   serializeJsonLd,
   wrapFaqAccordion,
+  optimizeContentImages,
 } from "@/lib/post-content";
 
 export const revalidate = 300;
@@ -49,7 +50,7 @@ export default async function CourseDetailPage({ params }: { params: { slug: str
   const faqItems = extractFaq(course.content);
   const faqJsonLd = buildFaqJsonLd(faqItems);
   const normalizedContent = wrapFaqAccordion(
-    fillEmptyImageAlt(normalizeContentLinks(course.content), course.title)
+    fillEmptyImageAlt(optimizeContentImages(normalizeContentLinks(course.content)), course.title)
   );
 
   const courseJsonLd = {

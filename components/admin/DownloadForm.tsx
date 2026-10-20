@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
+import { compressImage } from "@/lib/compress-image";
 import { Download, DownloadResourceType } from "@/lib/types";
 import { RESOURCE_TYPES, formatFileSize } from "@/lib/downloadTypes";
 import TipTapEditor from "@/components/admin/TipTapEditor";
@@ -55,11 +56,12 @@ export default function DownloadForm({ download }: { download?: Download }) {
   const [error, setError] = useState<string | null>(null);
 
   async function handleFeaturedImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    if (!file) return;
+    const rawFile = e.target.files?.[0];
+    if (!rawFile) return;
 
     setUploadingImage(true);
     setError(null);
+    const file = await compressImage(rawFile);
     const ext = file.name.split(".").pop();
     const path = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
 

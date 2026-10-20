@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
+import { compressImage } from "@/lib/compress-image";
 import { Post } from "@/lib/types";
 import { BLOG_CATEGORIES } from "@/lib/categories";
 import TipTapEditor from "@/components/admin/TipTapEditor";
@@ -57,9 +58,10 @@ export default function PostForm({ post }: { post?: Post }) {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  async function uploadFile(file: File): Promise<string | null> {
+  async function uploadFile(rawFile: File): Promise<string | null> {
     setUploading(true);
     setError(null);
+    const file = await compressImage(rawFile);
     const ext = file.name.split(".").pop();
     const path = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
 

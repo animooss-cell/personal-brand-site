@@ -1,6 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
+    // بهینه‌ساز داخلی Next.js (/_next/image) روی Cloudflare تصویر اصلی را بدون
+    // تبدیل برمی‌گرداند؛ به‌جایش از یک لودر سفارشی استفاده می‌شود که برای
+    // تصویرهای Supabase Storage، در صورت تنظیم NEXT_PUBLIC_IMAGE_TRANSFORM
+    // (رجوع کنید به lib/image-loader.ts)، آدرس تبدیل‌شده می‌سازد.
+    loader: "custom",
+    loaderFile: "./lib/image-loader.ts",
     formats: ["image/avif", "image/webp"],
     remotePatterns: [
       { protocol: "https", hostname: "images.unsplash.com" },

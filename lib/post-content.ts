@@ -1,4 +1,5 @@
 import { SITE_URL } from "@/lib/site";
+import { transformImageUrl } from "@/lib/image-loader";
 
 // بدون وابستگی به DOM یا کتابخانه‌ی جدید؛ فقط regex + URL استاندارد، چون باید
 // روی Cloudflare Workers (بدون jsdom/cheerio) اجرا شود.
@@ -234,6 +235,39 @@ export function fillEmptyImageAlt(html: string, fallbackAlt: string): string {
 
     const nextAttrs = removeAttr(attrs, "alt");
     return `<${tagName}${nextAttrs} alt="${safeFallback}">`;
+  });
+}
+
+const CONTENT_IMAGE_WIDTH = 1200;
+
+// تصویرهای داخل محتوای پست/خبر/دوره را برای LCP بهینه می‌کند: آدرس تصویرهای
+// Supabase Storage را با transformImageUrl (همان منطق lib/image-loader.ts) به
+// نسخه‌ی تبدیل‌شده با width=1200 تغییر می‌دهد (برای تصویرهای غیر-Supabase،
+// بدون تغییر)، و به همه‌ی تصویرها (صرف‌نظر از منبع) loading="lazy" و
+// decoding="async" اضافه می‌کند تا رندر اولیه‌ی صفحه معطل آن‌ها نماند. alt و
+// بقیه‌ی ویژگی‌ها دست‌نخورده می‌مانند؛ تگ <img> بدون src نادیده گرفته می‌شود.
+export function optimizeContentImages(html: string): string {
+  if (!html) return html;
+
+  return html.replace(IMG_OPEN_TAG, (fullMatch, tagName: string, attrs: string) => {
+    const srcValue = getAttr(attrs, "src");
+    if (srcValue === null) return fullMatch;
+
+    let nextAttrs = attrs;
+
+    const transformedSrc = transformImageUrl(srcValue, CONTENT_IMAGE_WIDTH);
+    if (transformedSrc !== srcValue) {
+      nextAttrs = `${removeAttr(nextAttrs, "src")} src="${escapeHtmlAttr(transformedSrc)}"`;
+    }
+
+    if (getAttr(nextAttrs, "loading") === null) {
+      nextAttrs += ` loading="lazy"`;
+    }
+    if (getAttr(nextAttrs, "decoding") === null) {
+      nextAttrs += ` decoding="async"`;
+    }
+
+    return `<${tagName}${nextAttrs}>`;
   });
 }
 
