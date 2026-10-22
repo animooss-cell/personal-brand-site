@@ -146,6 +146,13 @@ export default async function AiTrainingAhvazPage() {
         address: { "@type": "PostalAddress", addressLocality: "اهواز", addressCountry: "IR" },
       },
     },
+    // بدون price ساختگی؛ هزینه بر اساس نیاز هر تیم شفاف‌سازی می‌شود (رجوع
+    // کنید به بخش «نحوه‌ی همکاری و قیمت‌گذاری» در همین صفحه).
+    offers: {
+      "@type": "Offer",
+      category: "Paid",
+      availability: "https://schema.org/InStock",
+    },
   };
 
   const serviceJsonLd = {

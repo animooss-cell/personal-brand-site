@@ -64,6 +64,20 @@ export default async function CourseDetailPage({ params }: { params: { slug: str
       name: "عبدالله احمدیان",
       address: { "@type": "PostalAddress", addressLocality: "اهواز", addressCountry: "IR" },
     },
+    hasCourseInstance: {
+      "@type": "CourseInstance",
+      courseMode: "Onsite",
+      location: {
+        "@type": "Place",
+        address: { "@type": "PostalAddress", addressLocality: "اهواز", addressCountry: "IR" },
+      },
+    },
+    // بدون price ساختگی؛ هزینه‌ی هر دوره بعد از شناخت نیاز تیم شفاف می‌شود.
+    offers: {
+      "@type": "Offer",
+      category: "Paid",
+      availability: "https://schema.org/InStock",
+    },
   };
 
   const breadcrumbJsonLd = buildBreadcrumbJsonLd([

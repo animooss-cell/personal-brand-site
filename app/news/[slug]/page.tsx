@@ -11,6 +11,7 @@ import { toWhatsappHref } from "@/lib/social";
 import { NEWS_CATEGORY } from "@/lib/categories";
 import {
   normalizeContentLinks,
+  fillEmptyImageAlt,
   serializeJsonLd,
   wrapFaqAccordion,
   optimizeContentImages,
@@ -93,7 +94,9 @@ export default async function NewsItemPage({ params }: { params: { slug: string 
   if (!post) notFound();
 
   const relatedNews = await getRelatedNews(post);
-  const normalizedContent = wrapFaqAccordion(optimizeContentImages(normalizeContentLinks(post.content)));
+  const normalizedContent = wrapFaqAccordion(
+    fillEmptyImageAlt(optimizeContentImages(normalizeContentLinks(post.content)), post.title)
+  );
 
   const authorSocialItems = [
     { key: "instagram", icon: Instagram, href: author.socialLinks.instagram },

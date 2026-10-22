@@ -3,14 +3,15 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Instagram, Send, MessageCircle, ArrowLeft } from "lucide-react";
-import { createClient } from "@/lib/supabase/server";
-import { getPostBySlug, getAboutContent, getSettings } from "@/lib/data";
+import { createStaticClient } from "@/lib/supabase/static";
+import { getPostBySlug, getAboutContent, getSettings, withRetry } from "@/lib/data";
 import { Post } from "@/lib/types";
-import { SITE_URL } from "@/lib/site";
+import { SITE_URL, resolveBlogCanonical } from "@/lib/site";
 import { toWhatsappHref } from "@/lib/social";
 import { BLOG_ARTICLE_CATEGORIES, NEWS_CATEGORY } from "@/lib/categories";
 import {
   normalizeContentLinks,
+  fillEmptyImageAlt,
   extractFaq,
   buildFaqJsonLd,
   buildBreadcrumbJsonLd,
@@ -28,38 +29,55 @@ type RelatedPost = Pick<
 
 const RELATED_POSTS_LIMIT = 6;
 
+// «مطالب پیشنهادی» بخشی غیرحیاتی از صفحه است — اگر بعد از retry هم خطا بدهد،
+// به‌جای پرت‌کردن exception (که کل صفحه‌ی پست را ۵۰۰ می‌کند)، لیست خالی
+// برمی‌گردانیم تا خودِ پست همچنان درست رندر شود.
 async function getRelatedPosts(post: Post): Promise<RelatedPost[]> {
-  const supabase = createClient();
+  // کوئری فقط خواندنی عمومی؛ کلاینت استاتیک (بدون cookies()) تا این صفحه هم
+  // مثل بقیه‌ی صفحات لیست وبلاگ واقعاً قابل کش/ISR بماند (رجوع کنید به
+  // توضیح مشابه در lib/data.ts).
+  const supabase = createStaticClient();
   const fields = "slug, title, excerpt, category, featured_image, published_at";
 
-  const sameCategory = post.category
-    ? await supabase
-        .from("posts")
-        .select(fields)
-        .eq("status", "published")
-        .eq("category", post.category)
-        .neq("slug", post.slug)
-        .order("published_at", { ascending: false })
-        .limit(RELATED_POSTS_LIMIT)
-    : { data: [] };
+  try {
+    const sameCategory = post.category
+      ? await withRetry(() =>
+          supabase
+            .from("posts")
+            .select(fields)
+            .eq("status", "published")
+            .eq("category", post.category as string)
+            .neq("slug", post.slug)
+            .order("published_at", { ascending: false })
+            .limit(RELATED_POSTS_LIMIT)
+        )
+      : { data: [], error: null };
 
-  const related = (sameCategory.data ?? []) as RelatedPost[];
+    if (sameCategory.error) throw sameCategory.error;
+    const related = (sameCategory.data ?? []) as RelatedPost[];
 
-  if (related.length < RELATED_POSTS_LIMIT) {
-    const excludeSlugs = [post.slug, ...related.map((p) => p.slug)];
-    const { data: fillerPosts } = await supabase
-      .from("posts")
-      .select(fields)
-      .eq("status", "published")
-      .or(`category.is.null,category.neq.${NEWS_CATEGORY.value}`)
-      .not("slug", "in", `(${excludeSlugs.join(",")})`)
-      .order("published_at", { ascending: false })
-      .limit(RELATED_POSTS_LIMIT - related.length);
+    if (related.length < RELATED_POSTS_LIMIT) {
+      const excludeSlugs = [post.slug, ...related.map((p) => p.slug)];
+      const { data: fillerPosts, error: fillerError } = await withRetry(() =>
+        supabase
+          .from("posts")
+          .select(fields)
+          .eq("status", "published")
+          .or(`category.is.null,category.neq.${NEWS_CATEGORY.value}`)
+          .not("slug", "in", `(${excludeSlugs.join(",")})`)
+          .order("published_at", { ascending: false })
+          .limit(RELATED_POSTS_LIMIT - related.length)
+      );
+      if (fillerError) throw fillerError;
 
-    related.push(...((fillerPosts ?? []) as RelatedPost[]));
+      related.push(...((fillerPosts ?? []) as RelatedPost[]));
+    }
+
+    return related;
+  } catch (err) {
+    console.error("getRelatedPosts failed after retry", err);
+    return [];
   }
-
-  return related;
 }
 
 const defaultAuthorSocialLinks: Record<string, string> = {
@@ -94,7 +112,7 @@ export async function generateMetadata({
   return {
     title: post.seo_title || post.title,
     description: post.meta_description || post.excerpt || undefined,
-    alternates: { canonical: post.canonical_url || `/blog/${post.slug}` },
+    alternates: { canonical: resolveBlogCanonical(post.canonical_url, post.slug) },
     robots: post.noindex ? { index: false, follow: false } : undefined,
     openGraph: {
       type: "article",
@@ -123,7 +141,9 @@ export default async function PostPage({ params }: { params: { slug: string } })
   // لینک‌ها، و در آخر wrapFaqAccordion فقط برای نمایش.
   const faqItems = extractFaq(post.content);
   const faqJsonLd = buildFaqJsonLd(faqItems);
-  const normalizedContent = wrapFaqAccordion(optimizeContentImages(normalizeContentLinks(post.content)));
+  const normalizedContent = wrapFaqAccordion(
+    fillEmptyImageAlt(optimizeContentImages(normalizeContentLinks(post.content)), post.title)
+  );
 
   const postCategory = post.category
     ? BLOG_ARTICLE_CATEGORIES.find((c) => c.value === post.category)
