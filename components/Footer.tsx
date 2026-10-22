@@ -15,7 +15,7 @@ import NewsletterForm from "@/components/NewsletterForm";
 
 const defaultSocialLinks: Record<string, string> = {
   instagram: "https://www.instagram.com/startuping_ir",
-  telegram: "https://t.me/Staruping_ir",
+  telegram: "https://t.me/abedahm",
   whatsapp: "09161002550",
 };
 
