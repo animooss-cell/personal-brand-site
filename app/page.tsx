@@ -3,6 +3,7 @@ import Hero from "@/components/Hero";
 import HomeServicesStrip from "@/components/HomeServicesStrip";
 import FeatureStrip from "@/components/FeatureStrip";
 import BlogGrid from "@/components/BlogGrid";
+import LatestNewsBanner from "@/components/LatestNewsBanner";
 import About from "@/components/About";
 import Services from "@/components/Services";
 import CTASection from "@/components/CTASection";
@@ -34,6 +35,7 @@ export default function Home() {
       <Services />
       <FeatureStrip />
       <BlogGrid />
+      <LatestNewsBanner />
       <About />
       <CTASection />
     </>

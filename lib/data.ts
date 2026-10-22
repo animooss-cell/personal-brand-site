@@ -111,6 +111,30 @@ export async function getLatestPosts(limit: number, excludeCategory?: string): P
   return (data ?? []) as PostListItem[];
 }
 
+// برای بنر «آخرین ماهنامه هوش مصنوعی» در صفحه‌ی اصلی — یک ویجت غیرحیاتی،
+// پس اگر بعد از retry هم خطا بدهد throw نمی‌کند؛ لیست خالی برمی‌گرداند تا
+// صفحه‌ی اصلی ۵۰۰ نشود (فراخوان با لیست خالی چیزی رندر نمی‌کند).
+export async function getLatestNews(limit: number): Promise<PostListItem[]> {
+  const supabase = createStaticClient();
+
+  try {
+    const { data, error } = await withRetry(() =>
+      supabase
+        .from("posts")
+        .select(POST_LIST_FIELDS)
+        .eq("status", "published")
+        .eq("category", NEWS_CATEGORY.value)
+        .order("published_at", { ascending: false })
+        .limit(limit)
+    );
+    if (error) throw error;
+    return (data ?? []) as PostListItem[];
+  } catch (err) {
+    console.error("getLatestNews failed after retry", err);
+    return [];
+  }
+}
+
 export type BlogCategoryWithCount = { label: string; slug: string; value: string };
 
 // لیست دسته‌بندی‌های وبلاگ (بدون اخبار) که واقعاً حداقل یک پست منتشرشده دارند —
