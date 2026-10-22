@@ -26,10 +26,10 @@ export default async function BlogGrid() {
         <p className="text-center text-slate-400">هنوز پستی منتشر نشده است.</p>
       )}
 
-      <div className="mt-10 flex justify-center">
+      <div className="mt-8 flex justify-center">
         <Link
           href="/blog"
-          className="inline-flex cursor-pointer items-center gap-2 text-sm font-semibold text-brand-600 transition-colors duration-200 hover:text-brand-700"
+          className="inline-flex cursor-pointer items-center gap-2 rounded-xl border-2 border-brand px-6 py-2.5 text-sm font-bold text-brand transition-colors duration-200 hover:bg-brand hover:text-white"
         >
           همه مقالات
           <ArrowLeft className="h-4 w-4" aria-hidden="true" />
