@@ -41,13 +41,15 @@ export async function generateMetadata({
   const page = parsePageParam(params.page);
   if (!category || !page || page === 1) return {};
 
-  const title = `مقالات ${category.label} | صفحه ${page}`;
+  const title = `مقالات ${category.label} – صفحه ${page}`;
+  const description = `مجموعه مقالات وبلاگ در دسته‌بندی ${category.label} – صفحه ${page}.`;
   const canonical = `/blog/category/${category.slug}/page/${page}`;
 
   return {
     title,
+    description,
     alternates: { canonical },
-    openGraph: { title, url: canonical },
+    openGraph: { title, description, url: canonical },
   };
 }
 

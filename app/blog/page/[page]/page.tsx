@@ -32,15 +32,16 @@ export async function generateMetadata({
   const page = parsePageParam(params.page);
   if (!page || page === 1) return {};
 
-  const title = `وبلاگ | صفحه ${page}`;
+  const title = `وبلاگ | آموزش هوش مصنوعی خوزستان و مشاوره کسب و کار اهواز – صفحه ${page}`;
+  const description = `${blogDescription} – صفحه ${page}`;
 
   return {
     title,
-    description: blogDescription,
+    description,
     alternates: { canonical: `/blog/page/${page}` },
     openGraph: {
       title,
-      description: blogDescription,
+      description,
       url: `/blog/page/${page}`,
     },
   };

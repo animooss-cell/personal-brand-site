@@ -6,6 +6,29 @@ import { BLOG_ARTICLE_CATEGORIES, NEWS_CATEGORY } from "@/lib/categories";
 
 export const BLOG_PAGE_SIZE = 12;
 
+// Supabase/شبکه گاه‌به‌گاه یک درخواست را با خطا (قطعی لحظه‌ای، تایم‌اوت و…)
+// رد می‌کند؛ همین یک بار شکست کافی است تا رندر صفحه با یک exception
+// نگرفته شود و کاربر/کراولر یک 500 ببیند. یک retry کوتاه اکثر این موارد
+// گاه‌به‌گاه را برطرف می‌کند؛ خطای واقعی و پایدار (مثلاً قطعی دیتابیس) بعد از
+// retry هم باقی می‌ماند و بالا پرتاب می‌شود — این حالت باید همچنان ۵۰۰ بدهد،
+// نه notFound()، چون معنی‌اش «داده نیست» نیست، «الان نمی‌شود خواند» است.
+// PromiseLike (نه Promise) چون کوئری‌بیلدر Supabase قبل از await کردن یک
+// thenable است، نه یک Promise واقعی.
+export async function withRetry<T>(fn: () => PromiseLike<T>, attempts = 2, delayMs = 300): Promise<T> {
+  let lastError: unknown;
+  for (let attempt = 1; attempt <= attempts; attempt++) {
+    try {
+      return await fn();
+    } catch (err) {
+      lastError = err;
+      if (attempt < attempts) {
+        await new Promise((resolve) => setTimeout(resolve, delayMs));
+      }
+    }
+  }
+  throw lastError;
+}
+
 export type PostListItem = Pick<
   Post,
   "id" | "slug" | "title" | "excerpt" | "category" | "featured_image" | "published_at"
@@ -43,7 +66,13 @@ export async function getPaginatedPosts({
     query = query.neq("category", excludeCategory);
   }
 
-  const { data, count } = await query.order("published_at", { ascending: false }).range(from, to);
+  // اگر بعد از retry هم خطا بماند، عمداً throw می‌کنیم (قورت نمی‌دهیم) تا
+  // صفحه به‌جای ساختن یک totalPages ساختگی (و در نتیجه notFound() اشتباه)،
+  // واقعاً خطا بدهد — این خطا باید نادر باشد، نه «گاه‌به‌گاه».
+  const { data, count, error } = await withRetry(() =>
+    query.order("published_at", { ascending: false }).range(from, to)
+  );
+  if (error) throw error;
 
   const total = count ?? 0;
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
@@ -148,13 +177,23 @@ export const getCourseBySlug = cache(async (slug: string): Promise<Course | null
 });
 
 export const getPostBySlug = cache(async (slug: string): Promise<Post | null> => {
-  const supabase = createClient();
-  const { data } = await supabase
-    .from("posts")
-    .select("*")
-    .eq("slug", slug)
-    .eq("status", "published")
-    .single();
+  // کوئری فقط خواندنی عمومی؛ با کلاینت استاتیک (بدون cookies()) تا صفحه‌ی
+  // /blog/[slug] مجبور به رندر کاملاً دینامیک نشود و export const revalidate
+  // واقعاً کار کند (یعنی هر درخواست مستقیم به Supabase نرود، فقط هر بار که
+  // کش ۳۰۰ ثانیه‌ای منقضی می‌شود).
+  const supabase = createStaticClient();
+  const { data, error } = await withRetry(() =>
+    supabase.from("posts").select("*").eq("slug", slug).eq("status", "published").single()
+  );
+
+  if (error) {
+    // PGRST116 یعنی .single() دقیقاً صفر ردیف پیدا کرده — پست واقعاً وجود
+    // ندارد، پس notFound() درست است. هر خطای دیگر (شبکه، دیتابیس) یعنی
+    // «الان نمی‌دانیم»، نه «نیست»؛ باید throw شود تا صفحه notFound() ندهد.
+    if (error.code === "PGRST116") return null;
+    throw error;
+  }
+
   return data as Post | null;
 });
 

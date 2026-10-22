@@ -35,6 +35,9 @@ export default async function BlogPage() {
 
   return (
     <div dir="rtl">
+      {/* اسلایدر بالا تیتر اصلی را به‌صورت بصری نشان می‌دهد؛ این H1 فقط برای
+          ساختار صحیح سئو/دسترس‌پذیری است (دقیقاً یک H1 در صفحه). */}
+      <h1 className="sr-only">{blogTitle}</h1>
       <BlogHeroSlider posts={slides} />
 
       <section className="mx-auto max-w-6xl px-6 py-16">
