@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import Hero from "@/components/Hero";
-import HomeServicesStrip from "@/components/HomeServicesStrip";
+import TrustStrip from "@/components/TrustStrip";
 import FeatureStrip from "@/components/FeatureStrip";
 import BlogGrid from "@/components/BlogGrid";
 import LatestNewsBanner from "@/components/LatestNewsBanner";
 import About from "@/components/About";
 import Services from "@/components/Services";
+import HomeCourses from "@/components/HomeCourses";
 import CTASection from "@/components/CTASection";
 
 export const revalidate = 300;
@@ -31,8 +32,9 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <HomeServicesStrip />
+      <TrustStrip />
       <Services />
+      <HomeCourses />
       <FeatureStrip />
       <BlogGrid />
       <LatestNewsBanner />

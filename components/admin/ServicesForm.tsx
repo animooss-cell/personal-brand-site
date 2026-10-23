@@ -30,6 +30,7 @@ export default function ServicesForm({ services }: { services: ServiceCard[] }) 
             audience: item.audience,
             steps: item.steps,
             featured: item.featured,
+            link: item.link || null,
           })
           .eq("id", item.id)
       )
@@ -109,7 +110,18 @@ export default function ServicesForm({ services }: { services: ServiceCard[] }) 
             value={item.steps.join("\n")}
             onChange={(e) => update(item.id, { steps: e.target.value.split("\n") })}
             rows={4}
-            className="w-full resize-y rounded-xl border border-gray-300 px-3 py-2.5 text-sm outline-none focus:border-brand focus:ring-1 focus:ring-brand"
+            className="mb-4 w-full resize-y rounded-xl border border-gray-300 px-3 py-2.5 text-sm outline-none focus:border-brand focus:ring-1 focus:ring-brand"
+          />
+
+          <label className="mb-1 block text-sm font-medium text-slate-600">
+            لینک صفحه خدمت (اختیاری — اگر پر شود، دکمه کارت «جزئیات خدمت» می‌شود)
+          </label>
+          <input
+            value={item.link ?? ""}
+            onChange={(e) => update(item.id, { link: e.target.value })}
+            placeholder="/services/ai-business-consulting"
+            dir="ltr"
+            className="w-full rounded-xl border border-gray-300 px-3 py-2.5 text-sm outline-none focus:border-brand focus:ring-1 focus:ring-brand"
           />
         </div>
       ))}

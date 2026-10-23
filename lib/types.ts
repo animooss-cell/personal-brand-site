@@ -30,6 +30,7 @@ export type ServiceCard = {
   audience: string[];
   steps: string[];
   featured: boolean;
+  link: string | null;
 };
 
 export type CourseStatus = "draft" | "published";
