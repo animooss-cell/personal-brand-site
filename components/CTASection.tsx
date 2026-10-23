@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, MessageCircle } from "lucide-react";
+import { CONTACT_WHATSAPP_URL } from "@/lib/contactInfo";
 
 export default function CTASection() {
   return (
@@ -9,13 +10,24 @@ export default function CTASection() {
         <p className="mx-auto mt-4 max-w-xl text-base leading-7 text-white/90">
           در یک جلسه رایگان، مسیر دقیق پیاده‌سازی هوش مصنوعی در کسب‌وکار شما را بررسی می‌کنیم.
         </p>
-        <Link
-          href="/contact"
-          className="mt-8 inline-flex cursor-pointer items-center gap-2 rounded-full bg-brand px-7 py-3.5 text-base font-semibold text-white shadow-sm transition-colors duration-200 hover:bg-brand-600"
-        >
-          رزرو جلسه رایگان
-          <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-        </Link>
+        <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <Link
+            href="/contact"
+            className="inline-flex cursor-pointer items-center gap-2 rounded-full bg-brand px-7 py-3.5 text-base font-semibold text-white shadow-sm transition-colors duration-200 hover:bg-brand-600"
+          >
+            رزرو جلسه رایگان
+            <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+          </Link>
+          <a
+            href={CONTACT_WHATSAPP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex cursor-pointer items-center gap-2 rounded-full border-2 border-white px-7 py-3.5 text-base font-semibold text-white transition-colors duration-200 hover:bg-white hover:text-brand-dark"
+          >
+            <MessageCircle className="h-4 w-4" aria-hidden="true" />
+            پیام در واتساپ
+          </a>
+        </div>
       </div>
     </section>
   );

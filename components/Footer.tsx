@@ -52,7 +52,8 @@ export default async function Footer() {
     <footer className="mt-24 bg-gradient-to-br from-slate-900 via-brand-900 to-slate-900 text-white" dir="rtl">
       <div className="mx-auto grid max-w-6xl gap-10 px-6 py-16 sm:grid-cols-2 lg:grid-cols-4">
         <div>
-          <Image src="/logo.png" alt="لوگو" width={1774} height={887} className="mb-4 h-10 w-auto" />
+          {/* پس‌زمینه‌ی فوتر همیشه تیره است (gradient ثابت، بدون dark:)، پس فقط نسخه‌ی dark لوگو لازم است. */}
+          <Image src="/logo-full-dark.png" alt="عبدالله احمدیان" width={709} height={200} className="mb-4 h-12 w-auto" />
           <p className="mb-5 max-w-xs text-sm leading-7 text-slate-300">{description}</p>
           {socialItems.length > 0 && (
             <div className="flex items-center gap-3">
@@ -125,7 +126,7 @@ export default async function Footer() {
                 className="inline-flex items-center gap-2 transition-colors duration-200 hover:text-brand-300"
               >
                 <Phone className="h-4 w-4 shrink-0" aria-hidden="true" />
-                <span dir="rtl">{CONTACT_PHONE_DISPLAY_FA}</span>
+                <span dir="ltr">{CONTACT_PHONE_DISPLAY_FA}</span>
               </a>
             </li>
             <li>

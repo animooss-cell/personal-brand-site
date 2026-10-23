@@ -139,7 +139,22 @@ export default function NavbarClient({ blogCategories }: { blogCategories: BlogC
     <header className="sticky top-4 z-50 mx-4 md:mx-8">
       <nav className="mx-auto flex max-w-6xl items-center justify-between rounded-2xl border border-gray-200 bg-white px-5 py-3 shadow-sm dark:border-slate-700 dark:bg-slate-900">
         <Link href="/" className="flex items-center">
-          <Image src="/logo.png" alt="عبدالله احمدیان" width={1774} height={887} priority className="h-10 w-auto" />
+          <Image
+            src="/logo-mark-light.png"
+            alt="عبدالله احمدیان"
+            width={718}
+            height={160}
+            priority
+            className="h-8 w-auto dark:hidden md:h-9"
+          />
+          <Image
+            src="/logo-mark-dark.png"
+            alt="عبدالله احمدیان"
+            width={718}
+            height={160}
+            priority
+            className="hidden h-8 w-auto dark:block md:h-9"
+          />
         </Link>
 
         <ul className="hidden items-center gap-8 md:flex">
@@ -167,13 +182,21 @@ export default function NavbarClient({ blogCategories }: { blogCategories: BlogC
               خدمات
             </Link>
           </li>
+          <li>
+            <Link
+              href="/services/ai-training-ahvaz"
+              className="text-sm font-medium text-slate-700 transition-colors duration-200 hover:text-brand-600 dark:text-slate-300 dark:hover:text-brand-400"
+            >
+              دوره‌ها
+            </Link>
+          </li>
           <BlogDesktopMenu categories={blogCategories} />
           <li>
             <Link
               href="/downloads"
               className="text-sm font-medium text-slate-700 transition-colors duration-200 hover:text-brand-600 dark:text-slate-300 dark:hover:text-brand-400"
             >
-              منابع
+              دانلود رایگان
             </Link>
           </li>
           <li>
@@ -247,6 +270,15 @@ export default function NavbarClient({ blogCategories }: { blogCategories: BlogC
                 خدمات
               </Link>
             </li>
+            <li>
+              <Link
+                href="/services/ai-training-ahvaz"
+                onClick={() => setOpen(false)}
+                className="block rounded-lg px-3 py-2 text-base font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-700 dark:text-slate-300 dark:hover:bg-brand-900/30 dark:hover:text-brand-300"
+              >
+                دوره‌ها
+              </Link>
+            </li>
             <BlogMobileAccordion categories={blogCategories} onNavigate={() => setOpen(false)} />
             <li>
               <Link
@@ -254,7 +286,7 @@ export default function NavbarClient({ blogCategories }: { blogCategories: BlogC
                 onClick={() => setOpen(false)}
                 className="block rounded-lg px-3 py-2 text-base font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-700 dark:text-slate-300 dark:hover:bg-brand-900/30 dark:hover:text-brand-300"
               >
-                منابع
+                دانلود رایگان
               </Link>
             </li>
             <li>

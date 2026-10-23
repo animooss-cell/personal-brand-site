@@ -1,4 +1,4 @@
-import { LayoutGrid, ShieldCheck, MessageCircle, type LucideIcon } from "lucide-react";
+import { Briefcase, GraduationCap, ShieldCheck, type LucideIcon } from "lucide-react";
 
 type Feature = {
   icon: LucideIcon;
@@ -9,20 +9,20 @@ type Feature = {
 
 const features: Feature[] = [
   {
-    icon: LayoutGrid,
-    title: "بررسی ساختاریافته",
-    description: "فرآیندهای شفاف و گام‌به‌گام برای تحلیل دقیق وضعیت کسب‌وکار شما.",
+    icon: Briefcase,
+    title: "بیش از ۱۰ سال در دل کسب‌وکارها",
+    description: "راه‌اندازی کسب‌وکار، مربیگری استارتاپ ویکند و برگزاری رویدادهای کارآفرینی در خوزستان.",
   },
   {
-    icon: ShieldCheck,
-    title: "محرمانه و امن",
-    description: "اطلاعات و داده‌های شما با بالاترین سطح محرمانگی بررسی می‌شود.",
+    icon: GraduationCap,
+    title: "آموزش در سازمان‌های صنعتی",
+    description: "دوره‌های هوش مصنوعی برای روابط عمومی و کارکنان فولاد خوزستان، روی کارهای واقعی خودشان.",
     featured: true,
   },
   {
-    icon: MessageCircle,
-    title: "ارتباط شفاف",
-    description: "یافته‌ها را بدون اصطلاحات پیچیده و واضح برایتان توضیح می‌دهیم.",
+    icon: ShieldCheck,
+    title: "ابزار متناسب با شرایط ایران",
+    description: "پیشنهادها با در نظر گرفتن تحریم، پرداخت و امنیت اطلاعات است، نه فقط ابزار مد روز.",
   },
 ];
 
@@ -30,12 +30,8 @@ export default function FeatureStrip() {
   return (
     <section className="mx-auto max-w-6xl px-6 py-16">
       <div className="mx-auto mb-10 max-w-2xl text-center">
-        <span className="mb-3 inline-block text-sm font-medium text-brand-600">
-          رویکرد محرمانه و هدفمند
-        </span>
-        <h2 className="text-3xl font-bold text-slate-900 dark:text-white md:text-4xl">
-          مشاوران <span className="text-brand-600">باتجربه</span> کسب‌وکار
-        </h2>
+        <span className="mb-3 inline-block text-sm font-medium text-brand-600">چرا من؟</span>
+        <h2 className="text-3xl font-bold text-slate-900 dark:text-white md:text-4xl">چرا با من کار کنید؟</h2>
       </div>
 
       <div className="grid gap-6 md:grid-cols-3">

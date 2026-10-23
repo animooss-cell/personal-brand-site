@@ -15,8 +15,7 @@ export default async function Services() {
       <div className="mx-auto mb-14 max-w-2xl text-center">
         <h2 className="text-3xl font-bold text-slate-900 dark:text-white md:text-4xl">خدمات</h2>
         <p className="mt-4 text-base leading-7 text-slate-600 dark:text-slate-300">
-          هر کسب و کاری در یه مرحله‌ای گیر می‌کنه. من کمک می‌کنم بفهمی کجایی، چرا گیر کردی، و
-          دقیقاً چی باید انجام بدی.
+          سه مسیر اصلی همکاری؛ هر کدام با گام‌های روشن.
         </p>
       </div>
 
@@ -79,18 +78,23 @@ export default async function Services() {
               </div>
 
               <a
-                href="/contact"
+                href={service.link || "/contact"}
                 className={`mt-auto inline-flex cursor-pointer items-center justify-center rounded-full px-5 py-3 text-sm font-semibold transition-colors duration-200 ${
                   service.featured
                     ? "bg-brand text-white hover:bg-brand-600"
                     : "bg-slate-900 text-white hover:bg-slate-700"
                 }`}
               >
-                جلسه رایگان رزرو کن
+                {service.link ? "جزئیات خدمت" : "رزرو جلسه رایگان"}
               </a>
-              <p className="mt-3 text-center text-xs text-slate-400">
-                بدون تعهد — فقط یه مکالمه صادقانه
-              </p>
+              {service.link && (
+                <a
+                  href="/contact"
+                  className="mt-3 block text-center text-xs font-medium text-brand-600 transition-colors duration-200 hover:text-brand-700 dark:text-brand-300"
+                >
+                  رزرو جلسه رایگان
+                </a>
+              )}
             </div>
           );
         })}

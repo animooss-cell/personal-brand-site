@@ -1,7 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, BadgeCheck, Star } from "lucide-react";
+import { ArrowLeft, BadgeCheck, Briefcase, Rocket, GraduationCap } from "lucide-react";
 import { getSettings } from "@/lib/data";
+
+const trustItems = [
+  { icon: Briefcase, label: "+۱۰ سال تجربه" },
+  { icon: Rocket, label: "مربی استارتاپ ویکند" },
+  { icon: GraduationCap, label: "آموزش در فولاد خوزستان" },
+];
 
 export default async function Hero() {
   const s = await getSettings();
@@ -34,8 +40,8 @@ export default async function Hero() {
             </h1>
 
             <p className="mt-4 max-w-xl text-base font-medium leading-7 text-brand-100 md:text-lg">
-              هر کسب‌وکاری یه جایی گیر می‌کنه. من کمک می‌کنم بفهمی کجایی، چرا گیر کردی، و دقیقاً چی
-              باید انجام بدی.
+              هر کسب‌وکاری جایی گیر می‌کند. کمک می‌کنم بفهمید کجای کار هستید، چرا گیر کرده‌اید و
+              دقیقاً چه باید بکنید.
             </p>
 
             <p className="mt-3 max-w-xl text-base leading-7 text-slate-300">{description}</p>
@@ -56,23 +62,16 @@ export default async function Hero() {
               </Link>
             </div>
 
-            <div className="mt-9 flex items-center gap-4">
-              <div className="flex -space-x-3 space-x-reverse">
-                {[1, 2, 3].map((i) => (
-                  <div
-                    key={i}
-                    className="h-9 w-9 rounded-full border-2 border-slate-900 bg-brand-200"
-                  />
+            <div className="mt-9">
+              <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+                {trustItems.map(({ icon: Icon, label }) => (
+                  <div key={label} className="flex items-center gap-2 text-sm text-slate-300">
+                    <Icon className="h-4 w-4 text-brand-300" aria-hidden="true" />
+                    {label}
+                  </div>
                 ))}
               </div>
-              <div>
-                <div className="flex gap-0.5 text-brand-300">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star key={i} className="h-4 w-4 fill-current" aria-hidden="true" />
-                  ))}
-                </div>
-                <p className="mt-1 text-xs text-slate-400">{trustText}</p>
-              </div>
+              <p className="mt-3 text-xs text-slate-400">{trustText}</p>
             </div>
           </div>
 
@@ -83,6 +82,7 @@ export default async function Hero() {
                 alt={badge}
                 width={800}
                 height={900}
+                sizes="(min-width: 768px) 50vw, 100vw"
                 className="h-[280px] w-full object-cover md:h-[420px]"
                 priority
               />
