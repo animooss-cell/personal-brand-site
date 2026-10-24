@@ -311,10 +311,10 @@ export default async function PostPage({ params }: { params: { slug: string } })
     <section className="px-4 pb-16 md:px-8">
       <div className="mx-auto max-w-6xl rounded-[2rem] bg-brand-dark px-6 py-16 text-center md:py-20">
         <h2 className="text-2xl font-bold text-white md:text-3xl">
-          آماده‌ای کسب‌وکارت را متحول کنی؟
+          آماده‌اید کسب‌وکارتان را متحول کنید؟
         </h2>
         <p className="mt-4 text-base text-white/90 md:text-lg">
-          یه جلسه رایگان با من داشته باش — بدون تعهد
+          یک جلسه هماهنگی رایگان با من داشته باشید، بدون تعهد.
         </p>
         <Link
           href="/contact"

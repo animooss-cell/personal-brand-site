@@ -304,7 +304,7 @@ export default async function ServicesPage() {
       {/* CTA */}
       <section className="px-4 pb-16 md:px-8">
         <div className="mx-auto max-w-6xl rounded-[2rem] bg-brand-dark px-6 py-16 text-center md:py-20">
-          <h2 className="text-2xl font-bold text-white md:text-3xl">دوره سازمانی سفارشی می‌خوای؟</h2>
+          <h2 className="text-2xl font-bold text-white md:text-3xl">دوره سازمانی سفارشی می‌خواهید؟</h2>
           <p className="mt-4 text-base text-white/90 md:text-lg">
             برای تیم‌ها و سازمان‌ها دوره اختصاصی طراحی می‌کنم
           </p>

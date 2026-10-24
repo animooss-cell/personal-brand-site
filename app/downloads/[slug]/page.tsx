@@ -135,7 +135,7 @@ export default async function DownloadDetailPage({ params }: { params: { slug: s
             دنبال راهنمایی برای استفاده از این منبع هستید؟
           </h2>
           <p className="mt-4 text-base text-white/90 md:text-lg">
-            یه جلسه رایگان با من داشته باش — بدون تعهد
+            یک جلسه هماهنگی رایگان با من داشته باشید، بدون تعهد.
           </p>
           <Link
             href="/contact"
