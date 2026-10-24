@@ -18,6 +18,23 @@ import {
 
 export const revalidate = 300;
 
+const DIGIT_MAP: Record<string, string> = {
+  "۰": "0", "۱": "1", "۲": "2", "۳": "3", "۴": "4", "۵": "5", "۶": "6", "۷": "7", "۸": "8", "۹": "9",
+  "٠": "0", "١": "1", "٢": "2", "٣": "3", "٤": "4", "٥": "5", "٦": "6", "٧": "7", "٨": "8", "٩": "9",
+};
+
+// عدد ساعت را از متن آزاد duration (مثلاً «۱۶ ساعت») درمی‌آورد و به قالب ISO 8601
+// (مثلاً PT16H) برمی‌گرداند. فقط عددی که مستقیماً قبل از «ساعت» بیاید حساب می‌شود
+// (تا «۲ روز» یا «۴ ساعته» اشتباهاً ساعت کل حساب نشود)؛ اگر پیدا نشد، undefined.
+function durationToIsoWorkload(duration: string | null): string | undefined {
+  if (!duration) return undefined;
+  const normalized = duration.replace(/[۰-۹٠-٩]/g, (d) => DIGIT_MAP[d]).replace(/٫/g, ".");
+  const match = normalized.match(/(\d+(?:\.\d+)?)\s*ساعت(?![\u0600-\u06FF])/);
+  if (!match) return undefined;
+  const hours = Number(match[1]);
+  return hours > 0 ? `PT${match[1]}H` : undefined;
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -59,6 +76,7 @@ export default async function CourseDetailPage({ params }: { params: { slug: str
     name: course.title,
     description: course.description?.trim() || undefined,
     url: `${SITE_URL}/services/courses/${course.slug}`,
+    inLanguage: "fa",
     provider: {
       "@type": "Person",
       name: "عبدالله احمدیان",
@@ -67,6 +85,7 @@ export default async function CourseDetailPage({ params }: { params: { slug: str
     hasCourseInstance: {
       "@type": "CourseInstance",
       courseMode: "Onsite",
+      courseWorkload: durationToIsoWorkload(course.duration),
       location: {
         "@type": "Place",
         address: { "@type": "PostalAddress", addressLocality: "اهواز", addressCountry: "IR" },
@@ -157,10 +176,10 @@ export default async function CourseDetailPage({ params }: { params: { slug: str
       <section className="px-4 pb-16 md:px-8">
         <div className="mx-auto max-w-6xl rounded-[2rem] bg-brand-dark px-6 py-16 text-center md:py-20">
           <h2 className="text-2xl font-bold text-white md:text-3xl">
-            علاقه‌مند به برگزاری این دوره برای تیم خودتید؟
+            علاقه‌مندید این دوره را برای تیم خودتان برگزار کنید؟
           </h2>
           <p className="mt-4 text-base text-white/90 md:text-lg">
-            یه جلسه رایگان با من داشته باش — بدون تعهد
+            یک جلسه هماهنگی رایگان با من داشته باشید، بدون تعهد.
           </p>
           <Link
             href="/contact"
