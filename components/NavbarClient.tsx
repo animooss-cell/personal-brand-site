@@ -7,9 +7,23 @@ import { Menu, X, ChevronDown } from "lucide-react";
 import ThemeToggle from "@/components/ThemeToggle";
 import type { BlogCategoryWithCount } from "@/lib/data";
 
+// تأخیر بستن منو بعد از خروج ماوس، تا عبور کوتاه از لبه‌ی منو آن را نبندد.
+const BLOG_MENU_CLOSE_DELAY_MS = 180;
+
 function BlogDesktopMenu({ categories }: { categories: BlogCategoryWithCount[] }) {
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLLIElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  function cancelClose() {
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+  }
+
+  useEffect(() => cancelClose, []);
 
   useEffect(() => {
     if (!open) return;
@@ -20,7 +34,9 @@ function BlogDesktopMenu({ categories }: { categories: BlogCategoryWithCount[] }
       }
     }
     function handleKeyDown(e: KeyboardEvent) {
-      if (e.key === "Escape") setOpen(false);
+      if (e.key !== "Escape") return;
+      setOpen(false);
+      if (containerRef.current?.contains(document.activeElement)) triggerRef.current?.focus();
     }
 
     document.addEventListener("mousedown", handleClickOutside);
@@ -31,14 +47,27 @@ function BlogDesktopMenu({ categories }: { categories: BlogCategoryWithCount[] }
     };
   }, [open]);
 
+  // هاور روی کل li (دکمه + پنل) سنجیده می‌شود و فقط برای ماوس؛ لمس با onClick باز و بسته می‌شود.
   return (
     <li
       ref={containerRef}
       className="relative"
-      onMouseEnter={() => setOpen(true)}
-      onMouseLeave={() => setOpen(false)}
+      onPointerEnter={(e) => {
+        if (e.pointerType !== "mouse") return;
+        cancelClose();
+        setOpen(true);
+      }}
+      onPointerLeave={(e) => {
+        if (e.pointerType !== "mouse") return;
+        cancelClose();
+        closeTimer.current = setTimeout(() => setOpen(false), BLOG_MENU_CLOSE_DELAY_MS);
+      }}
+      onBlur={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setOpen(false);
+      }}
     >
       <button
+        ref={triggerRef}
         type="button"
         aria-haspopup="true"
         aria-expanded={open}
@@ -50,34 +79,37 @@ function BlogDesktopMenu({ categories }: { categories: BlogCategoryWithCount[] }
       </button>
 
       {open && (
-        <div
-          role="menu"
-          className="absolute right-0 top-full z-10 mt-3 w-56 rounded-2xl border border-gray-200 bg-white p-2 shadow-lg dark:border-slate-700 dark:bg-slate-900"
-        >
-          <Link
-            href="/blog"
-            role="menuitem"
-            onClick={() => setOpen(false)}
-            className="block rounded-lg px-3 py-2 text-sm font-semibold text-slate-800 hover:bg-brand-50 hover:text-brand-700 dark:text-slate-200 dark:hover:bg-brand-900/30 dark:hover:text-brand-300"
+        // pt-3 همان فاصله‌ی قبلی (mt-3) است، ولی جزو li حساب می‌شود و پلی نامرئی بین «وبلاگ» و پنل می‌سازد.
+        <div className="absolute right-0 top-full z-10 pt-3">
+          <div
+            role="menu"
+            className="w-56 rounded-2xl border border-gray-200 bg-white p-2 shadow-lg dark:border-slate-700 dark:bg-slate-900"
           >
-            همه‌ی مقالات
-          </Link>
-          {categories.length > 0 && (
-            <>
-              <span className="my-1 block h-px bg-gray-100 dark:bg-slate-800" />
-              {categories.map((category) => (
-                <Link
-                  key={category.slug}
-                  href={`/blog/category/${category.slug}`}
-                  role="menuitem"
-                  onClick={() => setOpen(false)}
-                  className="block rounded-lg px-3 py-2 text-sm text-slate-600 hover:bg-brand-50 hover:text-brand-700 dark:text-slate-300 dark:hover:bg-brand-900/30 dark:hover:text-brand-300"
-                >
-                  {category.label}
-                </Link>
-              ))}
-            </>
-          )}
+            <Link
+              href="/blog"
+              role="menuitem"
+              onClick={() => setOpen(false)}
+              className="block rounded-lg px-3 py-2 text-sm font-semibold text-slate-800 hover:bg-brand-50 hover:text-brand-700 dark:text-slate-200 dark:hover:bg-brand-900/30 dark:hover:text-brand-300"
+            >
+              همه‌ی مقالات
+            </Link>
+            {categories.length > 0 && (
+              <>
+                <span className="my-1 block h-px bg-gray-100 dark:bg-slate-800" />
+                {categories.map((category) => (
+                  <Link
+                    key={category.slug}
+                    href={`/blog/category/${category.slug}`}
+                    role="menuitem"
+                    onClick={() => setOpen(false)}
+                    className="block rounded-lg px-3 py-2 text-sm text-slate-600 hover:bg-brand-50 hover:text-brand-700 dark:text-slate-300 dark:hover:bg-brand-900/30 dark:hover:text-brand-300"
+                  >
+                    {category.label}
+                  </Link>
+                ))}
+              </>
+            )}
+          </div>
         </div>
       )}
     </li>
