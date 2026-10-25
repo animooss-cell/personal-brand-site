@@ -28,3 +28,8 @@
 - صفحه اصلی: Hero + Services + Blog preview + Contact
 - بلاگ: لیست پست‌ها
 - تماس: فرم رزرو جلسه
+
+## taste-skill
+- For any page, landing page, dashboard or app screen, use the design-taste-frontend skill.
+- Before running its scripts: export CHROME_PATH=/opt/pw-browsers/chromium-1194/chrome-linux/chrome
+- If running as root (the cloud sandbox), Chrome needs --no-sandbox, so use the wrapper instead: export CHROME_PATH="$(git rev-parse --show-toplevel)/.claude/chrome-no-sandbox.sh"
