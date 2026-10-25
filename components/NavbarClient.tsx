@@ -157,7 +157,8 @@ export default function NavbarClient({ blogCategories }: { blogCategories: BlogC
           />
         </Link>
 
-        <ul className="hidden items-center gap-8 md:flex">
+        {/* ردیف کامل لینک‌ها حدود ۱۱۰۰px جا می‌خواهد؛ زیر ۱۱۲۰px (تبلت) دکمه‌ی منو جای آن را می‌گیرد. */}
+        <ul className="hidden items-center gap-8 min-[1120px]:flex">
           <li>
             <Link
               href="/"
@@ -225,6 +226,14 @@ export default function NavbarClient({ blogCategories }: { blogCategories: BlogC
           >
             رزرو جلسه رایگان
           </Link>
+          <button
+            type="button"
+            aria-label={open ? "بستن منو" : "باز کردن منو"}
+            className="cursor-pointer rounded-lg p-2 text-slate-700 dark:text-slate-300 min-[1120px]:hidden"
+            onClick={() => setOpen((v) => !v)}
+          >
+            {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
         </div>
 
         <div className="flex items-center gap-1 md:hidden">
@@ -241,7 +250,7 @@ export default function NavbarClient({ blogCategories }: { blogCategories: BlogC
       </nav>
 
       {open && (
-        <div className="mx-auto mt-2 max-w-6xl rounded-2xl border border-gray-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900 md:hidden">
+        <div className="mx-auto mt-2 max-w-6xl rounded-2xl border border-gray-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900 md:absolute md:left-0 md:top-full md:w-80 min-[1120px]:hidden">
           <ul className="flex flex-col gap-1">
             <li>
               <Link
