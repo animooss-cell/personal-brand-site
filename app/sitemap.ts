@@ -91,10 +91,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const categoryRoutes: MetadataRoute.Sitemap = [];
   BLOG_ARTICLE_CATEGORIES.forEach((category, i) => {
+    const count = categoryCounts[i];
+    // صفحه‌ی دسته‌ی landing تا وقتی پستی ندارد noindex است؛ در sitemap هم نیاید.
+    if (category.landing && count === 0) return;
+
     const basePath = `${SITE_URL}/blog/category/${category.slug}`;
     categoryRoutes.push({ url: basePath, changeFrequency: "daily", priority: 0.6 });
 
-    const count = categoryCounts[i];
     const categoryTotalPages = Math.max(1, Math.ceil(count / BLOG_PAGE_SIZE));
     for (let page = 2; page <= categoryTotalPages; page++) {
       categoryRoutes.push({ url: `${basePath}/page/${page}`, changeFrequency: "daily", priority: 0.5 });
