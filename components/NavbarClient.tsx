@@ -166,6 +166,36 @@ function BlogMobileAccordion({
 
 export default function NavbarClient({ blogCategories }: { blogCategories: BlogCategoryWithCount[] }) {
   const [open, setOpen] = useState(false);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const tabletButtonRef = useRef<HTMLButtonElement>(null);
+  const phoneButtonRef = useRef<HTMLButtonElement>(null);
+
+  // منوی موبایل/تبلت با Escape یا لمس/کلیک بیرون از پنل بسته می‌شود. لمس خودِ دکمه‌ی منو
+  // بیرون حساب نمی‌شود (onClick آن را باز و بسته می‌کند) و لمس آیتم‌ها هم داخل پنل است.
+  useEffect(() => {
+    if (!open) return;
+
+    const buttons = () => [tabletButtonRef.current, phoneButtonRef.current];
+
+    function handlePointerDown(e: PointerEvent) {
+      const target = e.target as Node;
+      if (panelRef.current?.contains(target)) return;
+      if (buttons().some((b) => b?.contains(target))) return;
+      setOpen(false);
+    }
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key !== "Escape") return;
+      setOpen(false);
+      buttons().find((b) => b && b.getClientRects().length > 0)?.focus();
+    }
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [open]);
 
   return (
     <header className="sticky top-4 z-50 mx-4 md:mx-8">
@@ -259,6 +289,7 @@ export default function NavbarClient({ blogCategories }: { blogCategories: BlogC
             رزرو جلسه رایگان
           </Link>
           <button
+            ref={tabletButtonRef}
             type="button"
             aria-label={open ? "بستن منو" : "باز کردن منو"}
             className="cursor-pointer rounded-lg p-2 text-slate-700 dark:text-slate-300 min-[1120px]:hidden"
@@ -271,6 +302,7 @@ export default function NavbarClient({ blogCategories }: { blogCategories: BlogC
         <div className="flex items-center gap-1 md:hidden">
           <ThemeToggle />
           <button
+            ref={phoneButtonRef}
             type="button"
             aria-label={open ? "بستن منو" : "باز کردن منو"}
             className="cursor-pointer rounded-lg p-2 text-slate-700 dark:text-slate-300"
@@ -282,7 +314,10 @@ export default function NavbarClient({ blogCategories }: { blogCategories: BlogC
       </nav>
 
       {open && (
-        <div className="mx-auto mt-2 max-w-6xl rounded-2xl border border-gray-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900 md:absolute md:left-0 md:top-full md:w-80 min-[1120px]:hidden">
+        <div
+          ref={panelRef}
+          className="mx-auto mt-2 max-w-6xl rounded-2xl border border-gray-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900 md:absolute md:left-0 md:top-full md:w-80 min-[1120px]:hidden"
+        >
           <ul className="flex flex-col gap-1">
             <li>
               <Link
