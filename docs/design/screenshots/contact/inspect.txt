@@ -1,0 +1,50 @@
+TASTESKILL · INSPECT   http://localhost:3123/contact
+
+MEASURED (first viewport listed)
+  hero headline   "رزرو جلسه مشاوره"  3 words · 1 line(s) · 36px (2.5vw) · __Vazirmatn_6768c4 700 · tracking 0em · leading 1.11
+  @768px          1 line(s) · 36px
+  @390px          1 line(s) · 30px
+  typefaces       __Vazirmatn_6768c4 100%
+  sizes in use    14 / 16 / 36 px   body 14px / 1.43
+  colour          page #fafaf9 · button #00c389
+  page            1.7 screens · 128 words · 3 images · hero media none
+  headings        1 · longest 1 line(s) · median - words
+
+FAIL — fix every one of these
+  [gradient] @1440px (+768, 390)  1 gradient fill(s): footer.mt-24.bg-gradient-to-br → linear-gradient(to right bottom, rgb(15, 23, 42), rgb(0, 39, 28), rgb(15, 23, 42))
+      → Use a flat colour or a real image. The only gradient allowed by default is a neutral scrim over a photo for legibility.
+  [shadow] @1440px (+768, 390)  2 box-shadow(s) on elements at rest: form.rounded-3xl.border → rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0 | button.mt-8.inline-flex → rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0
+      → Remove. Separate surfaces with a tone step or space. Shadows are for things that really float (menus, dialogs, sticky bars).
+  [contrast] @1440px (+768, 390)  Unreadable text: "رزرو جلسه رایگان" 2.3:1 (#ffffff on #00c389); "ارسال و شروع" 2.3:1 (#ffffff on #00c389)
+      → Raise contrast to at least 4.5:1 for text, 3:1 for large display.
+  [body-size] @1440px (+768, 390)  Body text is 14px (the size most of the running text is set in).
+      → Body copy 16–20px. Map small sizes from blueprints onto your body step.
+  [few-pictures] @1440px  Only 0 picture(s) on the page (0 photographs, footage or raster images, 0 interface fragments). Drawings in SVG do not count.
+      → Find real pictures of the subject's world with scripts/assets.mjs (photographs, archival images, maps, engravings, footage), download them to assets/ and give them room: a hero picture, one per section that has a subject, a full-width band. At least four, usually six to twelve.
+  [focal-point] @1440px  The first screen has no dominant element: the largest type is 36px (2.5vw) and no single picture holds a third of the viewport.
+      → Make one thing lead: the headline at display size, or one large picture. A grid of many small pictures is not one thing; in blind tests jurors marked a first screen without a headline down every time. On the strongest studied sites the largest type has a median of 8.4vw.
+  [still-page] @1440px  Only 0 element(s) moved while the page loaded and scrolled.
+      → Build the motion layer (SKILL.md step 9, references/motion.md): the signature move, an entrance for the parts of every section, feedback on every control, and one moving picture. Transform and opacity only, with a reduced-motion fallback.
+
+WARN — fix, or be able to defend
+  [hairline] @1440px (+768, 390)  1 thin rule(s)/divider line(s): div.border-t.border-white/10 1440px
+      → Delete. Separate with space, a tone change, or scale. Lines are only for real tables and form fields.
+  [outlined-box] @1440px (+768, 390)  1 box(es) drawn with a 1px outline.
+      → Prefer a filled surface or no box.
+  [no-footage] @1440px  No video anywhere on the page.
+      → Look for one honest clip with scripts/assets.mjs --video (the place, the material, the process) and use it as a muted loop with a poster frame. Defend its absence only if no clip fits the subject.
+  [name-only-title] @1440px (+768, 390)  The h1 is a bare name ("رزرو جلسه مشاوره") and nothing else on the first screen says what this is.
+      → Keep the name if it leads, and give the line under it (18px or more) the plain words: what it is, for whom, where or when. In the study of 97 Sites of the Day, first screens that named nothing lost usability and content points.
+  [first-action] @390px  No visible button in the first phone screen.
+      → On a phone the first screen still holds the headline, the supporting sentence and the action; move navigation into one row or a menu so it does not push them down.
+
+LOOK AT THE RENDER — open these with your image viewer / Read tool before saying anything about quality:
+  desktop 1440px  contact/desktop-fold.jpg
+                  contact/desktop-page-01.jpg
+  tablet 768px    contact/tablet-fold.jpg
+                  contact/tablet-page-01.jpg
+  mobile 390px    contact/mobile-fold.jpg
+                  contact/mobile-page-01.jpg
+
+report: contact/report.json
+RESULT: 7 FAIL, 5 WARN — not done.

@@ -1,0 +1,52 @@
+TASTESKILL · INSPECT   http://localhost:3123/services
+
+MEASURED (first viewport listed)
+  hero headline   "خدمات مشاوره و آموزش هوش مصنوعی در اهواز"  8 words · 1 line(s) · 48px (3.3vw) · __Vazirmatn_6768c4 800 · tracking 0em · leading 1
+  @768px          2 line(s) · 48px
+  @390px          2 line(s) · 30px
+  typefaces       __Vazirmatn_6768c4 100%
+  sizes in use    14 / 16 / 18 / 30 / 48 px   body 16px / 1.75
+  colour          page #fafaf9 · button #00c389
+  page            3 screens · 329 words · 3 images · hero media none
+  headings        5 · longest 1 line(s) · median 2 words
+
+FAIL — fix every one of these
+  [gradient] @1440px (+768, 390)  2 gradient fill(s): div.fade-in-up.mx-auto → linear-gradient(to right bottom, rgb(15, 23, 42), rgb(0, 39, 28), rgb(15, 23, 42)) | footer.mt-24.bg-gradient-to-br → linear-gradient(to right bottom, rgb(15, 23, 42), rgb(0, 39, 28), rgb(15, 23, 42))
+      → Use a flat colour or a real image. The only gradient allowed by default is a neutral scrim over a photo for legibility.
+  [shadow] @1440px (+768, 390)  6 box-shadow(s) on elements at rest: a.fade-in-up.flex → rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0 | a.fade-in-up.flex → rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0 | a.fade-in-up.flex → rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0
+      → Remove. Separate surfaces with a tone step or space. Shadows are for things that really float (menus, dialogs, sticky bars).
+  [outlined-box] @1440px (+768, 390)  5 boxes drawn with a 1px outline.
+      → Define a surface by its fill (one tone step from the page) or leave the content unboxed.
+  [icon-cards] @1440px (+768, 390)  1 row(s) of identical cards each topped with a small icon (4 cards).
+      → Replace with one composed section from the direction: a narrative split, a list set in large type, or real imagery per item.
+  [contrast] @1440px (+768, 390)  Unreadable text: "رزرو جلسه رایگان" 2.3:1 (#ffffff on #00c389); "در لیست انتظار ثبت‌نام کن" 2.3:1 (#ffffff on #00c389); "باهام در تماس باش" 2.3:1 (#ffffff on #00c389); "هنوز کارت خدماتی ثبت نشده است." 2.5:1 (#94a3b8 on #fafaf9)
+      → Raise contrast to at least 4.5:1 for text, 3:1 for large display.
+  [few-pictures] @1440px  Only 0 picture(s) on the page (0 photographs, footage or raster images, 0 interface fragments). Drawings in SVG do not count.
+      → Find real pictures of the subject's world with scripts/assets.mjs (photographs, archival images, maps, engravings, footage), download them to assets/ and give them room: a hero picture, one per section that has a subject, a full-width band. At least four, usually six to twelve.
+  [focal-point] @1440px  The first screen has no dominant element: the largest type is 48px (3.3vw) and no single picture holds a third of the viewport.
+      → Make one thing lead: the headline at display size, or one large picture. A grid of many small pictures is not one thing; in blind tests jurors marked a first screen without a headline down every time. On the strongest studied sites the largest type has a median of 8.4vw.
+  [still-page] @1440px  Only 7 element(s) moved while the page loaded and scrolled.
+      → Build the motion layer (SKILL.md step 9, references/motion.md): the signature move, an entrance for the parts of every section, feedback on every control, and one moving picture. Transform and opacity only, with a reduced-motion fallback.
+
+WARN — fix, or be able to defend
+  [hairline] @1440px (+768, 390)  1 thin rule(s)/divider line(s): div.border-t.border-white/10 1440px
+      → Delete. Separate with space, a tone change, or scale. Lines are only for real tables and form fields.
+  [dashed] @1440px (+768, 390)  1 dashed/dotted border(s).
+      → Remove unless it is a real drop zone.
+  [no-footage] @1440px  No video anywhere on the page.
+      → Look for one honest clip with scripts/assets.mjs --video (the place, the material, the process) and use it as a muted loop with a poster frame. Defend its absence only if no clip fits the subject.
+  [measure] @1440px  Longest paragraph runs about 96 characters per line.
+      → Cap paragraphs at 45–75 characters (max-width: 60ch).
+  [first-action] @390px  No visible button in the first phone screen.
+      → On a phone the first screen still holds the headline, the supporting sentence and the action; move navigation into one row or a menu so it does not push them down.
+
+LOOK AT THE RENDER — open these with your image viewer / Read tool before saying anything about quality:
+  desktop 1440px  services/desktop-fold.jpg
+                  services/desktop-page-01.jpg
+  tablet 768px    services/tablet-fold.jpg
+                  services/tablet-page-01.jpg
+  mobile 390px    services/mobile-fold.jpg
+                  services/mobile-page-01.jpg
+
+report: services/report.json
+RESULT: 8 FAIL, 5 WARN — not done.

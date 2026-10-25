@@ -1,0 +1,61 @@
+TASTESKILL · INSPECT   http://localhost:3123/
+
+MEASURED (first viewport listed)
+  hero headline   "کسب‌وکار خود را با قدرت هوش مصنوعی رشد دهید"  9 words · 2 line(s) · 48px (3.3vw) · __Vazirmatn_6768c4 800 · tracking 0em · leading 1
+  @768px          5 line(s) · 48px
+  @390px          2 line(s) · 30px
+  typefaces       __Vazirmatn_6768c4 100%
+  sizes in use    12 / 14 / 16 / 18 / 20 / 36 / 48 px   body 14px / 1.71
+  colour          page #fafaf9 · button #00c389
+  page            4.2 screens · 376 words · 6 images · hero media 17% img
+  headings        6 · longest 2 line(s) · median 5 words
+
+FAIL — fix every one of these
+  [eyebrow] @1440px (+768, 390)  3 eyebrow/kicker label(s) above headings: "مشاوره کسب‌وکار و هوش مصنوعی" (pill) above "کسب‌وکار خود را با قدرت هوش مصنوعی رشد د"; "چرا من؟" above "چرا با من کار کنید؟"; "درباره من" above "مشاوره‌ای بر پایه اعتماد و شفافیت"
+      → Delete them. If the label carried real information, fold it into the headline or the supporting sentence.
+  [gradient] @1440px (+768, 390)  3 gradient fill(s): div.fade-in-up.mx-auto → linear-gradient(to right bottom, rgb(15, 23, 42), rgb(0, 39, 28), rgb(15, 23, 42)) | div.fade-in-up.rounded-3xl → linear-gradient(to right bottom, rgb(0, 117, 83), rgb(0, 39, 28)) | footer.mt-24.bg-gradient-to-br → linear-gradient(to right bottom, rgb(15, 23, 42), rgb(0, 39, 28), rgb(15, 23, 42))
+      → Use a flat colour or a real image. The only gradient allowed by default is a neutral scrim over a photo for legibility.
+  [shadow] @1440px (+768, 390)  3 box-shadow(s) on elements at rest: a.inline-flex.cursor-pointer → rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0 | div.fade-in-up.rounded-3xl → rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0 | a.inline-flex.cursor-pointer → rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0
+      → Remove. Separate surfaces with a tone step or space. Shadows are for things that really float (menus, dialogs, sticky bars).
+  [outlined-box] @1440px (+768, 390)  3 boxes drawn with a 1px outline.
+      → Define a surface by its fill (one tone step from the page) or leave the content unboxed.
+  [icon-cards] @1440px (+768, 390)  1 row(s) of identical cards each topped with a small icon (3 cards).
+      → Replace with one composed section from the direction: a narrative split, a list set in large type, or real imagery per item.
+  [contrast] @1440px (+768, 390)  Unreadable text: "همه مقالات" 2.2:1 (#00c389 on #fafaf9); "رزرو جلسه رایگان" 2.3:1 (#ffffff on #00c389); "رزرو جلسه رایگان" 2.3:1 (#ffffff on #00c389); "هنوز کارت خدماتی ثبت نشده است." 2.5:1 (#94a3b8 on #fafaf9)
+      → Raise contrast to at least 4.5:1 for text, 3:1 for large display.
+  [body-size] @1440px (+768, 390)  Body text is 14px (the size most of the running text is set in).
+      → Body copy 16–20px. Map small sizes from blueprints onto your body step.
+  [few-pictures] @1440px  Only 0 picture(s) on the page (0 photographs, footage or raster images, 0 interface fragments). Drawings in SVG do not count.
+      → Find real pictures of the subject's world with scripts/assets.mjs (photographs, archival images, maps, engravings, footage), download them to assets/ and give them room: a hero picture, one per section that has a subject, a full-width band. At least four, usually six to twelve.
+  [broken-image] @1440px (+768, 390)  Broken image(s): https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=800&q=80, https://images.unsplash.com/photo-1521791136064-7986c2920216?w=600&q=80, https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=900&q=80
+      → Fix the URL or replace the asset.
+  [focal-point] @1440px  The first screen has no dominant element: the largest type is 48px (3.3vw) and no single picture holds a third of the viewport.
+      → Make one thing lead: the headline at display size, or one large picture. A grid of many small pictures is not one thing; in blind tests jurors marked a first screen without a headline down every time. On the strongest studied sites the largest type has a median of 8.4vw.
+  [headline-lines] @768px  1 headline(s) wrap past two lines at 768px: "کسب‌وکار خود را با قدرت هوش مصنوعی رشد دهید" → 5 lines (9 words, 48px)
+      → Cut words first (a headline is a title, not a sentence). Then give it a wider measure. Lower the size only as a last resort and never below the scale you chose. A real statement paragraph belongs in a <p> or <blockquote> at 32px or less.
+
+WARN — fix, or be able to defend
+  [hairline] @1440px (+768, 390)  1 thin rule(s)/divider line(s): div.border-t.border-white/10 1440px
+      → Delete. Separate with space, a tone change, or scale. Lines are only for real tables and form fields.
+  [no-footage] @1440px  No video anywhere on the page.
+      → Look for one honest clip with scripts/assets.mjs --video (the place, the material, the process) and use it as a muted loop with a poster frame. Defend its absence only if no clip fits the subject.
+  [small-text] @1440px (+768, 390)  1 text block(s) under 13px.
+      → Nothing meant to be read goes below 13px.
+  [off-centre] @1440px (+768)  The margins differ: 185px on the left, 168px on the right, at 1440px.
+      → Put the navigation and the content on one pair of margins; check for padding on one side only, a scrollbar gutter, or a header on another inset than the page.
+  [ragged-edges] @1440px (+768)  Left-aligned text starts at 12 different lines (745px, 216px, 245px, 297px, 374px, 399px, 583px); the three most used hold only 25% of it.
+      → Pick two or three anchor lines from the grid and start every heading and paragraph on one of them.
+  [still-page] @1440px  Little motion: 10 element(s) moved while the page loaded and scrolled.
+      → Give every section an entrance for its parts (not one fade of the whole block) and add one moving picture: a looping clip or a slow move on a photograph.
+
+LOOK AT THE RENDER — open these with your image viewer / Read tool before saying anything about quality:
+  desktop 1440px  home/desktop-fold.jpg
+                  home/desktop-page-01.jpg
+                  home/desktop-page-02.jpg
+  tablet 768px    home/tablet-fold.jpg
+                  home/tablet-page-01.jpg
+  mobile 390px    home/mobile-fold.jpg
+                  home/mobile-page-01.jpg
+
+report: home/report.json
+RESULT: 11 FAIL, 6 WARN — not done.
