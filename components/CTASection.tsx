@@ -13,7 +13,7 @@ export default function CTASection() {
         <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
           <Link
             href="/contact"
-            className="inline-flex cursor-pointer items-center gap-2 rounded-full bg-brand px-7 py-3.5 text-base font-semibold text-white shadow-sm transition-colors duration-200 hover:bg-brand-600"
+            className="inline-flex cursor-pointer items-center gap-2 rounded-full bg-cta px-7 py-3.5 text-base font-semibold text-cta-fg shadow-sm transition-colors duration-200 hover:bg-cta-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta-fg focus-visible:ring-2 focus-visible:ring-white"
           >
             رزرو جلسه رایگان
             <ArrowLeft className="h-4 w-4" aria-hidden="true" />

@@ -49,7 +49,7 @@ export default async function Hero() {
             <div className="mt-8 flex flex-col gap-4 sm:flex-row">
               <Link
                 href="/contact"
-                className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-full bg-brand px-6 py-3.5 text-base font-semibold text-white shadow-sm transition-colors duration-200 hover:bg-brand-600"
+                className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-full bg-cta px-6 py-3.5 text-base font-semibold text-cta-fg shadow-sm transition-colors duration-200 hover:bg-cta-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta-fg focus-visible:ring-2 focus-visible:ring-white"
               >
                 {primaryCta}
                 <ArrowLeft className="h-4 w-4" aria-hidden="true" />

@@ -31,7 +31,7 @@ export default async function LatestNewsBanner() {
         <div className="flex w-full flex-col items-stretch gap-2 sm:w-auto sm:flex-row sm:items-center">
           <Link
             href={`/news/${latest.slug}`}
-            className="inline-flex cursor-pointer items-center justify-center rounded-xl bg-brand px-5 py-2.5 text-sm font-semibold text-white transition-colors duration-200 hover:bg-brand-600"
+            className="inline-flex cursor-pointer items-center justify-center rounded-xl bg-cta px-5 py-2.5 text-sm font-semibold text-cta-fg transition-colors duration-200 hover:bg-cta-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta-fg focus-visible:ring-2 focus-visible:ring-white"
           >
             بخوانید
           </Link>

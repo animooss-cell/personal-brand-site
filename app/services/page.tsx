@@ -211,7 +211,7 @@ export default async function ServicesPage() {
                   href="/contact"
                   className={`mt-auto inline-flex cursor-pointer items-center justify-center rounded-full px-5 py-3 text-sm font-semibold transition-colors duration-200 ${
                     service.featured
-                      ? "bg-brand text-white hover:bg-brand-600"
+                      ? "bg-cta text-cta-fg hover:bg-cta-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta-fg focus-visible:ring-2 focus-visible:ring-white"
                       : "bg-slate-900 text-white hover:bg-slate-700"
                   }`}
                 >
@@ -293,7 +293,7 @@ export default async function ServicesPage() {
           </p>
           <Link
             href="/contact"
-            className="mt-5 inline-flex cursor-pointer items-center gap-2 rounded-full bg-brand px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors duration-200 hover:bg-brand-600"
+            className="mt-5 inline-flex cursor-pointer items-center gap-2 rounded-full bg-cta px-6 py-3 text-sm font-semibold text-cta-fg shadow-sm transition-colors duration-200 hover:bg-cta-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta-fg focus-visible:ring-2 focus-visible:ring-white"
           >
             در لیست انتظار ثبت‌نام کن
             <ArrowLeft className="h-4 w-4" aria-hidden="true" />
@@ -310,7 +310,7 @@ export default async function ServicesPage() {
           </p>
           <Link
             href="/contact"
-            className="mt-8 inline-flex cursor-pointer items-center gap-2 rounded-full bg-brand px-7 py-3.5 text-base font-semibold text-white shadow-sm transition-colors duration-200 hover:bg-brand-600"
+            className="mt-8 inline-flex cursor-pointer items-center gap-2 rounded-full bg-cta px-7 py-3.5 text-base font-semibold text-cta-fg shadow-sm transition-colors duration-200 hover:bg-cta-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta-fg focus-visible:ring-2 focus-visible:ring-white"
           >
             باهام در تماس باش
             <ArrowLeft className="h-4 w-4" aria-hidden="true" />

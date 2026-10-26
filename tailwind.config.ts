@@ -23,6 +23,12 @@ const config: Config = {
           900: "#00271C",
         },
         "brand-dark": "#0F4C81",
+        // رنگ جداگانه‌ی دکمه‌های اصلی (CTA): همان سبز برند با متن سرمه‌ای تیره برای کنتراست ≥ ۴.۵:۱.
+        cta: {
+          DEFAULT: "#00C389",
+          hover: "#33D69C",
+          fg: "#0A2540",
+        },
       },
       fontFamily: {
         vazir: ["var(--font-vazirmatn)", "sans-serif"],

@@ -112,7 +112,7 @@ export default async function DownloadDetailPage({ params }: { params: { slug: s
             <a
               href={item.file_url}
               download={item.file_name || undefined}
-              className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-full bg-brand px-8 py-4 text-base font-semibold text-white shadow-sm transition-colors duration-200 hover:bg-brand-600"
+              className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-full bg-cta px-8 py-4 text-base font-semibold text-cta-fg shadow-sm transition-colors duration-200 hover:bg-cta-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta-fg focus-visible:ring-2 focus-visible:ring-white"
             >
               <DownloadIcon className="h-5 w-5" aria-hidden="true" />
               دانلود فایل
@@ -139,7 +139,7 @@ export default async function DownloadDetailPage({ params }: { params: { slug: s
           </p>
           <Link
             href="/contact"
-            className="mt-8 inline-flex cursor-pointer items-center gap-2 rounded-full bg-brand px-7 py-3.5 text-base font-semibold text-white shadow-sm transition-colors duration-200 hover:bg-brand-600"
+            className="mt-8 inline-flex cursor-pointer items-center gap-2 rounded-full bg-cta px-7 py-3.5 text-base font-semibold text-cta-fg shadow-sm transition-colors duration-200 hover:bg-cta-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta-fg focus-visible:ring-2 focus-visible:ring-white"
           >
             جلسه رایگان رزرو کن
             <ArrowLeft className="h-4 w-4" aria-hidden="true" />
