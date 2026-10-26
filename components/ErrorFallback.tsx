@@ -23,7 +23,7 @@ export default function ErrorFallback({
       <p className="mb-7 text-sm leading-7 text-slate-500 dark:text-slate-400">{description}</p>
       <button
         onClick={reset}
-        className="inline-flex cursor-pointer items-center gap-2 rounded-full bg-brand px-6 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:bg-brand-600"
+        className="inline-flex cursor-pointer items-center gap-2 rounded-full bg-cta px-6 py-3 text-sm font-semibold text-cta-fg transition-colors duration-200 hover:bg-cta-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta-fg focus-visible:ring-2 focus-visible:ring-white"
       >
         <RotateCw className="h-4 w-4" aria-hidden="true" />
         تلاش دوباره

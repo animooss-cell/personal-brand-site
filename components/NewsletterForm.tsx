@@ -55,7 +55,7 @@ export default function NewsletterForm() {
           type="submit"
           disabled={submitting}
           aria-label="عضویت در خبرنامه"
-          className="inline-flex cursor-pointer items-center justify-center rounded-full bg-brand px-4 py-2.5 text-white transition-colors duration-200 hover:bg-brand-600 disabled:opacity-60"
+          className="inline-flex cursor-pointer items-center justify-center rounded-full bg-cta px-4 py-2.5 text-cta-fg transition-colors duration-200 hover:bg-cta-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta-fg focus-visible:ring-2 focus-visible:ring-white disabled:opacity-60"
         >
           <Send className="h-4 w-4" aria-hidden="true" />
         </button>

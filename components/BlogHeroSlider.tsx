@@ -68,7 +68,7 @@ export default function BlogHeroSlider({ posts }: { posts: SlidePost[] }) {
               </p>
               <Link
                 href={`/blog/${post.slug}`}
-                className="inline-flex cursor-pointer items-center gap-2 rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-white transition-colors duration-200 hover:bg-brand-600"
+                className="inline-flex cursor-pointer items-center gap-2 rounded-full bg-cta px-5 py-2.5 text-sm font-semibold text-cta-fg transition-colors duration-200 hover:bg-cta-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta-fg focus-visible:ring-2 focus-visible:ring-white"
               >
                 بخوان
               </Link>

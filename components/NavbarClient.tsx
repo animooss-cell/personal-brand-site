@@ -284,7 +284,7 @@ export default function NavbarClient({ blogCategories }: { blogCategories: BlogC
           <ThemeToggle />
           <Link
             href="/contact"
-            className="cursor-pointer rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-white transition-colors duration-200 hover:bg-brand-600"
+            className="cursor-pointer rounded-full bg-cta px-5 py-2.5 text-sm font-semibold text-cta-fg transition-colors duration-200 hover:bg-cta-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta-fg focus-visible:ring-2 focus-visible:ring-white"
           >
             رزرو جلسه رایگان
           </Link>
@@ -387,7 +387,7 @@ export default function NavbarClient({ blogCategories }: { blogCategories: BlogC
               <Link
                 href="/contact"
                 onClick={() => setOpen(false)}
-                className="block rounded-lg bg-brand px-3 py-2 text-center text-base font-semibold text-white"
+                className="block rounded-lg bg-cta px-3 py-2 text-center text-base font-semibold text-cta-fg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta-fg focus-visible:ring-2 focus-visible:ring-white"
               >
                 رزرو جلسه رایگان
               </Link>

@@ -68,7 +68,7 @@ export default async function BlogPage() {
             </p>
             <Link
               href="/services/ai-business-consulting"
-              className="mt-auto inline-flex cursor-pointer items-center gap-2 rounded-full bg-brand px-6 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:bg-brand-600"
+              className="mt-auto inline-flex cursor-pointer items-center gap-2 rounded-full bg-cta px-6 py-3 text-sm font-semibold text-cta-fg transition-colors duration-200 hover:bg-cta-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta-fg focus-visible:ring-2 focus-visible:ring-white"
             >
               مشاهده خدمات
               <ArrowLeft className="h-4 w-4" aria-hidden="true" />
