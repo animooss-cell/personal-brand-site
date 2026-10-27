@@ -13,7 +13,10 @@
   --svc-line: #e5e1d8;
   --svc-line2: #cfc9bc;
   --svc-acc-t: #007553;
+  --svc-badge-bg: #e9f7f1;
+  --svc-badge-t: #00694a;
   --svc-nav: rgba(246, 244, 239, 0.92);
+  --svc-input: #ffffff;
 }
 
 :global(.dark) .root {
@@ -29,5 +32,8 @@
   --svc-line: rgba(242, 238, 230, 0.1);
   --svc-line2: rgba(242, 238, 230, 0.22);
   --svc-acc-t: #00c389;
+  --svc-badge-bg: rgba(0, 195, 137, 0.12);
+  --svc-badge-t: #5fe3b5;
   --svc-nav: rgba(11, 18, 32, 0.88);
+  --svc-input: #0b1220;
 }
