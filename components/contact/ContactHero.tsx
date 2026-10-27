@@ -7,6 +7,7 @@ import {
   CONTACT_TELEGRAM_URL,
   CONTACT_WHATSAPP_URL,
 } from "@/lib/contactInfo";
+import { CONTACT_HOURS_LABEL } from "@/components/contact/contactFaq";
 
 // بالای صفحه‌ی تماس: ستون اطمینان‌بخش + کارت فرم (مرجع: docs/design/contact-redesign/index.html).
 // روی دسکتاپ مثل مرجع دو ستون است؛ روی موبایل و تبلت کارت فرم درست بعد از تیتر می‌آید تا در صفحه‌ی اول دیده شود.
@@ -90,7 +91,7 @@ export default function ContactHero({ title, form }: { title: string; form: Reac
                 </a>
               </li>
             </ul>
-            <span className="text-[13px] text-[var(--svc-ink3)]">شنبه تا پنجشنبه، ۹ تا ۱۸</span>
+            <span className="text-[13px] text-[var(--svc-ink3)]">{CONTACT_HOURS_LABEL}</span>
           </div>
         </div>
       </div>
