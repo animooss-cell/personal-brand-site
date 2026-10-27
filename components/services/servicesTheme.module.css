@@ -1,0 +1,31 @@
+/* توکن‌های طراحی صفحه‌ی خدمات (مرجع: docs/design/services-redesign/index.html).
+   فقط داخل همین صفحه فعال‌اند و با کلاس dark همان سیستم تم سایت (next-themes) عوض می‌شوند. */
+.root {
+  --svc-a: #f6f4ef;
+  --svc-b: #ffffff;
+  --svc-card-a: #ffffff;
+  --svc-ink: #0f172a;
+  --svc-ink2: #4b5563;
+  --svc-ink3: #5b6472;
+  --svc-ink4: #1f2937;
+  --svc-ink5: #374151;
+  --svc-line: #e5e1d8;
+  --svc-line2: #cfc9bc;
+  --svc-acc-t: #007553;
+  --svc-nav: rgba(246, 244, 239, 0.92);
+}
+
+:global(.dark) .root {
+  --svc-a: #0b1220;
+  --svc-b: #0f1828;
+  --svc-card-a: #111c2e;
+  --svc-ink: #f2eee6;
+  --svc-ink2: #a3acba;
+  --svc-ink3: #8fa0b3;
+  --svc-ink4: #e2e5ea;
+  --svc-ink5: #c9ced6;
+  --svc-line: rgba(242, 238, 230, 0.1);
+  --svc-line2: rgba(242, 238, 230, 0.22);
+  --svc-acc-t: #00c389;
+  --svc-nav: rgba(11, 18, 32, 0.88);
+}
