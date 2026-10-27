@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="fa" dir="rtl" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>مرجع طراحی — صفحه خدمات aiabed</title>
+<!-- DESIGN REFERENCE ONLY. Not production code. Tokens: :root = dark, [data-theme=light] = light. Primary button: bg #00C389, text #0A2540. -->
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--a:#0B1220;--b:#0F1828;--card-a:#111C2E;--card-b:#15223A;--ink:#F2EEE6;--ink2:#A3ACBA;--ink3:#8FA0B3;--ink4:#E2E5EA;--ink5:#C9CED6;--line:rgba(242,238,230,0.10);--line2:rgba(242,238,230,0.22);--acc-t:#00C389;--badge-bg:rgba(0,195,137,0.12);--badge-t:#5FE3B5;--nav:rgba(11,18,32,0.88);--input:#0B1220;}
+[data-theme="light"]{--a:#F6F4EF;--b:#FFFFFF;--card-a:#FFFFFF;--card-b:#F6F4EF;--ink:#0F172A;--ink2:#4B5563;--ink3:#5B6472;--ink4:#1F2937;--ink5:#374151;--line:#E5E1D8;--line2:#CFC9BC;--acc-t:#007553;--badge-bg:#E9F7F1;--badge-t:#00694A;--nav:rgba(246,244,239,0.92);--input:#FFFFFF;}
+body{margin:0} a{color:inherit} a:hover{color:#00C389} summary{cursor:pointer}
+</style>
+</head>
+<body>
+
+
+<div dir="rtl" style="font-family: Vazirmatn, Tahoma, sans-serif; background: var(--a); color: var(--ink); transition: background 0.3s ease, color 0.3s ease">
+
+  <!-- ===== Header ===== -->
+  <header style="max-width: 1240px; margin: 0 auto; padding: 22px 32px; box-sizing: border-box; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px">
+    <a href="#" aria-label="aiabed.ir — صفحه اصلی" style="text-decoration: none; display: inline-flex; align-items: center; min-height: 44px">
+      <img class="logo" src="images/logo-dark.png" alt="AiABED.ir" style="display: block; height: 40px; width: auto">
+    </a>
+    <nav aria-label="منوی اصلی" style="display: flex; flex-wrap: wrap; gap: 30px; font-size: 15px">
+      <a href="#" style="text-decoration: none; color: var(--ink); font-weight: 700">خدمات</a>
+      <a href="#" style="text-decoration: none; color: var(--ink5)">دوره‌ها</a>
+      <a href="#" style="text-decoration: none; color: var(--ink5)">درباره من</a>
+      <a href="#" style="text-decoration: none; color: var(--ink5)">وبلاگ</a>
+      <a href="#" style="text-decoration: none; color: var(--ink5)">تماس</a>
+    </nav>
+    <div style="display: flex; align-items: center; gap: 10px">
+      <button type="button" id="themeBtn" aria-label="تغییر تم" style="width: 44px; height: 44px; border-radius: 999px; border: 1px solid var(--line2); background: transparent; color: var(--ink); cursor: pointer; font-size: 18px">◐</button>
+      <a href="#" style="text-decoration: none; display: inline-flex; align-items: center; min-height: 44px; padding: 0 22px; border-radius: 999px; border: 1px solid var(--line2); color: var(--ink); font-size: 14px; font-weight: 500">رزرو جلسه رایگان</a>
+    </div>
+  </header>
+
+  <!-- ===== Hero + chooser (A) ===== -->
+  <section style="max-width: 1240px; margin: 0 auto; padding: 96px 32px 104px; box-sizing: border-box; display: flex; flex-direction: column; gap: 56px">
+    <div style="display: flex; flex-direction: column; gap: 24px; max-width: 900px">
+      <p style="margin: 0; font-size: 15px; font-weight: 500; color: var(--ink3)">خدمات · از مشاوره تا آموزش</p>
+      <h1 style="margin: 0; font-size: clamp(38px, 5.2vw, 72px); line-height: 1.25; font-weight: 800; color: var(--ink)">خدمات مشاوره و آموزش هوش مصنوعی در اهواز</h1>
+      <p style="margin: 0; max-width: 640px; font-size: 19px; line-height: 1.9; color: var(--ink2)">برای کسب‌وکارها و سازمان‌های خوزستان؛ از اولین قدم پیاده‌سازی هوش مصنوعی تا رشد، تولید محتوا و آموزش تیم.</p>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 20px">
+      <h2 style="margin: 0; font-size: 22px; font-weight: 700; color: var(--ink)">از کجا شروع کنیم؟</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px">
+        <a href="#consulting" style="text-decoration: none; min-height: 168px; box-sizing: border-box; padding: 26px; border-radius: 22px; background: var(--card-a); border: 1px solid var(--line); display: flex; flex-direction: column; justify-content: space-between; gap: 20px; color: var(--ink)">
+          <span style="font-size: 19px; line-height: 1.7; font-weight: 700">تازه می‌خواهم هوش مصنوعی را در کسب‌وکارم شروع کنم</span>
+          <span style="display: flex; align-items: center; justify-content: space-between; font-size: 14px; color: var(--ink2)">مشاوره هوش مصنوعی کسب‌وکار<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="stroke: var(--acc-t)"><path d="M19 12H5"></path><path d="M11 6l-6 6 6 6"></path></svg></span>
+        </a>
+        <a href="#growth" style="text-decoration: none; min-height: 168px; box-sizing: border-box; padding: 26px; border-radius: 22px; background: var(--card-a); border: 1px solid var(--line); display: flex; flex-direction: column; justify-content: space-between; gap: 20px; color: var(--ink)">
+          <span style="font-size: 19px; line-height: 1.7; font-weight: 700">کسب‌وکارم راه افتاده؛ می‌خواهم رشد کند</span>
+          <span style="display: flex; align-items: center; justify-content: space-between; font-size: 14px; color: var(--ink2)">مشاوره رشد کسب‌وکار و استارتاپ<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="stroke: var(--acc-t)"><path d="M19 12H5"></path><path d="M11 6l-6 6 6 6"></path></svg></span>
+        </a>
+        <a href="#content" style="text-decoration: none; min-height: 168px; box-sizing: border-box; padding: 26px; border-radius: 22px; background: var(--card-a); border: 1px solid var(--line); display: flex; flex-direction: column; justify-content: space-between; gap: 20px; color: var(--ink)">
+          <span style="font-size: 19px; line-height: 1.7; font-weight: 700">می‌خواهم مشتری بیشتری جذب کنم</span>
+          <span style="display: flex; align-items: center; justify-content: space-between; font-size: 14px; color: var(--ink2)">محتوا و بازاریابی با هوش مصنوعی<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="stroke: var(--acc-t)"><path d="M19 12H5"></path><path d="M11 6l-6 6 6 6"></path></svg></span>
+        </a>
+        <a href="#training" style="text-decoration: none; min-height: 168px; box-sizing: border-box; padding: 26px; border-radius: 22px; background: var(--card-a); border: 1px solid var(--line); display: flex; flex-direction: column; justify-content: space-between; gap: 20px; color: var(--ink)">
+          <span style="font-size: 19px; line-height: 1.7; font-weight: 700">می‌خواهم تیمم را آموزش بدهم</span>
+          <span style="display: flex; align-items: center; justify-content: space-between; font-size: 14px; color: var(--ink2)">آموزش‌های سازمانی و حضوری<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="stroke: var(--acc-t)"><path d="M19 12H5"></path><path d="M11 6l-6 6 6 6"></path></svg></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Proof strip (B) ===== -->
+  <section aria-label="سوابق" style="background: var(--b); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line)">
+    <div style="max-width: 1240px; margin: 0 auto; padding: 44px 32px; box-sizing: border-box; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 32px">
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 16px">
+        <span style="font-size: 14px; color: var(--ink3); margin-left: 8px">همکاری‌های اخیر</span>
+        <span style="min-height: 56px; padding: 0 24px; display: inline-flex; align-items: center; border-radius: 14px; border: 1px solid var(--line2); font-size: 16px; font-weight: 700; color: var(--ink4)">فولاد خوزستان</span>
+        <span style="min-height: 56px; padding: 0 24px; display: inline-flex; align-items: center; border-radius: 14px; border: 1px solid var(--line2); font-size: 16px; font-weight: 700; color: var(--ink4)">رسانه بسیج خوزستان</span>
+        <span style="min-height: 56px; padding: 0 24px; display: inline-flex; align-items: center; border-radius: 14px; border: 1px solid var(--line2); font-size: 16px; font-weight: 700; color: var(--ink4)">فولاد اکسین خوزستان</span>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 40px">
+        <div style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 32px; font-weight: 800">+۱۰ سال</span><span style="font-size: 13px; color: var(--ink2)">تجربه در رشد کسب‌وکار</span></div>
+        <div style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 32px; font-weight: 800">+۳۲ ساعت</span><span style="font-size: 13px; color: var(--ink2)">آموزش سازمانی</span></div>
+        <div style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 32px; font-weight: 800">+۴۰ نفر</span><span style="font-size: 13px; color: var(--ink2)">مدیر، رئیس و کارشناس آموزش‌دیده</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Local sticky nav ===== -->
+  <nav aria-label="بخش‌های این صفحه" style="position: sticky; top: 0; z-index: 10; background: var(--nav); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line)">
+    <div style="max-width: 1240px; margin: 0 auto; padding: 0 32px; box-sizing: border-box; min-height: 60px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px">
+      <div style="display: flex; flex-wrap: wrap; gap: 4px 26px; font-size: 14px; font-weight: 500">
+        <a href="#consulting" style="text-decoration: none; color: var(--ink); min-height: 44px; display: inline-flex; align-items: center">مشاوره کسب‌وکار</a>
+        <a href="#growth" style="text-decoration: none; color: var(--ink5); min-height: 44px; display: inline-flex; align-items: center">مشاوره رشد</a>
+        <a href="#content" style="text-decoration: none; color: var(--ink5); min-height: 44px; display: inline-flex; align-items: center">محتوا</a>
+        <a href="#training" style="text-decoration: none; color: var(--ink5); min-height: 44px; display: inline-flex; align-items: center">آموزش‌ها</a>
+        <a href="#process" style="text-decoration: none; color: var(--ink5); min-height: 44px; display: inline-flex; align-items: center">روند همکاری</a>
+        <a href="#faq" style="text-decoration: none; color: var(--ink5); min-height: 44px; display: inline-flex; align-items: center">سؤالات</a>
+      </div>
+      <a href="#" style="text-decoration: none; display: inline-flex; align-items: center; min-height: 40px; padding: 0 18px; border-radius: 999px; background: #00C389; color: #0A2540; font-size: 14px; font-weight: 700">جلسه رایگان</a>
+    </div>
+  </nav>
+
+  <!-- ===== Chapter 01: AI business consulting (A) ===== -->
+  <section id="consulting" style="background: var(--a)">
+    <div style="max-width: 1240px; margin: 0 auto; padding: 120px 32px; box-sizing: border-box; display: flex; flex-direction: column; gap: 56px">
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 56px">
+        <div style="flex: 1 1 480px; min-width: 0; display: flex; flex-direction: column; gap: 22px">
+          <p style="margin: 0; font-size: 14px; font-weight: 700; color: var(--acc-t)">۰۱ · مشاوره هوش مصنوعی کسب‌وکار</p>
+          <h2 style="margin: 0; font-size: clamp(34px, 4.4vw, 60px); line-height: 1.3; font-weight: 800">نه فقط تکنولوژی،<br>نتیجه واقعی.</h2>
+          <p style="margin: 0; font-size: 18px; line-height: 1.9; color: var(--ink2)">پیدا می‌کنیم هوش مصنوعی کجای فرایندهای شما واقعاً وقت و هزینه را کم می‌کند، ابزار مناسبش را انتخاب می‌کنیم و همراه تیم پیاده‌اش می‌کنیم.</p>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px">
+            <span style="padding: 6px 14px; border-radius: 999px; background: var(--card-a); border: 1px solid var(--line); font-size: 13px; color: var(--ink5)">صاحبان کسب‌وکار</span>
+            <span style="padding: 6px 14px; border-radius: 999px; background: var(--card-a); border: 1px solid var(--line); font-size: 13px; color: var(--ink5)">تیم‌های مدیریتی</span>
+            <span style="padding: 6px 14px; border-radius: 999px; background: var(--card-a); border: 1px solid var(--line); font-size: 13px; color: var(--ink5)">سازمان‌های صنعتی</span>
+          </div>
+        </div>
+        <figure style="flex: 1 1 440px; min-width: 0; margin: 0; display: flex; flex-direction: column; gap: 12px">
+          <img src="images/class.jpg" alt="عبدالله احمدیان در حال آموزش در سالن آموزش فولاد خوزستان" style="display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 28px">
+          <figcaption style="font-size: 13px; color: var(--ink3)">کارگاه آموزشی، فولاد خوزستان</figcaption>
+        </figure>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px">
+        <div style="padding: 28px; border-radius: 22px; background: var(--card-a); border: 1px solid var(--line); display: flex; flex-direction: column; gap: 8px"><span style="font-size: 13px; color: var(--acc-t); font-weight: 700">تحویل می‌گیرید</span><span style="font-size: 18px; font-weight: 700; line-height: 1.7">فهرست فرصت‌های هوش مصنوعی در فرایندهایتان</span></div>
+        <div style="padding: 28px; border-radius: 22px; background: var(--card-a); border: 1px solid var(--line); display: flex; flex-direction: column; gap: 8px"><span style="font-size: 13px; color: var(--acc-t); font-weight: 700">تحویل می‌گیرید</span><span style="font-size: 18px; font-weight: 700; line-height: 1.7">ابزارهای انتخاب‌شده و پیاده‌شده با تیم</span></div>
+        <div style="padding: 28px; border-radius: 22px; background: var(--card-a); border: 1px solid var(--line); display: flex; flex-direction: column; gap: 8px"><span style="font-size: 13px; color: var(--acc-t); font-weight: 700">تحویل می‌گیرید</span><span style="font-size: 18px; font-weight: 700; line-height: 1.7">گزارش سنجش نتایج و بهینه‌سازی</span></div>
+      </div>
+
+      <ol style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; border-top: 1px solid var(--line); padding-top: 32px">
+        <li style="display: flex; flex-direction: column; gap: 10px"><span style="font-size: 28px; font-weight: 300; color: var(--acc-t)">۱</span><span style="font-size: 16px; line-height: 1.8; color: var(--ink4)">شناسایی فرصت‌های هوش مصنوعی در فرایندها</span></li>
+        <li style="display: flex; flex-direction: column; gap: 10px"><span style="font-size: 28px; font-weight: 300; color: var(--acc-t)">۲</span><span style="font-size: 16px; line-height: 1.8; color: var(--ink4)">انتخاب ابزارهای مناسب</span></li>
+        <li style="display: flex; flex-direction: column; gap: 10px"><span style="font-size: 28px; font-weight: 300; color: var(--acc-t)">۳</span><span style="font-size: 16px; line-height: 1.8; color: var(--ink4)">پیاده‌سازی و تست با تیم</span></li>
+        <li style="display: flex; flex-direction: column; gap: 10px"><span style="font-size: 28px; font-weight: 300; color: var(--acc-t)">۴</span><span style="font-size: 16px; line-height: 1.8; color: var(--ink4)">سنجش نتایج و بهینه‌سازی</span></li>
+      </ol>
+
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 20px">
+        <a href="#" style="text-decoration: none; display: inline-flex; align-items: center; min-height: 56px; padding: 0 28px; border-radius: 999px; background: #00C389; color: #0A2540; font-size: 16px; font-weight: 700">درباره‌ی کسب‌وکارم صحبت کنیم</a>
+        <span style="font-size: 14px; color: var(--ink3)">جلسه‌ی اول رایگان · بدون تعهد</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Chapter 02: Growth (B) ===== -->
+  <section id="growth" style="background: var(--b)">
+    <div style="max-width: 1240px; margin: 0 auto; padding: 120px 32px; box-sizing: border-box; display: flex; flex-direction: column; gap: 56px">
+      <div style="display: flex; flex-wrap: wrap-reverse; align-items: center; gap: 56px">
+        <div style="flex: 1 1 440px; min-width: 0; padding: 36px; box-sizing: border-box; border-radius: 28px; background: var(--card-b); border: 1px solid var(--line); display: flex; flex-direction: column; gap: 22px">
+          <p style="margin: 0; font-size: 14px; font-weight: 700; color: var(--ink3)">سابقه در اکوسیستم استارتاپی</p>
+          <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column">
+            <li style="padding: 16px 0; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 4px"><span style="font-size: 17px; font-weight: 700">مدیر تیم اجرایی هکاتون سلامت کیش</span></li>
+            <li style="padding: 16px 0; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 4px"><span style="font-size: 17px; font-weight: 700">تسهیلگر، منتور و داور استارتاپ ویکند</span><span style="font-size: 14px; color: var(--ink2)">از خوزستان تا تهران و کرمانشاه</span></li>
+            <li style="padding: 16px 0; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 4px"><span style="font-size: 17px; font-weight: 700">برگزاری رویداد سرمایه‌گذاری طرح ملی رویش</span><span style="font-size: 14px; color: var(--ink2)">استان خوزستان</span></li>
+            <li style="padding: 16px 0; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 4px"><span style="font-size: 17px; font-weight: 700">دورهمی‌های کسب‌وکار در اهواز</span><span style="font-size: 14px; color: var(--ink2)">«همراه» و «حرف نو»</span></li>
+            <li style="padding: 16px 0; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 4px"><span style="font-size: 17px; font-weight: 700">«کافه AI»</span><span style="font-size: 14px; color: var(--ink2)">دورهمی کارکنان شرکت فولاد خوزستان</span></li>
+          </ul>
+        </div>
+        <div style="flex: 1 1 480px; min-width: 0; display: flex; flex-direction: column; gap: 22px">
+          <p style="margin: 0; font-size: 14px; font-weight: 700; color: var(--acc-t)">۰۲ · مشاوره رشد کسب‌وکار و استارتاپ</p>
+          <h2 style="margin: 0; font-size: clamp(34px, 4.4vw, 60px); line-height: 1.3; font-weight: 800">از ایده تا<br>مدل درآمدی پایدار.</h2>
+          <p style="margin: 0; font-size: 18px; line-height: 1.9; color: var(--ink2)">ایده و بازار را اعتبارسنجی می‌کنیم، یک مدل درآمدی واقع‌بینانه می‌سازیم و مسیر شش ماه آینده را قدم‌به‌قدم می‌چینیم.</p>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px">
+            <span style="padding: 6px 14px; border-radius: 999px; background: var(--card-b); border: 1px solid var(--line); font-size: 13px; color: var(--ink5)">صاحبان ایده</span>
+            <span style="padding: 6px 14px; border-radius: 999px; background: var(--card-b); border: 1px solid var(--line); font-size: 13px; color: var(--ink5)">استارتاپ‌های مرحله‌ی اول</span>
+            <span style="padding: 6px 14px; border-radius: 999px; background: var(--card-b); border: 1px solid var(--line); font-size: 13px; color: var(--ink5)">کسب‌وکارهای نوپا</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px">
+        <div style="padding: 28px; border-radius: 22px; background: var(--card-b); border: 1px solid var(--line); display: flex; flex-direction: column; gap: 8px"><span style="font-size: 13px; color: var(--acc-t); font-weight: 700">تحویل می‌گیرید</span><span style="font-size: 18px; font-weight: 700; line-height: 1.7">مدل درآمدی واقع‌بینانه</span></div>
+        <div style="padding: 28px; border-radius: 22px; background: var(--card-b); border: 1px solid var(--line); display: flex; flex-direction: column; gap: 8px"><span style="font-size: 13px; color: var(--acc-t); font-weight: 700">تحویل می‌گیرید</span><span style="font-size: 18px; font-weight: 700; line-height: 1.7">نقشه‌ی راه اجرایی ۶ ماهه</span></div>
+        <div style="padding: 28px; border-radius: 22px; background: var(--card-b); border: 1px solid var(--line); display: flex; flex-direction: column; gap: 8px"><span style="font-size: 13px; color: var(--acc-t); font-weight: 700">تحویل می‌گیرید</span><span style="font-size: 18px; font-weight: 700; line-height: 1.7">آمادگی برای جذب سرمایه‌گذار</span></div>
+      </div>
+
+      <ol style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; border-top: 1px solid var(--line); padding-top: 32px">
+        <li style="display: flex; flex-direction: column; gap: 10px"><span style="font-size: 28px; font-weight: 300; color: var(--acc-t)">۱</span><span style="font-size: 16px; line-height: 1.8; color: var(--ink4)">اعتبارسنجی ایده و بازار</span></li>
+        <li style="display: flex; flex-direction: column; gap: 10px"><span style="font-size: 28px; font-weight: 300; color: var(--acc-t)">۲</span><span style="font-size: 16px; line-height: 1.8; color: var(--ink4)">طراحی مدل درآمدی واقع‌بینانه</span></li>
+        <li style="display: flex; flex-direction: column; gap: 10px"><span style="font-size: 28px; font-weight: 300; color: var(--acc-t)">۳</span><span style="font-size: 16px; line-height: 1.8; color: var(--ink4)">نقشه‌ی راه اجرایی ۶ ماهه</span></li>
+        <li style="display: flex; flex-direction: column; gap: 10px"><span style="font-size: 28px; font-weight: 300; color: var(--acc-t)">۴</span><span style="font-size: 16px; line-height: 1.8; color: var(--ink4)">آمادگی برای سرمایه‌گذار</span></li>
+      </ol>
+
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 20px">
+        <a href="#" style="text-decoration: none; display: inline-flex; align-items: center; min-height: 56px; padding: 0 28px; border-radius: 999px; background: #00C389; color: #0A2540; font-size: 16px; font-weight: 700">درباره‌ی رشد کسب‌وکارم صحبت کنیم</a>
+        <span style="font-size: 14px; color: var(--ink3)">جلسه‌ی اول رایگان · بدون تعهد</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Chapter 03: Content (A) ===== -->
+  <section id="content" style="background: var(--a)">
+    <div style="max-width: 1240px; margin: 0 auto; padding: 120px 32px; box-sizing: border-box; display: flex; flex-direction: column; gap: 56px">
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 56px">
+        <div style="flex: 1 1 480px; min-width: 0; display: flex; flex-direction: column; gap: 22px">
+          <p style="margin: 0; font-size: 14px; font-weight: 700; color: var(--acc-t)">۰۳ · محتوا و بازاریابی با هوش مصنوعی</p>
+          <h2 style="margin: 0; font-size: clamp(34px, 4.4vw, 60px); line-height: 1.3; font-weight: 800">جذب مشتری،<br>نه فقط فالوور.</h2>
+          <p style="margin: 0; font-size: 18px; line-height: 1.9; color: var(--ink2)">محتوای فعلی و پیج شما را بررسی می‌کنیم، قیف فروش و تقویم محتوا را طراحی می‌کنیم و با هوش مصنوعی محتوایی می‌سازیم که به فروش برسد.</p>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px">
+            <span style="padding: 6px 14px; border-radius: 999px; background: var(--card-a); border: 1px solid var(--line); font-size: 13px; color: var(--ink5)">کسب‌وکارهای آنلاین</span>
+            <span style="padding: 6px 14px; border-radius: 999px; background: var(--card-a); border: 1px solid var(--line); font-size: 13px; color: var(--ink5)">برندهای در حال رشد</span>
+            <span style="padding: 6px 14px; border-radius: 999px; background: var(--card-a); border: 1px solid var(--line); font-size: 13px; color: var(--ink5)">فروشگاه‌ها و پیج‌های اینستاگرام</span>
+          </div>
+        </div>
+        <figure style="flex: 1 1 440px; min-width: 0; margin: 0; display: flex; flex-direction: column; gap: 12px">
+          <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+            <img src="images/basij.jpg" alt="پوستر جشنواره‌ی رسانه‌ای بانوان برای بسیج رسانه خوزستان" style="grid-row: span 2; display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 22px">
+            <img src="images/report1.jpg" alt="صفحه‌ی عملکرد تولید از گزارش مجمع فولاد خوزستان" style="display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 22px">
+            <img src="images/report2.jpg" alt="صفحه‌ی زنجیره ارزش از گزارش مجمع فولاد خوزستان" style="display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 22px">
+          </div>
+          <figcaption style="font-size: 13px; line-height: 1.8; color: var(--ink3)">نمونه‌های واقعی: پوستر بسیج رسانه خوزستان و صفحات گزارش مجمع سالیانه‌ی فولاد خوزستان، تهیه‌شده با هوش مصنوعی</figcaption>
+        </figure>
+      </div>
+
+      <ol style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; border-top: 1px solid var(--line); padding-top: 32px">
+        <li style="display: flex; flex-direction: column; gap: 10px"><span style="font-size: 28px; font-weight: 300; color: var(--acc-t)">۱</span><span style="font-size: 16px; line-height: 1.8; color: var(--ink4)">بررسی محتوا و پیج فعلی</span></li>
+        <li style="display: flex; flex-direction: column; gap: 10px"><span style="font-size: 28px; font-weight: 300; color: var(--acc-t)">۲</span><span style="font-size: 16px; line-height: 1.8; color: var(--ink4)">طراحی قیف فروش و تقویم محتوا</span></li>
+        <li style="display: flex; flex-direction: column; gap: 10px"><span style="font-size: 28px; font-weight: 300; color: var(--acc-t)">۳</span><span style="font-size: 16px; line-height: 1.8; color: var(--ink4)">تولید محتوا با هوش مصنوعی</span></li>
+        <li style="display: flex; flex-direction: column; gap: 10px"><span style="font-size: 28px; font-weight: 300; color: var(--acc-t)">۴</span><span style="font-size: 16px; line-height: 1.8; color: var(--ink4)">گزارش ماهانه و بهینه‌سازی</span></li>
+      </ol>
+
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 20px">
+        <a href="#" style="text-decoration: none; display: inline-flex; align-items: center; min-height: 56px; padding: 0 28px; border-radius: 999px; background: #00C389; color: #0A2540; font-size: 16px; font-weight: 700">درباره‌ی محتوای برندم صحبت کنیم</a>
+        <span style="font-size: 14px; color: var(--ink3)">جلسه‌ی اول رایگان · بدون تعهد</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Training (B) ===== -->
+  <section id="training" style="background: var(--b)">
+    <div style="max-width: 1240px; margin: 0 auto; padding: 120px 32px; box-sizing: border-box; display: flex; flex-direction: column; gap: 48px">
+      <div style="display: flex; flex-direction: column; gap: 18px; max-width: 760px">
+        <p style="margin: 0; font-size: 14px; font-weight: 700; color: var(--acc-t)">۰۴ · آموزش‌ها</p>
+        <h2 style="margin: 0; font-size: clamp(34px, 4.4vw, 60px); line-height: 1.3; font-weight: 800">تیمی که خودش<br>با هوش مصنوعی کار می‌کند.</h2>
+        <p style="margin: 0; font-size: 18px; line-height: 1.9; color: var(--ink2)">دوره‌های حضوری در اهواز، داخل سازمان شما یا آنلاین؛ کاربردی، با ابزارهایی که از فردا در کار روزانه به کار می‌آیند.</p>
+      </div>
+
+      <figure style="margin: 0; display: flex; flex-direction: column; gap: 12px">
+        <img src="images/stage.jpg" alt="دوره‌ی هوش مصنوعی در خدمت تیم روابط عمومی، سالن همایش فولاد خوزستان" style="display: block; width: 100%; aspect-ratio: 21 / 9; object-fit: cover; object-position: 50% 45%; border-radius: 28px">
+        <figcaption style="font-size: 13px; color: var(--ink3)">دوره‌ی «هوش مصنوعی در خدمت تیم روابط عمومی»، فولاد خوزستان</figcaption>
+      </figure>
+
+      <div style="overflow-x: auto; border-radius: 22px; border: 1px solid var(--line); background: var(--card-b)">
+        <table style="width: 100%; min-width: 860px; border-collapse: collapse; font-size: 15px; text-align: right">
+          <thead>
+            <tr style="border-bottom: 1px solid var(--line)">
+              <th scope="col" style="padding: 22px 24px; width: 14%; font-size: 13px; font-weight: 500; color: var(--ink3)"></th>
+              <th scope="col" style="padding: 22px 24px; font-size: 17px; font-weight: 800; color: var(--ink); line-height: 1.6; vertical-align: top">مدیر دفتر هوشمند با هوش مصنوعی</th>
+              <th scope="col" style="padding: 22px 24px; font-size: 17px; font-weight: 800; color: var(--ink); line-height: 1.6; vertical-align: top">آموزش NotebookLM برای مدیران</th>
+              <th scope="col" style="padding: 22px 24px; font-size: 17px; font-weight: 800; color: var(--ink); line-height: 1.6; vertical-align: top">داشبورد مالی با Power BI و هوش مصنوعی</th>
+              <th scope="col" style="padding: 22px 24px; font-size: 17px; font-weight: 800; color: var(--ink); line-height: 1.6; vertical-align: top">هوش مصنوعی برای روابط عمومی</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-top: 1px solid var(--line)">
+              <th scope="row" style="padding: 18px 24px; font-size: 13px; font-weight: 500; color: var(--ink3)">مخاطب</th>
+              <td style="padding: 18px 24px; color: var(--ink5); line-height: 1.8">مدیران دفتر، دستیاران اجرایی، کارشناسان اداری</td>
+              <td style="padding: 18px 24px; color: var(--ink5); line-height: 1.8">مدیران و سرپرستان سازمانی</td>
+              <td style="padding: 18px 24px; color: var(--ink5); line-height: 1.8">مدیران و کارشناسان مالی شرکت‌های صنعتی</td>
+              <td style="padding: 18px 24px; color: var(--ink5); line-height: 1.8">کارشناسان و مدیران روابط عمومی، تیم‌های محتوا</td>
+            </tr>
+            <tr style="border-top: 1px solid var(--line)">
+              <th scope="row" style="padding: 18px 24px; font-size: 13px; font-weight: 500; color: var(--ink3)">مدت</th>
+              <td style="padding: 18px 24px; font-size: 22px; font-weight: 800">۱۶ ساعت</td>
+              <td style="padding: 18px 24px; font-size: 22px; font-weight: 800">۸ ساعت</td>
+              <td style="padding: 18px 24px; font-size: 22px; font-weight: 800">۱۶ ساعت</td>
+              <td style="padding: 18px 24px; font-size: 22px; font-weight: 800">۱۶ ساعت</td>
+            </tr>
+            <tr style="border-top: 1px solid var(--line)">
+              <th scope="row" style="padding: 18px 24px; font-size: 13px; font-weight: 500; color: var(--ink3)">سطح</th>
+              <td style="padding: 18px 24px; color: var(--ink5)">مقدماتی</td>
+              <td style="padding: 18px 24px; color: var(--ink5)">مقدماتی تا متوسط</td>
+              <td style="padding: 18px 24px; color: var(--ink5)">مقدماتی تا متوسط</td>
+              <td style="padding: 18px 24px; color: var(--ink5)">مقدماتی</td>
+            </tr>
+            <tr style="border-top: 1px solid var(--line)">
+              <th scope="row" style="padding: 18px 24px; font-size: 13px; font-weight: 500; color: var(--ink3)">ابزارها</th>
+              <td style="padding: 18px 24px; color: var(--ink5); direction: ltr; text-align: right">NotebookLM · ChatGPT · Gemini · Gamma</td>
+              <td style="padding: 18px 24px; color: var(--ink5); direction: ltr; text-align: right">NotebookLM</td>
+              <td style="padding: 18px 24px; color: var(--ink5); direction: ltr; text-align: right">Power BI · AI</td>
+              <td style="padding: 18px 24px; color: var(--ink5); direction: ltr; text-align: right">ChatGPT · NotebookLM</td>
+            </tr>
+            <tr style="border-top: 1px solid var(--line)">
+              <th scope="row" style="padding: 18px 24px; font-size: 13px; font-weight: 500; color: var(--ink3)">سابقه</th>
+              <td style="padding: 18px 24px; color: var(--ink3)">—</td>
+              <td style="padding: 18px 24px; color: var(--ink3)">—</td>
+              <td style="padding: 18px 24px"><span style="display: inline-block; padding: 6px 12px; border-radius: 999px; background: var(--badge-bg); color: var(--badge-t); font-size: 13px; font-weight: 700">برگزارشده برای فولاد خوزستان</span></td>
+              <td style="padding: 18px 24px"><span style="display: inline-block; padding: 6px 12px; border-radius: 999px; background: var(--badge-bg); color: var(--badge-t); font-size: 13px; font-weight: 700">برگزارشده برای فولاد خوزستان</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 16px">
+        <form style="flex: 1 1 480px; padding: 28px; border-radius: 22px; background: var(--card-b); border: 1px solid var(--line); display: flex; flex-direction: column; gap: 14px">
+          <label for="wl" style="font-size: 17px; font-weight: 700">دوره‌های جدید به‌زودی؛ اول به شما خبر می‌دهیم</label>
+          <div style="display: flex; flex-wrap: wrap; gap: 10px">
+            <input id="wl" type="tel" placeholder="شماره موبایل یا ایمیل" style="flex: 1 1 220px; min-height: 52px; padding: 0 18px; border-radius: 14px; border: 1px solid var(--line2); background: var(--input); color: var(--ink); font-family: inherit; font-size: 15px">
+            <button type="button" style="min-height: 52px; padding: 0 24px; border-radius: 14px; border: 0; background: #00C389; color: #0A2540; font-family: inherit; font-size: 15px; font-weight: 700; cursor: pointer">ثبت در لیست انتظار</button>
+          </div>
+        </form>
+        <a href="#" style="flex: 1 1 320px; text-decoration: none; padding: 28px; border-radius: 22px; border: 1px solid var(--line2); display: flex; flex-direction: column; justify-content: space-between; gap: 16px; color: var(--ink)">
+          <span style="font-size: 17px; font-weight: 700">دوره‌ی سازمانی سفارشی می‌خواهید؟</span>
+          <span style="font-size: 15px; color: var(--ink2); text-decoration: underline; text-underline-offset: 6px">بر اساس نیاز تیم شما طراحی می‌کنیم</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Case study (A) ===== -->
+  <section style="background: var(--a)">
+    <div style="max-width: 1240px; margin: 0 auto; padding: 120px 32px; box-sizing: border-box; display: flex; flex-direction: column; gap: 44px">
+      <div style="display: flex; flex-direction: column; gap: 14px; max-width: 760px">
+        <p style="margin: 0; font-size: 14px; font-weight: 700; color: var(--acc-t)">نمونه‌ی واقعی</p>
+        <h2 style="margin: 0; font-size: clamp(30px, 3.6vw, 48px); line-height: 1.35; font-weight: 800">هوش مصنوعی برای روابط عمومی فولاد خوزستان</h2>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 32px">
+        <div style="display: flex; flex-direction: column; gap: 10px; border-top: 2px solid var(--ink); padding-top: 20px"><span style="font-size: 13px; font-weight: 700; color: var(--ink3)">مسئله</span><span style="font-size: 17px; line-height: 1.9; color: var(--ink4)">برای محتوای شبکه‌های اجتماعی به طراح گرافیک و قرارداد بیرونی وابسته بودند و خبرنویسی و تهیه‌ی بیانیه وقت زیادی می‌گرفت.</span></div>
+        <div style="display: flex; flex-direction: column; gap: 10px; border-top: 2px solid var(--ink); padding-top: 20px"><span style="font-size: 13px; font-weight: 700; color: var(--ink3)">کاری که کردیم</span><span style="font-size: 17px; line-height: 1.9; color: var(--ink4)">۱۶ ساعت آموزش کاربردی: نوشتن خبر و بیانیه با ChatGPT، ساخت پوستر، کار با NotebookLM و پرامپت‌نویسی.</span></div>
+        <div style="display: flex; flex-direction: column; gap: 10px; border-top: 2px solid var(--acc-t); padding-top: 20px"><span style="font-size: 13px; font-weight: 700; color: var(--acc-t)">نتیجه</span><span style="font-size: 17px; line-height: 1.9; color: var(--ink4)">تیم از قرارداد با طراح بیرونی بی‌نیاز شد و خبر، بیانیه، کپشن اینستاگرام و محتوای سوشیال را خودش، سریع‌تر و با هزینه‌ی بسیار کمتر تهیه می‌کند.</span></div>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; align-items: stretch; gap: 24px">
+        <img src="images/group.jpg" alt="عبدالله احمدیان در کنار تیم روابط عمومی فولاد خوزستان" style="flex: 1 1 420px; min-width: 0; display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 24px">
+        <blockquote style="flex: 1 1 420px; margin: 0; padding: 40px; box-sizing: border-box; border-radius: 24px; background: var(--card-a); border: 1px solid var(--line); display: flex; flex-direction: column; justify-content: center; gap: 20px">
+          <p style="margin: 0; font-size: 22px; line-height: 2; font-weight: 300; color: var(--ink)">«برگزاری این دوره در تیم روابط عمومی فولاد خوزستان سبب شده پیام ما در کانال، وب‌سایت و شبکه‌های اجتماعی فولاد خوزستان جذاب‌تر و با تأثیرگذاری عمیق‌تری به مخاطب منتقل شود.»</p>
+          <footer style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 16px; font-weight: 700; color: var(--ink)">دکتر محمد جامعی</span><span style="font-size: 14px; color: var(--ink2)">مدیر روابط عمومی فولاد خوزستان</span></footer>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Process (B) ===== -->
+  <section id="process" style="background: var(--b)">
+    <div style="max-width: 1240px; margin: 0 auto; padding: 120px 32px; box-sizing: border-box; display: flex; flex-direction: column; gap: 44px">
+      <h2 style="margin: 0; font-size: clamp(30px, 3.6vw, 48px); line-height: 1.35; font-weight: 800">همکاری چطور پیش می‌رود</h2>
+      <ol style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px">
+        <li style="padding: 32px; border-radius: 24px; background: var(--card-b); border: 1px solid var(--line); display: flex; flex-direction: column; gap: 12px"><span style="font-size: 40px; font-weight: 300; color: var(--acc-t); line-height: 1">۱</span><span style="font-size: 20px; font-weight: 800">جلسه‌ی رایگان</span><span style="font-size: 15px; line-height: 1.9; color: var(--ink2)">یک گفت‌وگوی کوتاه درباره‌ی وضعیت و هدف شما؛ بدون تعهد.</span></li>
+        <li style="padding: 32px; border-radius: 24px; background: var(--card-b); border: 1px solid var(--line); display: flex; flex-direction: column; gap: 12px"><span style="font-size: 40px; font-weight: 300; color: var(--acc-t); line-height: 1">۲</span><span style="font-size: 20px; font-weight: 800">پیشنهاد مکتوب</span><span style="font-size: 15px; line-height: 1.9; color: var(--ink2)">دامنه‌ی کار، زمان‌بندی و هزینه را شفاف و مکتوب دریافت می‌کنید.</span></li>
+        <li style="padding: 32px; border-radius: 24px; background: var(--card-b); border: 1px solid var(--line); display: flex; flex-direction: column; gap: 12px"><span style="font-size: 40px; font-weight: 300; color: var(--acc-t); line-height: 1">۳</span><span style="font-size: 20px; font-weight: 800">اجرا و گزارش</span><span style="font-size: 15px; line-height: 1.9; color: var(--ink2)">کار را با هم پیش می‌بریم و نتیجه را منظم گزارش می‌کنیم.</span></li>
+      </ol>
+      <p style="margin: 0; font-size: 15px; color: var(--ink2)">هزینه پس از جلسه‌ی اول و بر اساس دامنه‌ی کار، شفاف و مکتوب مشخص می‌شود.</p>
+    </div>
+  </section>
+
+  <!-- ===== FAQ (A) ===== -->
+  <section id="faq" style="background: var(--a)">
+    <div style="max-width: 880px; margin: 0 auto; padding: 120px 32px; box-sizing: border-box; display: flex; flex-direction: column; gap: 32px">
+      <h2 style="margin: 0; font-size: clamp(30px, 3.6vw, 48px); line-height: 1.35; font-weight: 800">سؤالات رایج</h2>
+      <div style="display: flex; flex-direction: column">
+        <details open="open" style="border-top: 1px solid var(--line); padding: 22px 0">
+          <summary style="font-size: 18px; font-weight: 700; min-height: 44px; display: flex; align-items: center">هزینه‌ی مشاوره و آموزش چقدر است؟</summary>
+          <p style="margin: 12px 0 0; font-size: 16px; line-height: 1.9; color: var(--ink2)">بعد از جلسه‌ی اول رایگان و مشخص شدن دامنه‌ی کار، هزینه را به‌صورت شفاف و مکتوب دریافت می‌کنید.</p>
+        </details>
+        <details style="border-top: 1px solid var(--line); padding: 22px 0">
+          <summary style="font-size: 18px; font-weight: 700; min-height: 44px; display: flex; align-items: center">آموزش‌ها حضوری است یا آنلاین؟</summary>
+          <p style="margin: 12px 0 0; font-size: 16px; line-height: 1.9; color: var(--ink2)">هر دو. جلسه‌ها و دوره‌ها حضوری در اهواز، داخل سازمان شما یا آنلاین برگزار می‌شوند. یک دوره‌ی ۱۶ ساعته معمولاً در ۲ جلسه برگزار می‌شود.</p>
+        </details>
+        <details style="border-top: 1px solid var(--line); padding: 22px 0">
+          <summary style="font-size: 18px; font-weight: 700; min-height: 44px; display: flex; align-items: center">یک پروژه‌ی مشاوره چقدر طول می‌کشد؟</summary>
+          <p style="margin: 12px 0 0; font-size: 16px; line-height: 1.9; color: var(--ink2)">معمولاً ۱ تا ۳ ماه. بعد از آن، اگر بخواهید، همکاری ادامه پیدا می‌کند و پشتیبانی ماهانه هم به‌صورت آنلاین در واتس‌اپ و تلگرام داریم.</p>
+        </details>
+        <details style="border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 22px 0">
+          <summary style="font-size: 18px; font-weight: 700; min-height: 44px; display: flex; align-items: center">برای کسب‌وکار کوچک هم مناسب است؟</summary>
+          <p style="margin: 12px 0 0; font-size: 16px; line-height: 1.9; color: var(--ink2)">بله. با کسب‌وکارهای کوچک و تک‌نفره هم کار می‌کنم. برای این کسب‌وکارها دو بسته‌ی سبک‌تر هست: طراحی تقویم تولید محتوا، و آموزش خصوصی چندجلسه‌ای هوش مصنوعی.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Final CTA (B) ===== -->
+  <section style="background: var(--b); border-top: 1px solid var(--line)">
+    <div style="max-width: 1240px; margin: 0 auto; padding: 120px 32px; box-sizing: border-box; display: flex; flex-wrap: wrap; align-items: center; gap: 56px">
+      <div style="flex: 0 1 380px; min-width: 0; border-radius: 28px; overflow: hidden; aspect-ratio: 1 / 1; background: #0F2A22">
+        <img src="images/portrait.jpg" alt="عبدالله احمدیان" style="display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%">
+      </div>
+      <div style="flex: 1 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 24px">
+        <h2 style="margin: 0; font-size: clamp(32px, 4vw, 56px); line-height: 1.3; font-weight: 800">مطمئن نیستید از کجا شروع کنید؟</h2>
+        <p style="margin: 0; font-size: 19px; line-height: 1.9; color: var(--ink2)">در یک جلسه‌ی کوتاه و رایگان، با هم پیدا می‌کنیم کدام خدمت دقیقاً به کار شما می‌آید.</p>
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 14px">
+          <a href="#" style="text-decoration: none; display: inline-flex; align-items: center; min-height: 58px; padding: 0 30px; border-radius: 999px; background: #00C389; color: #0A2540; font-size: 17px; font-weight: 700">رزرو جلسه مشاوره رایگان</a>
+          <a href="#" style="text-decoration: none; display: inline-flex; align-items: center; min-height: 58px; padding: 0 24px; border-radius: 999px; border: 1px solid var(--line2); color: var(--ink); font-size: 15px; font-weight: 500">پیام در واتس‌اپ</a>
+          <a href="#" style="text-decoration: none; display: inline-flex; align-items: center; min-height: 58px; padding: 0 24px; border-radius: 999px; border: 1px solid var(--line2); color: var(--ink); font-size: 15px; font-weight: 500">پیام در تلگرام</a>
+        </div>
+        <p style="margin: 0; font-size: 14px; color: var(--ink3)">عبدالله احمدیان — مشاور هوش مصنوعی کسب‌وکار</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+document.getElementById('themeBtn').onclick=function(){var h=document.documentElement;var l=h.dataset.theme==='dark';h.dataset.theme=l?'light':'dark';document.querySelector('.logo').src=l?'images/logo-light.png':'images/logo-dark.png';};
+</script>
+</body>
+</html>
