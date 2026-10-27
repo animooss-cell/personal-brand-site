@@ -5,14 +5,6 @@ import { formatFileSize } from "@/lib/downloadTypes";
 
 const mono = JetBrains_Mono({ subsets: ["latin"], weight: ["500", "600"], display: "swap" });
 
-// این فیلدها هنوز در جدول downloads وجود ندارند. اگر روزی با همین نام‌ها اضافه شوند،
-// بخش مربوط به‌طور خودکار نمایش داده می‌شود؛ تا آن موقع هیچ‌کدام رندر نمی‌شوند.
-type DownloadCardExtras = {
-  after_download_steps?: string[] | null;
-  prerequisites?: string | null;
-  install_guide_url?: string | null;
-};
-
 const FORMAT_NAMES: Record<string, string> = {
   md: "Markdown",
   pdf: "PDF",
@@ -97,7 +89,8 @@ function FileGlyph({ extension }: { extension: string | null }) {
   );
 }
 
-export default function DownloadFileCard({ item }: { item: Download & DownloadCardExtras }) {
+// مراحل «بعد از دانلود»، پیش‌نیاز و لینک راهنما اختیاری‌اند و هر کدام فقط وقتی مقدار دارد نمایش داده می‌شود.
+export default function DownloadFileCard({ item }: { item: Download }) {
   if (!item.file_url) return null;
 
   const extension = fileExtension(item.file_name, item.file_url);
