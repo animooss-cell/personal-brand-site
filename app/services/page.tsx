@@ -14,6 +14,10 @@ import {
 import { getServices, getPublishedCourses } from "@/lib/data";
 import { SITE_URL } from "@/lib/site";
 import { buildBreadcrumbJsonLd, serializeJsonLd } from "@/lib/post-content";
+import ServicesHero from "@/components/services/ServicesHero";
+import ProofStrip from "@/components/services/ProofStrip";
+import ServicesLocalNav from "@/components/services/ServicesLocalNav";
+import servicesTheme from "@/components/services/servicesTheme.module.css";
 
 export const revalidate = 300;
 
@@ -41,24 +45,28 @@ function resolveIcon(name: string): LucideIcon {
 
 const dedicatedServices = [
   {
+    id: "consulting",
     href: "/services/ai-business-consulting",
     icon: Briefcase,
     title: "مشاور کسب‌وکار با هوش مصنوعی",
     desc: "برای شروع پیاده‌سازی و اتوماسیون هوش مصنوعی در کسب‌وکارتان.",
   },
   {
+    id: "growth",
     href: "/services/ai-growth-consulting",
     icon: TrendingUp,
     title: "مشاور توسعه و رشد کسب‌وکار",
     desc: "برای کسب‌وکارهایی که راه افتاده‌اند و دنبال مقیاس‌پذیری هستند.",
   },
   {
+    id: undefined,
     href: "/services/ai-training-ahvaz",
     icon: GraduationCap,
     title: "آموزش هوش مصنوعی در اهواز",
     desc: "دوره‌های حضوری و سازمانی برای تیم و سازمان شما.",
   },
   {
+    id: "content",
     href: "/services/ai-content-generation",
     icon: PenTool,
     title: "تولید محتوا با هوش مصنوعی",
@@ -86,21 +94,14 @@ export default async function ServicesPage() {
   ]);
 
   return (
-    <div dir="rtl">
+    // توکن‌های طراحی جدید فقط روی همین صفحه فعال‌اند؛ هدف لینک‌های داخلی زیر هدر و نوار چسبان قرار می‌گیرد.
+    <div dir="rtl" className={`${servicesTheme.root} [&_[id]]:scroll-mt-[170px]`}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(itemListJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbJsonLd) }} />
 
-      {/* هدر */}
-      <section className="px-4 pt-6 md:px-8">
-        <div className="fade-in-up mx-auto max-w-6xl overflow-hidden rounded-[2rem] bg-gradient-to-br from-slate-900 via-brand-900 to-slate-900 px-6 py-16 text-center md:py-20">
-          <h1 className="text-3xl font-extrabold text-white md:text-5xl">
-            خدمات مشاوره و آموزش هوش مصنوعی در اهواز
-          </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-base text-slate-300 md:text-lg">
-            از مشاوره تا آموزش — همه چیز برای رشد کسب‌وکارت با هوش مصنوعی
-          </p>
-        </div>
-      </section>
+      <ServicesHero title={servicesTitle} />
+      <ProofStrip />
+      <ServicesLocalNav />
 
       <section className="px-4 pt-10 md:px-8">
         <p className="fade-in-up mx-auto max-w-3xl text-center text-base leading-7 text-slate-600 dark:text-slate-300">
@@ -117,9 +118,10 @@ export default async function ServicesPage() {
       <section className="mx-auto max-w-6xl px-6 py-16">
         <h2 className="mb-12 text-center text-2xl font-bold text-slate-900 dark:text-white md:text-3xl">همه خدمات</h2>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {dedicatedServices.map(({ href, icon: Icon, title, desc }, idx) => (
+          {dedicatedServices.map(({ id, href, icon: Icon, title, desc }, idx) => (
             <Link
               key={href}
+              id={id}
               href={href}
               style={{ animationDelay: `${idx * 100}ms` }}
               className="fade-in-up flex flex-col rounded-3xl border border-gray-200 bg-white p-6 shadow-sm transition-shadow duration-200 hover:shadow-md dark:border-slate-700 dark:bg-slate-900"
@@ -231,7 +233,7 @@ export default async function ServicesPage() {
       </section>
 
       {/* بخش ۲ — آموزش‌ها */}
-      <section className="mx-auto max-w-6xl px-6 py-16">
+      <section id="training" className="mx-auto max-w-6xl px-6 py-16">
         <div className="mx-auto mb-12 max-w-2xl text-center">
           <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-50 text-brand-600 dark:bg-brand-900/30">
             <GraduationCap className="h-6 w-6" aria-hidden="true" />
