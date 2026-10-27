@@ -1,5 +1,4 @@
 // بخش‌های صفحه‌ی خدمات که از کارت‌های «از کجا شروع کنیم؟» و نوار ناوبری چسبان به آن‌ها لینک می‌شود.
-// «روند همکاری» و «سؤالات» وقتی بخش‌شان به صفحه اضافه شد، این‌جا اضافه می‌شوند.
 export const SERVICE_SECTIONS = [
   {
     id: "consulting",
@@ -26,3 +25,10 @@ export const SERVICE_SECTIONS = [
     service: "آموزش‌های سازمانی و حضوری",
   },
 ] as const;
+
+// نوار ناوبری چسبان، مثل مرجع، علاوه بر چهار خدمت به «روند همکاری» و «سؤالات» هم لینک می‌دهد.
+export const NAV_SECTIONS = [
+  ...SERVICE_SECTIONS.map(({ id, navLabel }) => ({ id, navLabel })),
+  { id: "process", navLabel: "روند همکاری" },
+  { id: "faq", navLabel: "سؤالات" },
+];
