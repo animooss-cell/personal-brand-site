@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import ContactForm from "./ContactForm";
+import ContactHero from "@/components/contact/ContactHero";
+import servicesTheme from "@/components/services/servicesTheme.module.css";
+import contactTheme from "@/components/contact/contactTheme.module.css";
 
 const contactTitle = "تماس و رزرو جلسه | مشاوره کسب و کار اهواز";
 const contactDescription =
@@ -20,16 +23,13 @@ export const metadata: Metadata = {
 
 export const revalidate = 300;
 
+const contactH1 = "رزرو جلسه مشاوره";
+
 export default function ContactPage() {
   return (
-    <section className="mx-auto max-w-2xl px-6 py-16 md:py-24">
-      <div className="mb-12 text-center">
-        <h1 className="text-3xl font-bold text-slate-900 dark:text-white md:text-4xl">رزرو جلسه مشاوره</h1>
-        <p className="mt-4 text-base leading-7 text-slate-600 dark:text-slate-300">
-          فرم زیر را پر کنید تا برای هماهنگی جلسه رایگان با شما در ارتباط باشیم.
-        </p>
-      </div>
-      <ContactForm />
-    </section>
+    // توکن‌های طراحی (همان توکن‌های صفحه‌ی خدمات + چند توکن فرم) فقط روی همین صفحه فعال‌اند.
+    <div dir="rtl" className={`${servicesTheme.root} ${contactTheme.root}`}>
+      <ContactHero title={contactH1} form={<ContactForm />} />
+    </div>
   );
 }
