@@ -1,22 +1,14 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import * as Icons from "lucide-react";
-import {
-  Rocket,
-  ArrowLeft,
-  GraduationCap,
-  Briefcase,
-  TrendingUp,
-  PenTool,
-  type LucideIcon,
-} from "lucide-react";
-import { getServices, getPublishedCourses } from "@/lib/data";
+import { ArrowLeft, GraduationCap } from "lucide-react";
+import { getPublishedCourses } from "@/lib/data";
 import { SITE_URL } from "@/lib/site";
 import { buildBreadcrumbJsonLd, serializeJsonLd } from "@/lib/post-content";
 import ServicesHero from "@/components/services/ServicesHero";
 import ProofStrip from "@/components/services/ProofStrip";
 import ServicesLocalNav from "@/components/services/ServicesLocalNav";
+import ServiceChapters from "@/components/services/ServiceChapters";
 import servicesTheme from "@/components/services/servicesTheme.module.css";
 
 export const revalidate = 300;
@@ -38,44 +30,16 @@ export const metadata: Metadata = {
   },
 };
 
-function resolveIcon(name: string): LucideIcon {
-  const icon = (Icons as unknown as Record<string, LucideIcon>)[name];
-  return icon || Rocket;
-}
-
+// فهرست صفحه‌های اختصاصی خدمات؛ فقط برای اسکیمای ItemList (عنوان و آدرس‌ها بدون تغییر).
 const dedicatedServices = [
-  {
-    id: "consulting",
-    href: "/services/ai-business-consulting",
-    icon: Briefcase,
-    title: "مشاور کسب‌وکار با هوش مصنوعی",
-    desc: "برای شروع پیاده‌سازی و اتوماسیون هوش مصنوعی در کسب‌وکارتان.",
-  },
-  {
-    id: "growth",
-    href: "/services/ai-growth-consulting",
-    icon: TrendingUp,
-    title: "مشاور توسعه و رشد کسب‌وکار",
-    desc: "برای کسب‌وکارهایی که راه افتاده‌اند و دنبال مقیاس‌پذیری هستند.",
-  },
-  {
-    id: undefined,
-    href: "/services/ai-training-ahvaz",
-    icon: GraduationCap,
-    title: "آموزش هوش مصنوعی در اهواز",
-    desc: "دوره‌های حضوری و سازمانی برای تیم و سازمان شما.",
-  },
-  {
-    id: "content",
-    href: "/services/ai-content-generation",
-    icon: PenTool,
-    title: "تولید محتوا با هوش مصنوعی",
-    desc: "محتوای شبکه‌های اجتماعی، وبسایت و کمپین‌های تبلیغاتی.",
-  },
+  { href: "/services/ai-business-consulting", title: "مشاور کسب‌وکار با هوش مصنوعی" },
+  { href: "/services/ai-growth-consulting", title: "مشاور توسعه و رشد کسب‌وکار" },
+  { href: "/services/ai-training-ahvaz", title: "آموزش هوش مصنوعی در اهواز" },
+  { href: "/services/ai-content-generation", title: "تولید محتوا با هوش مصنوعی" },
 ];
 
 export default async function ServicesPage() {
-  const [services, courses] = await Promise.all([getServices(), getPublishedCourses()]);
+  const courses = await getPublishedCourses();
 
   const itemListJsonLd = {
     "@context": "https://schema.org",
@@ -114,123 +78,7 @@ export default async function ServicesPage() {
         </p>
       </section>
 
-      {/* خلاصه ۴ خدمت اصلی */}
-      <section className="mx-auto max-w-6xl px-6 py-16">
-        <h2 className="mb-12 text-center text-2xl font-bold text-slate-900 dark:text-white md:text-3xl">همه خدمات</h2>
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {dedicatedServices.map(({ id, href, icon: Icon, title, desc }, idx) => (
-            <Link
-              key={href}
-              id={id}
-              href={href}
-              style={{ animationDelay: `${idx * 100}ms` }}
-              className="fade-in-up flex flex-col rounded-3xl border border-gray-200 bg-white p-6 shadow-sm transition-shadow duration-200 hover:shadow-md dark:border-slate-700 dark:bg-slate-900"
-            >
-              <div className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-50 text-brand-600 dark:bg-brand-900/30">
-                <Icon className="h-5 w-5" aria-hidden="true" />
-              </div>
-              <h3 className="mb-2 text-base font-bold text-slate-900 dark:text-white">{title}</h3>
-              <p className="mb-4 text-sm leading-6 text-slate-600 dark:text-slate-300">{desc}</p>
-              <span className="mt-auto inline-flex items-center gap-1 text-sm font-semibold text-brand-700">
-                بیشتر بدانید
-                <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-              </span>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* بخش ۱ — خدمات مشاوره */}
-      <section className="mx-auto max-w-6xl px-6 py-16">
-        <h2 className="mb-12 text-center text-2xl font-bold text-slate-900 dark:text-white md:text-3xl">
-          خدمات مشاوره
-        </h2>
-
-        <div className="grid gap-8 md:grid-cols-3">
-          {services.map((service, idx) => {
-            const Icon = resolveIcon(service.icon);
-            return (
-              <div
-                key={service.id}
-                style={{ animationDelay: `${idx * 120}ms` }}
-                className={`fade-in-up relative flex flex-col rounded-3xl border bg-white p-8 shadow-sm transition-shadow duration-200 hover:shadow-md dark:bg-slate-900 ${
-                  service.featured
-                    ? "border-2 border-brand md:-translate-y-3 md:shadow-lg"
-                    : "border-gray-200 dark:border-slate-700"
-                }`}
-              >
-                {service.featured && (
-                  <span className="absolute -top-3 right-8 rounded-full bg-brand px-4 py-1 text-xs font-bold text-white shadow">
-                    تخصص کلیدی
-                  </span>
-                )}
-
-                <div
-                  className={`mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl ${
-                    service.featured ? "bg-brand text-white" : "bg-brand-50 text-brand-600 dark:bg-brand-900/30"
-                  }`}
-                >
-                  <Icon className="h-6 w-6" aria-hidden="true" />
-                </div>
-
-                <h3 className="mb-1 text-xl font-bold text-slate-900 dark:text-white">{service.title}</h3>
-                {service.subtitle && (
-                  <p className="mb-4 text-sm font-medium text-brand-600">{service.subtitle}</p>
-                )}
-                {service.description && (
-                  <p className="mb-5 text-sm leading-6 text-slate-600 dark:text-slate-300">{service.description}</p>
-                )}
-
-                <div className="mb-6 flex flex-wrap gap-2">
-                  {service.audience.map((tag) => (
-                    <span
-                      key={tag}
-                      className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-300"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
-                {service.steps.length > 0 && (
-                  <>
-                    <p className="mb-2 text-xs font-bold text-slate-500 dark:text-slate-400">فرآیند کار</p>
-                    <div className="mb-6 grid grid-cols-2 gap-3">
-                      {service.steps.map((step, i) => (
-                        <div
-                          key={step}
-                          className="rounded-xl bg-slate-50 p-3 text-xs leading-5 text-slate-700 dark:bg-slate-800/60 dark:text-slate-300"
-                        >
-                          <span className="mb-1 block font-bold text-brand-600">{`گام ${i + 1}`}</span>
-                          {step}
-                        </div>
-                      ))}
-                    </div>
-                  </>
-                )}
-
-                <Link
-                  href="/contact"
-                  className={`mt-auto inline-flex cursor-pointer items-center justify-center rounded-full px-5 py-3 text-sm font-semibold transition-colors duration-200 ${
-                    service.featured
-                      ? "bg-cta text-cta-fg hover:bg-cta-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta-fg focus-visible:ring-2 focus-visible:ring-white"
-                      : "bg-slate-900 text-white hover:bg-slate-700"
-                  }`}
-                >
-                  جلسه رایگان رزرو کن
-                </Link>
-                <p className="mt-3 text-center text-xs text-slate-400">
-                  بدون تعهد — فقط یه مکالمه صادقانه
-                </p>
-              </div>
-            );
-          })}
-
-          {!services.length && (
-            <p className="col-span-3 text-center text-slate-400">هنوز کارت خدماتی ثبت نشده است.</p>
-          )}
-        </div>
-      </section>
+      <ServiceChapters />
 
       {/* بخش ۲ — آموزش‌ها */}
       <section id="training" className="mx-auto max-w-6xl px-6 py-16">
@@ -242,6 +90,14 @@ export default async function ServicesPage() {
           <p className="mt-4 text-base leading-7 text-slate-600 dark:text-slate-300">
             آموزش‌های تخصصی ابزارهای هوش مصنوعی برای رشد سازمان‌ها و کسب‌وکارها
           </p>
+          {/* لینک داخلی صفحه‌ی آموزش (قبلاً در کارت‌های «همه خدمات» بود) تا فصل آموزش جایگزین این بخش شود. */}
+          <Link
+            href="/services/ai-training-ahvaz"
+            className="mt-4 inline-flex min-h-11 items-center gap-1.5 text-sm font-semibold text-brand-700 underline-offset-4 hover:underline dark:text-brand-300"
+          >
+            جزئیات کامل: آموزش هوش مصنوعی در اهواز
+            <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+          </Link>
         </div>
 
         {courses.length > 0 ? (
