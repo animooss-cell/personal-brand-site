@@ -1,0 +1,45 @@
+/* توکن‌های اضافه‌ی صفحه‌ی تماس (مرجع: docs/design/contact-redesign/index.html).
+   توکن‌های پایه (--svc-*) از components/services/servicesTheme.module.css می‌آیند؛ هر دو فقط داخل همین صفحه فعال‌اند
+   و با کلاس dark همان سیستم تم سایت عوض می‌شوند. */
+.root {
+  --ct-acc-soft: #e9f7f1;
+  --ct-badge-bg: #e9f7f1;
+  --ct-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 16px 40px rgba(15, 23, 42, 0.08);
+  /* مرز فیلدها و گزینه‌ها: کنتراست دست‌کم ۳ به ۱ با زمینه‌ی کارت و فیلد */
+  --ct-field-line: #938c7e;
+  --ct-error: #b42318;
+}
+
+:global(.dark) .root {
+  --ct-acc-soft: rgba(0, 195, 137, 0.12);
+  --ct-badge-bg: rgba(0, 195, 137, 0.14);
+  --ct-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+  --ct-field-line: #5f6b7e;
+  --ct-error: #fda29b;
+}
+
+.card {
+  box-shadow: var(--ct-shadow);
+}
+
+/* ورود نرم هر مرحله‌ی فرم؛ با «کاهش حرکت» حذف می‌شود. */
+.stepIn {
+  animation: ctStepIn 0.24s ease-out both;
+}
+
+@keyframes ctStepIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stepIn {
+    animation: none;
+  }
+}
