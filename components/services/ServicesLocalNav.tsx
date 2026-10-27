@@ -2,17 +2,17 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { SERVICE_SECTIONS } from "@/components/services/sections";
+import { NAV_SECTIONS } from "@/components/services/sections";
 
 // نوار ناوبری چسبان صفحه‌ی خدمات؛ درست زیر هدر شناور سایت (top-4 + ارتفاع ۶۶px = ۸۲px) می‌چسبد و بخش در دید را مشخص می‌کند.
 // ۸px بالای آن (pt-2) فاصله‌ی زیر هدر را می‌پوشاند تا محتوا از لای آن دیده نشود.
 export default function ServicesLocalNav() {
   // مثل مرجع، تا وقتی هیچ بخشی در دید نیست، اولین بخش فعال نشان داده می‌شود.
-  const [active, setActive] = useState<string>(SERVICE_SECTIONS[0].id);
+  const [active, setActive] = useState<string>(NAV_SECTIONS[0].id);
   const scrollerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const targets = SERVICE_SECTIONS.map(({ id }) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
+    const targets = NAV_SECTIONS.map(({ id }) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
     if (targets.length === 0) return;
     const observer = new IntersectionObserver(
       (entries) => {
@@ -46,7 +46,7 @@ export default function ServicesLocalNav() {
           ref={scrollerRef}
           className="flex min-w-0 flex-1 gap-x-[26px] gap-y-1 overflow-x-auto whitespace-nowrap text-sm font-medium [scrollbar-width:none] sm:flex-none sm:flex-wrap sm:overflow-visible [&::-webkit-scrollbar]:hidden"
         >
-          {SERVICE_SECTIONS.map(({ id, navLabel }) => (
+          {NAV_SECTIONS.map(({ id, navLabel }) => (
             <a
               key={id}
               href={`#${id}`}

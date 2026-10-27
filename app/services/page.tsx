@@ -1,12 +1,17 @@
 import type { Metadata } from "next";
 import { getPublishedCourses } from "@/lib/data";
 import { SITE_URL } from "@/lib/site";
-import { buildBreadcrumbJsonLd, serializeJsonLd } from "@/lib/post-content";
+import { buildBreadcrumbJsonLd, buildFaqJsonLd, serializeJsonLd } from "@/lib/post-content";
 import ServicesHero from "@/components/services/ServicesHero";
 import ProofStrip from "@/components/services/ProofStrip";
 import ServicesLocalNav from "@/components/services/ServicesLocalNav";
 import ServiceChapters from "@/components/services/ServiceChapters";
 import TrainingSection from "@/components/services/TrainingSection";
+import CaseStudy from "@/components/services/CaseStudy";
+import ProcessSection from "@/components/services/ProcessSection";
+import FaqSection from "@/components/services/FaqSection";
+import FinalCta from "@/components/services/FinalCta";
+import { SERVICES_FAQ } from "@/components/services/faq";
 import servicesTheme from "@/components/services/servicesTheme.module.css";
 
 export const revalidate = 300;
@@ -55,30 +60,29 @@ export default async function ServicesPage() {
     { name: "خدمات", path: "/services" },
   ]);
 
+  // از همان فهرستی ساخته می‌شود که بخش «سؤالات رایج» نمایش می‌دهد.
+  const faqJsonLd = buildFaqJsonLd(SERVICES_FAQ);
+
   return (
     // توکن‌های طراحی جدید فقط روی همین صفحه فعال‌اند؛ هدف لینک‌های داخلی زیر هدر و نوار چسبان قرار می‌گیرد.
     <div dir="rtl" className={`${servicesTheme.root} [&_[id]]:scroll-mt-[170px]`}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(itemListJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbJsonLd) }} />
+      {faqJsonLd && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(faqJsonLd) }} />
+      )}
 
       <ServicesHero title={servicesTitle} />
       <ProofStrip />
       <ServicesLocalNav />
 
-      <section className="px-4 pt-10 md:px-8">
-        <p className="fade-in-up mx-auto max-w-3xl text-center text-base leading-7 text-slate-600 dark:text-slate-300">
-          اینجا خدمات مشاوره و آموزش هوش مصنوعی برای کسب‌وکارهای اهواز و خوزستان را در یک نگاه می‌بینید: از
-          اولین قدم در پیاده‌سازی هوش مصنوعی تا مشاوره‌ی رشد، تولید محتوا و آموزش تیم شما. هر خدمت صفحه‌ی
-          مستقل خودش را دارد تا دقیقاً ببینید فرآیند کار، خروجی‌ها و نحوه‌ی همکاری در هرکدام چگونه است. از
-          جمله‌ی همکاری‌های اخیر، می‌توان به آموزش هوش مصنوعی برای فولاد خوزستان و همکاری با بسیج رسانه
-          خوزستان در آموزش و به‌کارگیری هوش مصنوعی اشاره کرد. اگر هنوز نمی‌دانید کدام خدمت متناسب با وضعیت
-          فعلی کسب‌وکار شماست، می‌توانید مستقیم یک جلسه‌ی رایگان رزرو کنید تا با هم مسیر درست را پیدا کنیم.
-        </p>
-      </section>
-
       <ServiceChapters />
 
       <TrainingSection courses={courses} />
+      <CaseStudy />
+      <ProcessSection />
+      <FaqSection />
+      <FinalCta />
     </div>
   );
 }
