@@ -2,11 +2,12 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { Download as DownloadIcon, ArrowLeft, FileText } from "lucide-react";
+import { Download as DownloadIcon, ArrowLeft } from "lucide-react";
 import { getDownloadBySlug } from "@/lib/data";
 import { SITE_URL } from "@/lib/site";
-import { resourceTypeLabel, resourceSchemaType, formatFileSize } from "@/lib/downloadTypes";
+import { resourceTypeLabel, resourceSchemaType } from "@/lib/downloadTypes";
 import { serializeJsonLd } from "@/lib/post-content";
+import DownloadFileCard from "@/components/DownloadFileCard";
 
 export const revalidate = 300;
 
@@ -35,8 +36,6 @@ export async function generateMetadata({
 export default async function DownloadDetailPage({ params }: { params: { slug: string } }) {
   const item = await getDownloadBySlug(params.slug);
   if (!item) notFound();
-
-  const fileSize = formatFileSize(item.file_size);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -107,26 +106,7 @@ export default async function DownloadDetailPage({ params }: { params: { slug: s
           </div>
         )}
 
-        {item.file_url && (
-          <div className="mt-10 rounded-3xl border border-gray-200 bg-slate-50 p-7 text-center dark:border-slate-700 dark:bg-slate-800/60">
-            <a
-              href={item.file_url}
-              download={item.file_name || undefined}
-              className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-full bg-cta px-8 py-4 text-base font-semibold text-cta-fg shadow-sm transition-colors duration-200 hover:bg-cta-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cta-fg focus-visible:ring-2 focus-visible:ring-white"
-            >
-              <DownloadIcon className="h-5 w-5" aria-hidden="true" />
-              دانلود فایل
-            </a>
-            {(item.file_name || fileSize) && (
-              <p className="mt-4 flex items-center justify-center gap-2 text-sm text-slate-500 dark:text-slate-400">
-                <FileText className="h-4 w-4" aria-hidden="true" />
-                {item.file_name}
-                {item.file_name && fileSize && " — "}
-                {fileSize}
-              </p>
-            )}
-          </div>
-        )}
+        <DownloadFileCard item={item} />
       </article>
 
       <section className="px-4 pb-16 md:px-8">
