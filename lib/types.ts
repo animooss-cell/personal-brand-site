@@ -133,6 +133,10 @@ export type Download = {
   file_url: string | null;
   file_name: string | null;
   file_size: number | null;
+  // فیلدهای اختیاری کارت دانلود (supabase/migration_downloads_card_fields.sql)
+  after_download_steps?: string[] | null;
+  prerequisites?: string | null;
+  install_guide_url?: string | null;
   seo_title: string | null;
   meta_description: string | null;
   published: boolean;

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
@@ -8,7 +8,7 @@ import { compressImage } from "@/lib/compress-image";
 import { Download, DownloadResourceType } from "@/lib/types";
 import { RESOURCE_TYPES, formatFileSize } from "@/lib/downloadTypes";
 import TipTapEditor from "@/components/admin/TipTapEditor";
-import { Upload, Save, Trash2, FileText } from "lucide-react";
+import { Upload, Save, Trash2, FileText, Plus, X } from "lucide-react";
 
 function slugify(value: string) {
   let v = value.trim();
@@ -49,6 +49,13 @@ export default function DownloadForm({ download }: { download?: Download }) {
   const [fileUrl, setFileUrl] = useState(download?.file_url ?? "");
   const [fileName, setFileName] = useState(download?.file_name ?? "");
   const [fileSize, setFileSize] = useState<number | null>(download?.file_size ?? null);
+
+  // فیلدهای اختیاری کارت دانلود؛ هر مرحله یک id پایدار دارد تا حذف از وسط لیست ورودی‌ها را جابه‌جا نکند.
+  const nextStepId = useRef(0);
+  const newStep = (text = "") => ({ id: nextStepId.current++, text });
+  const [steps, setSteps] = useState(() => (download?.after_download_steps ?? []).map((text) => newStep(text)));
+  const [prerequisites, setPrerequisites] = useState(download?.prerequisites ?? "");
+  const [installGuideUrl, setInstallGuideUrl] = useState(download?.install_guide_url ?? "");
 
   const [uploadingImage, setUploadingImage] = useState(false);
   const [uploadingFile, setUploadingFile] = useState(false);
@@ -102,9 +109,17 @@ export default function DownloadForm({ download }: { download?: Download }) {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setSaving(true);
     setError(null);
 
+    const guideUrl = installGuideUrl.trim();
+    // فقط آدرس کامل http(s) یا مسیر داخلی سایت (/…)؛ «//دامنه» (لینک بیرونی بدون پروتکل) پذیرفته نمی‌شود.
+    if (guideUrl && !/^(https?:\/\/|\/(?!\/))/i.test(guideUrl)) {
+      setError("لینک راهنمای نصب باید با https:// یا / شروع شود.");
+      return;
+    }
+    const cleanSteps = steps.map((step) => step.text.trim()).filter(Boolean);
+
+    setSaving(true);
     const finalSlug = slug.trim() ? slugify(slug) : slugify(title);
 
     const payload = {
@@ -122,6 +137,9 @@ export default function DownloadForm({ download }: { download?: Download }) {
       file_url: fileUrl || null,
       file_name: fileName || null,
       file_size: fileSize,
+      after_download_steps: cleanSteps.length > 0 ? cleanSteps : null,
+      prerequisites: prerequisites.trim() || null,
+      install_guide_url: guideUrl || null,
       seo_title: seoTitle || null,
       meta_description: metaDescription || null,
       published,
@@ -186,6 +204,65 @@ export default function DownloadForm({ download }: { download?: Download }) {
         <div className="rounded-2xl border border-gray-200 bg-white p-6">
           <h2 className="mb-4 text-sm font-semibold text-slate-700">محتوای اصلی</h2>
           <TipTapEditor value={content} onChange={setContent} />
+        </div>
+
+        <div className="rounded-2xl border border-gray-200 bg-white p-6">
+          <h2 className="mb-1 text-sm font-semibold text-slate-700">کارت دانلود (اختیاری)</h2>
+          <p className="mb-4 text-xs text-slate-500">هر بخش فقط وقتی پر شده باشد در کارت دانلود نمایش داده می‌شود.</p>
+
+          <label className="mb-1 block text-sm font-medium text-slate-600">مراحل بعد از دانلود</label>
+          {steps.length > 0 && (
+            <ol className="mb-3 flex flex-col gap-2">
+              {steps.map((step, i) => (
+                <li key={step.id} className="flex items-center gap-2">
+                  <span className="w-5 flex-shrink-0 text-center text-xs font-semibold text-slate-400">
+                    {(i + 1).toLocaleString("fa-IR")}
+                  </span>
+                  <input
+                    value={step.text}
+                    onChange={(e) =>
+                      setSteps((prev) => prev.map((s) => (s.id === step.id ? { ...s, text: e.target.value } : s)))
+                    }
+                    aria-label={`مرحله ${(i + 1).toLocaleString("fa-IR")}`}
+                    className="w-full rounded-xl border border-gray-300 px-3 py-2.5 text-sm outline-none focus:border-brand focus:ring-1 focus:ring-brand"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setSteps((prev) => prev.filter((s) => s.id !== step.id))}
+                    aria-label={`حذف مرحله ${(i + 1).toLocaleString("fa-IR")}`}
+                    className="flex-shrink-0 cursor-pointer rounded-lg p-2 text-slate-400 transition-colors duration-200 hover:bg-red-50 hover:text-red-600"
+                  >
+                    <X className="h-4 w-4" aria-hidden="true" />
+                  </button>
+                </li>
+              ))}
+            </ol>
+          )}
+          <button
+            type="button"
+            onClick={() => setSteps((prev) => [...prev, newStep()])}
+            className="mb-4 inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-dashed border-gray-300 px-3 py-2.5 text-sm font-medium text-slate-600 transition-colors duration-200 hover:border-brand hover:text-brand-700"
+          >
+            <Plus className="h-4 w-4" aria-hidden="true" />
+            افزودن مرحله
+          </button>
+
+          <label className="mb-1 block text-sm font-medium text-slate-600">پیش‌نیاز</label>
+          <input
+            value={prerequisites}
+            onChange={(e) => setPrerequisites(e.target.value)}
+            className="mb-4 w-full rounded-xl border border-gray-300 px-3 py-2.5 text-sm outline-none focus:border-brand focus:ring-1 focus:ring-brand"
+          />
+
+          <label className="mb-1 block text-sm font-medium text-slate-600">لینک راهنمای نصب</label>
+          <input
+            value={installGuideUrl}
+            onChange={(e) => setInstallGuideUrl(e.target.value)}
+            placeholder="https://… یا /blog/…"
+            dir="ltr"
+            inputMode="url"
+            className="w-full rounded-xl border border-gray-300 px-3 py-2.5 text-sm outline-none focus:border-brand focus:ring-1 focus:ring-brand"
+          />
         </div>
 
         <div className="rounded-2xl border border-gray-200 bg-white p-6">
