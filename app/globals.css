@@ -92,9 +92,26 @@ body {
   font-style: italic;
 }
 
+/* فونت مونواسپیس سیستم فقط برای حروف لاتین. روی اندروید و لینوکس هیچ‌کدام از Consolas/Menlo/SF Mono نیست؛
+   بدون این، Vazirmatn (که حروف لاتین هم دارد) کد انگلیسی را غیرمونواسپیس نشان می‌داد. با unicode-range،
+   حروف فارسی از این فونت رد می‌شوند و به Vazirmatn می‌رسند (DejaVu Sans Mono لینوکس حروف عربی هم دارد). */
+@font-face {
+  font-family: "Code Latin Mono";
+  src: local("Droid Sans Mono"), local("DroidSansMono"), local("Noto Sans Mono"), local("DejaVu Sans Mono"),
+    local("Liberation Mono"), local("Menlo"), local("Consolas");
+  /* نیم‌فاصله و نشانه‌های جهت (U+200C تا U+200F و U+202A تا U+202E) عمداً بیرون مانده‌اند تا با Vazirmatn بمانند */
+  unicode-range: U+0000-024F, U+2000-200B, U+2010-2029, U+202F-206F, U+20AC, U+2122, U+2190-21FF;
+}
+
+/* جهت هر خط از اولین حرفش تعیین می‌شود: خط «/ig-plan» چپ‌به‌راست، خط‌های فارسی راست‌به‌چپ.
+   حروف فارسی با Vazirmatn سایت نمایش داده می‌شوند، نه با Courier New. */
 .prose-content pre {
-  direction: ltr;
-  text-align: left;
+  direction: rtl;
+  unicode-bidi: plaintext;
+  text-align: start;
+  white-space: pre-wrap;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Code Latin Mono", var(--font-vazirmatn),
+    "Liberation Mono", "Courier New", monospace;
   overflow-x: auto;
   border-radius: 1rem;
   background-color: #0f172a;
@@ -106,6 +123,17 @@ body {
 
 .prose-content code {
   font-family: ui-monospace, monospace;
+}
+
+/* code داخل pre همان فونت pre را می‌گیرد تا Vazirmatn برای حروف فارسی به کار برود */
+.prose-content pre code {
+  font-family: inherit;
+}
+
+/* code درون‌خطی (مثل /ig-reel) وسط متن فارسی: چپ‌به‌راست و جدا از متن اطراف */
+.prose-content :not(pre) > code {
+  direction: ltr;
+  unicode-bidi: isolate;
 }
 
 .prose-content img {
