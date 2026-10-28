@@ -168,7 +168,8 @@ export default async function PostPage({ params }: { params: { slug: string } })
   const postJsonLd = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    headline: post.title,
+    // همان عنوان و توضیحی که در نتایج جست‌وجو دیده می‌شود (seo_title / meta_description)
+    headline: post.seo_title || post.title,
     description: post.meta_description || post.excerpt || undefined,
     image: post.featured_image ? [post.featured_image] : undefined,
     datePublished: post.published_at || undefined,

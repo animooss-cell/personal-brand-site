@@ -4,11 +4,26 @@ import { BLOG_CATEGORIES, NEWS_CATEGORY } from "@/lib/categories";
 
 const CATEGORY_VALUE_TO_SLUG = new Map(BLOG_CATEGORIES.map((c) => [c.value, c.slug]));
 
-// لینک‌های خراب قدیمی دوره‌ها (از یک دوره‌ی قبلی import/سئو) که مستقیماً به مسیر درست ریدایرکت می‌شوند.
-const LEGACY_COURSE_REDIRECTS: Record<string, string> = {
-  "/services/courses/httpsaiabedirsmart-office-manager-ahvaz": "/services/courses/smart-office-manager-ahvaz",
-  "/services/courses/servicescoursessmart-office-manager-ahvaz": "/services/courses/smart-office-manager-ahvaz",
-};
+// اسلاگ دوره یا مقاله‌ای که از پیست یک آدرس کامل (https://aiabed.ir/…) یا مسیر (/services/courses/…) در
+// فیلد slug ساخته شده بود: پیشوند خراب حذف و در یک قدم با ۳۰۱ به اسلاگ درست هدایت می‌شود.
+// ریشه‌ی مشکل در lib/slug.ts بسته شده است. برای بلاگ فقط وقتی که پیشوند دامنه هست، تا اسلاگ سالمی که با
+// «blog» شروع می‌شود دست نخورد.
+const BROKEN_SLUG_RULES: { section: string; prefix: RegExp }[] = [
+  { section: "/services/courses/", prefix: /^(?:https?(?:www)?aiabedir)?(?:servicescourses)?/ },
+  { section: "/blog/", prefix: /^https?(?:www)?aiabedir(?:blog)?/ },
+];
+
+function brokenSlugTarget(pathname: string): string | null {
+  for (const { section, prefix } of BROKEN_SLUG_RULES) {
+    if (!pathname.startsWith(section)) continue;
+    const match = pathname.slice(section.length).match(/^([^/]+)\/?$/);
+    if (!match) return null;
+    const fixed = match[1].replace(prefix, "");
+    if (!fixed || fixed === match[1]) return null;
+    return `${section}${fixed}`;
+  }
+  return null;
+}
 
 // ریدایرکت دائمی ۳۰۱ برای دو حالت قدیمی، بدون تماس با Supabase:
 // ۱) /blog/category/<نام فارسی قبلی>[/page/N] → /blog/category/<اسلاگ انگلیسی>[/page/N]
@@ -59,10 +74,10 @@ function redirectLegacyBlogUrl(request: NextRequest): NextResponse | null {
 }
 
 export async function middleware(request: NextRequest) {
-  const legacyCourseTarget = LEGACY_COURSE_REDIRECTS[request.nextUrl.pathname];
-  if (legacyCourseTarget) {
+  const brokenSlugRedirect = brokenSlugTarget(request.nextUrl.pathname);
+  if (brokenSlugRedirect) {
     const url = request.nextUrl.clone();
-    url.pathname = legacyCourseTarget;
+    url.pathname = brokenSlugRedirect;
     return NextResponse.redirect(url, 301);
   }
 
@@ -77,5 +92,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/blog", "/blog/category/:path*", "/services/courses/:path*"],
+  matcher: ["/admin/:path*", "/blog", "/blog/:path*", "/services/courses/:path*"],
 };

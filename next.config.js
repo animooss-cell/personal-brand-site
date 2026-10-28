@@ -29,16 +29,7 @@ const nextConfig = {
   },
   async redirects() {
     return [
-      {
-        source: "/blog/httpsaiabedirai-dashboard-business-growth-ahvaz",
-        destination: "/blog/ai-dashboard-business-growth-ahvaz",
-        permanent: true,
-      },
-      {
-        source: "/blog/httpsaiabedirai-pr-innovation-business-growth-ahvaz",
-        destination: "/blog/ai-pr-innovation-business-growth-ahvaz",
-        permanent: true,
-      },
+      // اسلاگ‌های ساخته‌شده از یک آدرس کامل (https://aiabed.ir/…) در middleware.ts با یک قاعده‌ی کلی ریدایرکت می‌شوند.
       // ادغام چند مقاله‌ی تکراری در مقاله‌های اصلی؛ نشانی‌های قدیمی با ۳۰۱ به
       // مقاله‌ی اصلی هدایت می‌شوند. این پست‌های قدیمی بعد از deploy از پنل
       // ادمین به حالت پیش‌نویس برده می‌شوند.

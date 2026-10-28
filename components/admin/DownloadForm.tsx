@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { slugInputError, slugify } from "@/lib/slug";
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
 import { compressImage } from "@/lib/compress-image";
@@ -10,21 +11,6 @@ import { RESOURCE_TYPES, formatFileSize } from "@/lib/downloadTypes";
 import TipTapEditor from "@/components/admin/TipTapEditor";
 import { Upload, Save, Trash2, FileText, Plus, X } from "lucide-react";
 
-function slugify(value: string) {
-  let v = value.trim();
-  // اگه یه URL کامل پیست شده، فقط مسیرش رو نگه دار
-  try {
-    if (/^https?:\/\//i.test(v)) {
-      v = new URL(v).pathname.replace(/^\/+|\/+$/g, "");
-    }
-  } catch {
-    // URL معتبر نبود، همون مقدار اصلی رو نگه دار
-  }
-  return v
-    .toLowerCase()
-    .replace(/[^؀-ۿa-z0-9\s-]/g, "")
-    .replace(/\s+/g, "-");
-}
 
 export default function DownloadForm({ download }: { download?: Download }) {
   const router = useRouter();
@@ -115,6 +101,11 @@ export default function DownloadForm({ download }: { download?: Download }) {
     // فقط آدرس کامل http(s) یا مسیر داخلی سایت (/…)؛ «//دامنه» (لینک بیرونی بدون پروتکل) پذیرفته نمی‌شود.
     if (guideUrl && !/^(https?:\/\/|\/(?!\/))/i.test(guideUrl)) {
       setError("لینک راهنمای نصب باید با https:// یا / شروع شود.");
+      return;
+    }
+    const slugError = slugInputError(slug);
+    if (slugError) {
+      setError(slugError);
       return;
     }
     const cleanSteps = steps.map((step) => step.text.trim()).filter(Boolean);
