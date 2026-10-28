@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { SITE_URL } from "@/lib/site";
 import { BLOG_PAGE_SIZE, getPublishedPostsCount } from "@/lib/data";
 import { BLOG_ARTICLE_CATEGORIES, NEWS_CATEGORY } from "@/lib/categories";
+import { isBrokenSlug } from "@/lib/slug";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const supabase = createClient();
@@ -36,8 +37,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/contact`, changeFrequency: "monthly", priority: 0.6 },
   ];
 
-  const blogPosts = (posts ?? []).filter((post) => post.category !== NEWS_CATEGORY.value);
-  const newsPosts = (posts ?? []).filter((post) => post.category === NEWS_CATEGORY.value);
+  // اسلاگی که از روی یک آدرس کامل ساخته شده باشد (lib/slug.ts) هرگز وارد sitemap نمی‌شود.
+  const validPosts = (posts ?? []).filter((post) => !isBrokenSlug(post.slug));
+  const blogPosts = validPosts.filter((post) => post.category !== NEWS_CATEGORY.value);
+  const newsPosts = validPosts.filter((post) => post.category === NEWS_CATEGORY.value);
 
   const postRoutes: MetadataRoute.Sitemap = blogPosts.map((post) => ({
     url: `${SITE_URL}/blog/${post.slug}`,
@@ -54,7 +57,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   const courseRoutes: MetadataRoute.Sitemap = (courses ?? [])
-    .filter((course) => course.slug)
+    .filter((course) => !isBrokenSlug(course.slug))
     .map((course) => ({
       url: `${SITE_URL}/services/courses/${course.slug}`,
       lastModified: course.updated_at,
@@ -62,12 +65,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.6,
     }));
 
-  const downloadRoutes: MetadataRoute.Sitemap = (downloads ?? []).map((item) => ({
-    url: `${SITE_URL}/downloads/${item.slug}`,
-    lastModified: item.updated_at,
-    changeFrequency: "monthly",
-    priority: 0.6,
-  }));
+  const downloadRoutes: MetadataRoute.Sitemap = (downloads ?? [])
+    .filter((item) => !isBrokenSlug(item.slug))
+    .map((item) => ({
+      url: `${SITE_URL}/downloads/${item.slug}`,
+      lastModified: item.updated_at,
+      changeFrequency: "monthly",
+      priority: 0.6,
+    }));
 
   const blogTotalPages = Math.max(1, Math.ceil(totalBlogPosts / BLOG_PAGE_SIZE));
   const blogPageRoutes: MetadataRoute.Sitemap = Array.from(

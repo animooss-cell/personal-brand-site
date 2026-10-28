@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { slugInputError, slugify } from "@/lib/slug";
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
 import { compressImage } from "@/lib/compress-image";
@@ -10,21 +11,6 @@ import { BLOG_CATEGORIES } from "@/lib/categories";
 import TipTapEditor from "@/components/admin/TipTapEditor";
 import { Upload, Save, Trash2 } from "lucide-react";
 
-function slugify(value: string) {
-  let v = value.trim();
-  // اگه یه URL کامل پیست شده، فقط مسیرش رو نگه دار
-  try {
-    if (/^https?:\/\//i.test(v)) {
-      v = new URL(v).pathname.replace(/^\/+|\/+$/g, "");
-    }
-  } catch {
-    // URL معتبر نبود، همون مقدار اصلی رو نگه دار
-  }
-  return v
-    .toLowerCase()
-    .replace(/[^؀-ۿa-z0-9\s-]/g, "")
-    .replace(/\s+/g, "-");
-}
 
 export default function PostForm({ post }: { post?: Post }) {
   const router = useRouter();
@@ -86,8 +72,13 @@ export default function PostForm({ post }: { post?: Post }) {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setSaving(true);
     setError(null);
+    const slugError = slugInputError(slug);
+    if (slugError) {
+      setError(slugError);
+      return;
+    }
+    setSaving(true);
 
     const finalSlug = slug.trim() ? slugify(slug) : slugify(title);
 

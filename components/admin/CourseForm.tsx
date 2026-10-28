@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { slugInputError, slugify } from "@/lib/slug";
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
 import { compressImage } from "@/lib/compress-image";
@@ -14,13 +15,6 @@ const inputClass =
   "w-full rounded-xl border border-gray-300 px-3 py-2.5 text-sm outline-none focus:border-brand focus:ring-1 focus:ring-brand";
 const labelClass = "mb-1 block text-sm font-medium text-slate-600";
 
-function slugify(value: string) {
-  return value
-    .trim()
-    .toLowerCase()
-    .replace(/[^؀-ۿa-z0-9\s-]/g, "")
-    .replace(/\s+/g, "-");
-}
 
 export default function CourseForm({ course }: { course?: Course }) {
   const router = useRouter();
@@ -67,8 +61,13 @@ export default function CourseForm({ course }: { course?: Course }) {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setSaving(true);
     setError(null);
+    const slugError = slugInputError(slug);
+    if (slugError) {
+      setError(slugError);
+      return;
+    }
+    setSaving(true);
 
     const finalSlug = slug.trim() ? slugify(slug) : slugify(title);
 
