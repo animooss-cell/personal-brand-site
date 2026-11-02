@@ -47,6 +47,7 @@ export default function CourseWaitlistForm() {
     const { error } = await createClient()
       .from("contacts")
       .insert({
+        source: "waitlist",
         name: "لیست انتظار دوره‌ها",
         email: isEmail ? value : "",
         phone: isEmail ? null : value,
