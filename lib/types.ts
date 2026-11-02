@@ -51,6 +51,9 @@ export type Course = {
   status: CourseStatus;
 };
 
+// فرمی که پیام از آن آمده (ستون contacts.source)
+export type ContactSource = "contact" | "course_registration" | "waitlist" | "other";
+
 export type ContactMessage = {
   id: string;
   name: string;
@@ -59,6 +62,7 @@ export type ContactMessage = {
   phone: string | null;
   message: string;
   read: boolean;
+  source: ContactSource;
   created_at: string;
 };
 

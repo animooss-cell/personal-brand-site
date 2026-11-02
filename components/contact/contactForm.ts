@@ -69,6 +69,7 @@ export function channelOf(value: string): string {
 export function toContactRow(f: ContactFields) {
   const header = `موضوع: ${f.topic} | پیگیری: ${channelOf(f.channel)}`;
   return {
+    source: "contact" as const,
     name: f.name,
     business: f.business || null,
     email: f.email,
