@@ -14,22 +14,29 @@ const GRID_COLS: Record<number, string> = {
   4: "md:grid-cols-2 lg:grid-cols-4",
 };
 
+// عرض واقعی هر ستون (محتوای بخش حداکثر ۱۲۳۲px، فاصله‌ی ستون‌ها ۲۰px) برای انتخاب اندازه‌ی تصویر.
+const IMAGE_SIZES: Record<number, string> = {
+  1: "(min-width: 768px) 448px, 100vw",
+  2: "(min-width: 1280px) 606px, (min-width: 768px) 50vw, 100vw",
+  3: "(min-width: 1280px) 397px, (min-width: 768px) 33vw, 100vw",
+  4: "(min-width: 1280px) 293px, (min-width: 1024px) 25vw, (min-width: 768px) 50vw, 100vw",
+};
+
 export default async function HomeCourses() {
   const courses = (await getPublishedCourses()).slice(0, 4);
   if (!courses.length) return null;
 
   return (
     <section className="mx-auto max-w-7xl px-6 py-20" dir="rtl">
-      {/* سرتیتر: عنوان سمت راست، دکمه «همه دوره‌ها» سمت چپ؛ در موبایل زیر هم */}
+      {/* سرتیتر: عنوان و زیرعنوان سمت راست، دکمه «همه دوره‌ها» سمت چپ؛ در موبایل زیر هم */}
       <div className="mb-10 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
         <div className="max-w-3xl">
-          <p className="mb-3 text-sm font-bold text-brand-600 dark:text-brand-400">
+          <h2 className="text-balance text-3xl font-extrabold leading-tight text-slate-900 dark:text-white md:text-5xl">
             دوره‌های آموزشی هوش مصنوعی
-          </p>
-          <h2 className="text-3xl font-extrabold leading-tight text-slate-900 dark:text-white md:text-5xl">
-            آموزش روی کار واقعی خودتان،{" "}
-            <span className="text-slate-400 lg:block dark:text-slate-500">نه مثال‌های کتابی</span>
           </h2>
+          <p className="mt-3 text-lg font-medium text-slate-500 dark:text-slate-400 md:text-xl">
+            آموزش روی کار واقعی خودتان
+          </p>
         </div>
 
         <Link
@@ -41,47 +48,49 @@ export default async function HomeCourses() {
         </Link>
       </div>
 
-      {/* کارت‌های تصویری؛ کل کارت لینک صفحه‌ی دوره است */}
+      {/* کارت‌ها؛ کل کارت لینک صفحه‌ی دوره است و کارت‌های هم‌ردیف هم‌قد می‌شوند */}
       <div className={`grid gap-5 ${GRID_COLS[courses.length]}`}>
         {courses.map((course, idx) => (
           <Link
             key={course.id}
             href={`/services/courses/${course.slug}`}
             style={{ animationDelay: `${idx * 100}ms` }}
-            className="fade-in-up group relative isolate flex min-h-[26rem] flex-col justify-end overflow-hidden rounded-[2rem] bg-brand-900 shadow-sm ring-1 ring-slate-900/5 transition-shadow duration-300 hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-600 dark:ring-white/10 dark:focus-visible:outline-brand-400 md:min-h-[36rem]"
+            className="fade-in-up group flex h-full flex-col overflow-hidden rounded-[2rem] bg-brand-900 shadow-sm ring-1 ring-slate-900/5 transition-shadow duration-300 hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-600 dark:ring-white/10 dark:focus-visible:outline-brand-400"
           >
-            {course.image ? (
-              <Image
-                src={course.image}
-                alt={course.title}
-                fill
-                sizes="(min-width: 1024px) 25vw, (min-width: 768px) 50vw, 100vw"
-                className="-z-10 object-cover transition-transform duration-500 group-hover:scale-105"
+            {/* تصویر شاخص افقی دوره در قاب هم‌نسبت خودش (۱۶:۹) تا متن روی عکس بریده نشود */}
+            <div className="relative isolate aspect-[16/9] overflow-hidden">
+              {course.image ? (
+                <Image
+                  src={course.image}
+                  alt={course.title}
+                  fill
+                  sizes={IMAGE_SIZES[courses.length]}
+                  className="-z-10 object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              ) : (
+                <div className="absolute inset-0 -z-10 bg-gradient-to-br from-brand-700 to-brand-dark" aria-hidden="true" />
+              )}
+
+              {/* محو نرم پایین عکس در بدنه‌ی کارت */}
+              <div
+                className="absolute inset-x-0 bottom-0 h-[30%] bg-gradient-to-b from-transparent to-brand-900"
+                aria-hidden="true"
               />
-            ) : (
-              <div className="absolute inset-0 -z-10 bg-gradient-to-br from-brand-700 to-brand-dark" aria-hidden="true" />
-            )}
 
-            {/* لایه سبز تیره: پایین کاملاً مات، تا وسط کارت شفاف */}
-            <div
-              className="absolute inset-0 -z-10 bg-gradient-to-t from-brand-900 to-transparent to-50%"
-              aria-hidden="true"
-            />
+              {course.duration && (
+                <span className="absolute right-3 top-3 rounded-full bg-white/95 px-3 py-1 text-sm font-bold text-slate-900 shadow">
+                  {toPersianDigits(course.duration)}
+                </span>
+              )}
+            </div>
 
-            {course.duration && (
-              <span className="absolute right-5 top-5 rounded-full bg-white/95 px-4 py-1.5 text-sm font-bold text-slate-900 shadow">
-                {toPersianDigits(course.duration)}
-              </span>
-            )}
-
-            {/* پشت متن همیشه تیره است، حتی اگر عنوان بلند باشد یا عکس روشن */}
-            <div className="bg-gradient-to-t from-brand-900 from-35% via-brand-900/60 via-65% to-transparent p-6 pt-32 lg:p-7 lg:pt-32">
-              <h3 className="mb-3 text-2xl font-extrabold leading-snug text-white">{course.title}</h3>
+            <div className="flex flex-1 flex-col px-5 pb-6 pt-3 xl:px-7 xl:pb-7">
+              <h3 className="mb-3 line-clamp-2 text-xl font-extrabold leading-snug text-white">{course.title}</h3>
               {course.description && (
-                <p className="mb-4 line-clamp-3 text-sm leading-7 text-white/85">{course.description}</p>
+                <p className="mb-5 line-clamp-3 text-sm leading-7 text-white/85">{course.description}</p>
               )}
               {course.audience && (
-                <p className="text-sm font-medium text-brand-300">{course.audience}</p>
+                <p className="mt-auto text-sm font-medium text-brand-300">{course.audience}</p>
               )}
             </div>
           </Link>
