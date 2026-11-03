@@ -4,6 +4,9 @@
   "name": "personal-brand-site",
   "compatibility_date": "2025-03-01",
   "compatibility_flags": ["nodejs_compat"],
+  // esbuild در wrangler به‌طور پیش‌فرض __name(...) به توابع اضافه می‌کند؛ اسکریپت درون‌خطی next-themes
+  // (که از روی متن تابع ساخته می‌شود) در مرورگر با «__name is not defined» می‌شکند.
+  "keep_names": false,
   "assets": {
     "binding": "ASSETS",
     "directory": ".open-next/assets"
