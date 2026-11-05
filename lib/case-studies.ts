@@ -1,9 +1,17 @@
 import { SITE_URL } from "@/lib/site";
 import { mdHeading, mdJoin, mdLink, mdList } from "@/lib/markdown";
 
-// جای خالی اطلاعاتی که باید صاحب سایت پر کند؛ هیچ عدد، تاریخ یا نقل‌قولی از خود ساخته نمی‌شود.
-export const todo = (what: string) => `[TODO: ${what}]`;
-export const hasTodo = (text: string) => text.includes("[TODO");
+// نمونه‌کارها. هر فیلدی که داده‌ی واقعی برایش نداریم اختیاری است و اگر پر نشده باشد، آن بخش اصلاً نمایش داده نمی‌شود؛
+// هیچ عدد، تاریخ یا نقل‌قولی از خود ساخته نمی‌شود.
+
+export type CaseStudyCourse = {
+  title: string;
+  audience: string;
+  // فقط وقتی جزئیات واقعی داریم (مدت، تعداد، زمان)
+  facts?: string;
+  // نمونه‌کار جداگانه‌ی همین دوره، اگر وجود داشته باشد
+  slug?: string;
+};
 
 export type CaseStudy = {
   slug: string;
@@ -15,53 +23,80 @@ export type CaseStudy = {
   client: { name: string; alternateName?: string[] };
   // یک پاراگراف که به‌تنهایی قابل نقل است: چه کسی، چه کاری، برای چه سازمانی
   summary: string;
-  challenge: string;
-  curriculum: string[];
-  details: { label: string; value: string }[];
-  result: string;
-  // اختیاری؛ فقط نقل‌قول واقعی و با اجازه‌ی گوینده
-  quote: { text: string; by: string } | null;
+  // دوره‌های یک مجموعه‌ی چنددوره‌ای
+  courses?: CaseStudyCourse[];
+  challenge?: string;
+  curriculum?: string[];
+  details?: { label: string; value: string }[];
+  result?: string;
 };
 
+export const CASE_STUDY_SECTIONS = {
+  courses: "دوره‌ها",
+  challenge: "چالش",
+  curriculum: "سرفصل‌ها",
+  details: "جزئیات دوره",
+  result: "نتیجه",
+};
+
+const KHUZESTAN_STEEL = { name: "شرکت فولاد خوزستان", alternateName: ["Khuzestan Steel", "Foolad Khuzestan"] };
+
 export const CASE_STUDIES: CaseStudy[] = [
+  {
+    slug: "foolad-khuzestan-ai-training-program",
+    title: "۵ دوره‌ی هوش مصنوعی برای فولاد خوزستان",
+    metaTitle: "۵ دوره هوش مصنوعی برای فولاد خوزستان | نمونه‌کار",
+    metaDescription:
+      "عبدالله احمدیان ۵ دوره‌ی آموزش هوش مصنوعی برای مدیران، رؤسا و کارشناسان فولاد خوزستان برگزار کرده است: پرامپت‌نویسی، داشبوردسازی، گزارش و روابط عمومی.",
+    client: KHUZESTAN_STEEL,
+    summary:
+      "عبدالله احمدیان، مدرس و مشاور هوش مصنوعی سازمانی در اهواز، تا امروز ۵ دوره‌ی آموزش هوش مصنوعی برای مدیران، رؤسا و کارشناسان فولاد خوزستان برگزار کرده است؛ از پرامپت‌نویسی برای تیم‌های تولید، مالی و بازرگانی تا داشبوردسازی، تهیه‌ی گزارش با هوش مصنوعی و دوره‌ی روابط عمومی.",
+    courses: [
+      { title: "هنر پرامپت‌نویسی", audience: "تیم‌های کاری تولید، مالی و بازرگانی" },
+      { title: "داشبوردسازی با هوش مصنوعی", audience: "مدیران مالی و تولید" },
+      { title: "تهیه‌ی گزارش با هوش مصنوعی", audience: "کارشناسان، رؤسا و مدیران" },
+      { title: "آموزش تهیه‌ی گزارش با هوش مصنوعی", audience: "مدیران ارشد شرکت" },
+      {
+        title: "دوره‌ی هوش مصنوعی برای روابط عمومی",
+        audience: "کارکنان روابط عمومی",
+        facts: "۱۶ ساعت، ۲۰ نفر، شهریور ۱۴۰۵",
+        slug: "foolad-khuzestan-pr-ai-training",
+      },
+    ],
+  },
   {
     slug: "foolad-khuzestan-pr-ai-training",
     title: "آموزش هوش مصنوعی برای روابط عمومی فولاد خوزستان",
     metaTitle: "آموزش هوش مصنوعی روابط عمومی فولاد خوزستان",
     metaDescription:
-      "نمونه‌کار: دوره‌ی «هوش مصنوعی در خدمت روابط عمومی» که عبدالله احمدیان برای تیم روابط عمومی شرکت فولاد خوزستان برگزار کرد.",
-    client: { name: "شرکت فولاد خوزستان", alternateName: ["Khuzestan Steel", "Foolad Khuzestan"] },
+      "دوره‌ی ۱۶ ساعته‌ی هوش مصنوعی برای ۲۰ نفر از کارکنان روابط عمومی فولاد خوزستان؛ تولید خبر، بیانیه و کپشن بدون طراح بیرونی.",
+    client: KHUZESTAN_STEEL,
     summary:
-      "عبدالله احمدیان، مدرس و مشاور هوش مصنوعی سازمانی در اهواز، دوره‌ی «هوش مصنوعی در خدمت روابط عمومی» را برای تیم روابط عمومی شرکت فولاد خوزستان برگزار کرد. در این دوره، شرکت‌کنندگان ابزارهای هوش مصنوعی را روی کارهای واقعی خود تیم تمرین کردند، نه روی مثال‌های عمومی.",
-    challenge: todo("چالش یا نیاز تیم روابط عمومی پیش از دوره، در ۲ تا ۳ جمله"),
-    curriculum: [todo("سرفصل‌های واقعی دوره، هر سرفصل یک آیتم")],
+      "عبدالله احمدیان، مدرس و مشاور هوش مصنوعی سازمانی در اهواز، دوره‌ی «هوش مصنوعی در خدمت روابط عمومی» را در شهریور ۱۴۰۵ برای ۲۰ نفر از کارکنان روابط عمومی شرکت فولاد خوزستان برگزار کرد. این دوره‌ی ۱۶ ساعته بر ۱۰ ساختار پرامپت‌نویسی برای تولید خبر، بیانیه و کپشن اینستاگرام تمرکز داشت.",
+    challenge:
+      "تیم روابط عمومی برای محتوای شبکه‌های اجتماعی به قرارداد با طراح گرافیک بیرونی وابسته بود و تولید محتوا زمان و هزینه‌ی بالایی داشت.",
+    curriculum: ["۱۰ ساختار پرامپت‌نویسی برای تولید خبر، بیانیه و کپشن اینستاگرام"],
     details: [
-      { label: "مدت دوره", value: todo("مدت دوره (مثلاً تعداد ساعت یا جلسه)") },
-      { label: "تعداد شرکت‌کننده", value: todo("تعداد شرکت‌کنندگان") },
-      { label: "تاریخ برگزاری", value: todo("تاریخ یا بازه‌ی برگزاری") },
+      { label: "مدت دوره", value: "۱۶ ساعت" },
+      { label: "شرکت‌کنندگان", value: "۲۰ نفر از کارکنان روابط عمومی" },
+      { label: "زمان برگزاری", value: "شهریور ۱۴۰۵" },
     ],
-    result: todo("نتیجه‌ی دوره: چه چیزی بعد از آموزش در کار تیم تغییر کرد"),
-    quote: null,
+    result:
+      "تیم روابط عمومی دیگر برای محتوای شبکه‌های اجتماعی به قرارداد با طراح گرافیک بیرونی نیاز ندارد و خبر، بیانیه و کپشن را خودش، سریع‌تر و با هزینه‌ی بسیار کمتر تولید می‌کند.",
   },
   {
     slug: "foolad-oxin-ai-training",
-    title: "دوره هوش مصنوعی برای کارکنان فولاد اکسین خوزستان",
-    metaTitle: "دوره هوش مصنوعی کارکنان فولاد اکسین خوزستان",
+    title: "دوره‌ی تهیه‌ی گزارش با هوش مصنوعی برای فولاد اکسین خوزستان",
+    metaTitle: "دوره گزارش‌نویسی با هوش مصنوعی فولاد اکسین خوزستان",
     metaDescription:
-      "نمونه‌کار: دوره‌ی آموزش هوش مصنوعی که عبدالله احمدیان برای کارکنان شرکت فولاد اکسین خوزستان برگزار کرد.",
+      "دوره‌ی تهیه و نگارش گزارش با هوش مصنوعی برای فولاد اکسین خوزستان، با تدریس عبدالله احمدیان و برگزاری مدیریت آموزش فولاد خوزستان.",
     client: { name: "شرکت فولاد اکسین خوزستان" },
     summary:
-      "عبدالله احمدیان، مدرس و مشاور هوش مصنوعی سازمانی در اهواز، یک دوره‌ی آموزش هوش مصنوعی برای کارکنان شرکت فولاد اکسین خوزستان برگزار کرد. " +
-      todo("یک جمله درباره‌ی تمرکز دوره و واحدهای شرکت‌کننده"),
-    challenge: todo("چالش یا نیاز کارکنان پیش از دوره، در ۲ تا ۳ جمله"),
-    curriculum: [todo("سرفصل‌های واقعی دوره، هر سرفصل یک آیتم")],
+      "عبدالله احمدیان، مدرس و مشاور هوش مصنوعی سازمانی در اهواز، دوره‌ی آموزش تهیه و نگارش گزارش با هوش مصنوعی را برای شرکت فولاد اکسین خوزستان برگزار کرد. برگزارکننده‌ی این دوره مدیریت آموزش شرکت فولاد خوزستان بود.",
     details: [
-      { label: "مدت دوره", value: todo("مدت دوره (مثلاً تعداد ساعت یا جلسه)") },
-      { label: "تعداد شرکت‌کننده", value: todo("تعداد شرکت‌کنندگان") },
-      { label: "تاریخ برگزاری", value: todo("تاریخ یا بازه‌ی برگزاری") },
+      { label: "برگزارکننده", value: "مدیریت آموزش شرکت فولاد خوزستان" },
+      { label: "موضوع", value: "آموزش تهیه و نگارش گزارش با هوش مصنوعی" },
     ],
-    result: todo("نتیجه‌ی دوره: چه چیزی بعد از آموزش در کار کارکنان تغییر کرد"),
-    quote: null,
   },
 ];
 
@@ -70,9 +105,9 @@ export const CASE_STUDIES_HUB = {
   title: "نمونه‌کارها",
   metaTitle: "نمونه‌کارهای آموزش هوش مصنوعی سازمانی | عبدالله احمدیان",
   metaDescription:
-    "نمونه‌کارهای آموزش هوش مصنوعی عبدالله احمدیان برای سازمان‌ها و صنایع خوزستان، از جمله دوره‌های کارکنان و روابط عمومی فولاد خوزستان.",
+    "نمونه‌کارهای آموزش هوش مصنوعی عبدالله احمدیان برای سازمان‌ها، از جمله ۵ دوره برای مدیران، رؤسا و کارشناسان فولاد خوزستان.",
   intro:
-    "این صفحه دوره‌هایی را نشان می‌دهد که عبدالله احمدیان، مدرس و مشاور هوش مصنوعی سازمانی در اهواز، برای سازمان‌ها و صنایع برگزار کرده است؛ از جمله دوره‌های هوش مصنوعی کارکنان و روابط عمومی فولاد خوزستان. هر نمونه‌کار نشان می‌دهد چالش سازمان چه بود، چه چیزی آموزش داده شد و چه نتیجه‌ای گرفت.",
+    "این صفحه دوره‌هایی را نشان می‌دهد که عبدالله احمدیان، مدرس و مشاور هوش مصنوعی سازمانی در اهواز، برای سازمان‌ها و صنایع برگزار کرده است؛ از جمله ۵ دوره‌ی آموزش هوش مصنوعی برای مدیران، رؤسا و کارشناسان فولاد خوزستان.",
 };
 
 export const caseStudyPath = (slug: string) => `${CASE_STUDIES_HUB.path}/${slug}`;
@@ -81,29 +116,27 @@ export const getCaseStudy = (slug: string) => CASE_STUDIES.find((c) => c.slug ==
 
 // ─── نسخه‌ی Markdown (برای llms-full.txt و پاسخ Accept: text/markdown) ─────────────────────
 
-export const CASE_STUDY_SECTIONS = {
-  challenge: "چالش",
-  curriculum: "سرفصل‌ها",
-  details: "مدت، تعداد شرکت‌کننده و تاریخ",
-  result: "نتیجه",
-  quote: "از زبان کارفرما",
-};
-
 export function caseStudyMarkdown(c: CaseStudy) {
   return mdJoin([
     mdHeading(1, c.title),
     `کارفرما: ${c.client.name}`,
     c.summary,
-    mdHeading(2, CASE_STUDY_SECTIONS.challenge),
+    c.courses && mdHeading(2, CASE_STUDY_SECTIONS.courses),
+    c.courses &&
+      mdList(
+        c.courses.map(
+          (k) =>
+            `**${k.slug ? mdLink(k.title, caseStudyPath(k.slug)) : k.title}** — ${k.audience}${k.facts ? ` (${k.facts})` : ""}`,
+        ),
+      ),
+    c.challenge && mdHeading(2, CASE_STUDY_SECTIONS.challenge),
     c.challenge,
-    mdHeading(2, CASE_STUDY_SECTIONS.curriculum),
-    mdList(c.curriculum),
-    mdHeading(2, CASE_STUDY_SECTIONS.details),
-    mdList(c.details.map((d) => `**${d.label}:** ${d.value}`)),
-    mdHeading(2, CASE_STUDY_SECTIONS.result),
+    c.curriculum && mdHeading(2, CASE_STUDY_SECTIONS.curriculum),
+    c.curriculum && mdList(c.curriculum),
+    c.details && mdHeading(2, CASE_STUDY_SECTIONS.details),
+    c.details && mdList(c.details.map((d) => `**${d.label}:** ${d.value}`)),
+    c.result && mdHeading(2, CASE_STUDY_SECTIONS.result),
     c.result,
-    c.quote && mdHeading(2, CASE_STUDY_SECTIONS.quote),
-    c.quote && `> ${c.quote.text}\n>\n> — ${c.quote.by}`,
     `${mdLink("درخواست دوره برای سازمان شما", "/contact")} · ${mdLink("آموزش هوش مصنوعی در اهواز", "/services/ai-training-ahvaz")} · ${mdLink("دوره هوش مصنوعی سازمانی", "/services/corporate-ai-training")}`,
   ]);
 }

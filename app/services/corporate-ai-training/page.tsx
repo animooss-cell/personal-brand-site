@@ -33,7 +33,7 @@ export default function CorporateAiTrainingPage() {
     name: c.name,
     serviceType: c.serviceType,
     provider: personRef,
-    areaServed: { "@type": "Country", name: "ایران" },
+    areaServed: "IR",
     url,
     description,
   };
@@ -48,13 +48,10 @@ export default function CorporateAiTrainingPage() {
     hasCourseInstance: {
       "@type": "CourseInstance",
       courseMode: ["Onsite", "Online"],
-      location: {
-        "@type": "Place",
-        address: { "@type": "PostalAddress", addressRegion: "خوزستان", addressCountry: "IR" },
-      },
+      location: { "@type": "Place", address: { "@type": "PostalAddress", addressCountry: "IR" } },
     },
-    // بدون price ساختگی؛ هزینه بعد از شناخت نیاز سازمان اعلام می‌شود.
-    offers: { "@type": "Offer", category: "Paid", availability: "https://schema.org/InStock" },
+    // بدون price ساختگی؛ هزینه بعد از شناخت نیاز سازمان اعلام می‌شود. Course خودش areaServed ندارد؛ روی Offer می‌آید.
+    offers: { "@type": "Offer", category: "Paid", availability: "https://schema.org/InStock", areaServed: "IR" },
   };
 
   const faqJsonLd = {
@@ -134,14 +131,20 @@ export default function CorporateAiTrainingPage() {
           ))}
         </ul>
 
-        <h2 className="mb-3 text-2xl font-bold text-slate-900 dark:text-white">{c.caseStudiesHeading}</h2>
-        <p className="mb-4 text-base leading-7 text-slate-600 dark:text-slate-300">{c.caseStudiesIntro}</p>
+        <h2 className="mb-3 text-2xl font-bold text-slate-900 dark:text-white">{c.recordsHeading}</h2>
+        <p className="mb-4 text-base leading-7 text-slate-600 dark:text-slate-300">{c.recordsIntro}</p>
         <ul className="mb-12 space-y-2 text-base leading-7">
           {CASE_STUDIES.map((cs) => (
             <li key={cs.slug}>
               <Link href={caseStudyPath(cs.slug)} className="font-semibold text-brand-700 hover:underline dark:text-brand-300">
                 {cs.title}
               </Link>
+            </li>
+          ))}
+          {c.otherRecords.map((r) => (
+            <li key={r.title} className="text-slate-700 dark:text-slate-200">
+              <span className="font-semibold">{r.title}</span>
+              <span className="text-slate-500 dark:text-slate-400"> ({r.note})</span>
             </li>
           ))}
         </ul>

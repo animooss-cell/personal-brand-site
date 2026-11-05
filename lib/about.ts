@@ -1,7 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { getAboutContent, getSettings } from "@/lib/data";
 import type { AboutTimelineItem } from "@/lib/types";
-import { ENTITY_STATEMENT_FA, SOCIAL_PROFILES } from "@/lib/site";
+import { ENTITY_STATEMENT_FA, SOCIAL_PROFILES, STARTUP_WEEKEND_CITIES, STARTUP_WEEKEND_ROLE, joinFa } from "@/lib/site";
 import { mdHeading, mdJoin, mdLink, mdList } from "@/lib/markdown";
 import { toWhatsappHref } from "@/lib/social";
 
@@ -57,7 +57,7 @@ const defaultTimeline = [
   { title: "مدیر اجرایی نمایشگاه بزرگ استارتاپ‌های خوزستان (الکام استارز)", place: "۹۶، ۹۷، ۹۸" },
   { title: "بنیان‌گذار رویداد تجربه‌محور کارآفرینان", place: "از ۹۲ تا کنون (همفکر، دیدار، همراه، حرف نو)" },
   { title: "دبیر اجرایی کمیسیون کسب‌وکارهای نوپا", place: "سازمان نظام صنفی رایانه استان خوزستان" },
-  { title: "مربی استارتاپ ویکند", place: "۹۳ تا کنون — کرج، اهواز، کرمانشاه، شوشتر" },
+  { title: `${STARTUP_WEEKEND_ROLE} استارتاپ ویکند`, place: `۹۳ تا کنون — ${joinFa(STARTUP_WEEKEND_CITIES)}` },
   { title: "برگزارکننده رویداد بین‌المللی Inotexpitch", place: "اهواز، ۹۶" },
   { title: "مجری طرح بزرگ سرمایه‌گذاری رویش", place: "با بنیاد برکت" },
   { title: "مدیر اجرایی رویداد بین‌المللی هاکاهلت", place: "جزیره کیش، ۹۸ (وزارت بهداشت و دانشگاه شریف)" },

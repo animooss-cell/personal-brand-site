@@ -76,37 +76,69 @@ export default function CaseStudyPage({ params }: { params: { slug: string } }) 
       <article className="mx-auto max-w-3xl px-6 py-16">
         <p className="mb-12 text-lg leading-9 text-slate-700 dark:text-slate-200">{c.summary}</p>
 
-        <h2 className="mb-3 text-2xl font-bold text-slate-900 dark:text-white">{CASE_STUDY_SECTIONS.challenge}</h2>
-        <p className="mb-10 text-base leading-8 text-slate-600 dark:text-slate-300">{c.challenge}</p>
+        {c.courses && (
+          <>
+            <h2 className="mb-4 text-2xl font-bold text-slate-900 dark:text-white">{CASE_STUDY_SECTIONS.courses}</h2>
+            <ul className="mb-10 grid gap-4">
+              {c.courses.map((k) => (
+                <li key={k.title} className="rounded-2xl bg-slate-50 p-5 dark:bg-slate-800/60">
+                  <h3 className="text-base font-bold text-slate-900 dark:text-white">
+                    {k.slug ? (
+                      <Link href={caseStudyPath(k.slug)} className="text-brand-700 hover:underline dark:text-brand-300">
+                        {k.title}
+                      </Link>
+                    ) : (
+                      k.title
+                    )}
+                  </h3>
+                  <p className="mt-1 text-sm leading-6 text-slate-600 dark:text-slate-300">برای {k.audience}</p>
+                  {k.facts && <p className="mt-1 text-sm leading-6 text-slate-600 dark:text-slate-300">{k.facts}</p>}
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
 
-        <h2 className="mb-4 text-2xl font-bold text-slate-900 dark:text-white">{CASE_STUDY_SECTIONS.curriculum}</h2>
-        <ul className="mb-10 space-y-2 text-base leading-7 text-slate-600 dark:text-slate-300">
-          {c.curriculum.map((item) => (
-            <li key={item} className="flex items-start gap-2">
-              <CheckCircle2 className="mt-1 h-4 w-4 flex-shrink-0 text-brand-600" aria-hidden="true" />
-              {item}
-            </li>
-          ))}
-        </ul>
+        {c.challenge && (
+          <>
+            <h2 className="mb-3 text-2xl font-bold text-slate-900 dark:text-white">{CASE_STUDY_SECTIONS.challenge}</h2>
+            <p className="mb-10 text-base leading-8 text-slate-600 dark:text-slate-300">{c.challenge}</p>
+          </>
+        )}
 
-        <h2 className="mb-4 text-2xl font-bold text-slate-900 dark:text-white">{CASE_STUDY_SECTIONS.details}</h2>
-        <dl className="mb-10 grid gap-4 sm:grid-cols-3">
-          {c.details.map((d) => (
-            <div key={d.label} className="rounded-2xl bg-slate-50 p-5 dark:bg-slate-800/60">
-              <dt className="mb-1 text-sm font-bold text-slate-900 dark:text-white">{d.label}</dt>
-              <dd className="text-sm leading-6 text-slate-600 dark:text-slate-300">{d.value}</dd>
-            </div>
-          ))}
-        </dl>
+        {c.curriculum && (
+          <>
+            <h2 className="mb-4 text-2xl font-bold text-slate-900 dark:text-white">{CASE_STUDY_SECTIONS.curriculum}</h2>
+            <ul className="mb-10 space-y-2 text-base leading-7 text-slate-600 dark:text-slate-300">
+              {c.curriculum.map((item) => (
+                <li key={item} className="flex items-start gap-2">
+                  <CheckCircle2 className="mt-1 h-4 w-4 flex-shrink-0 text-brand-600" aria-hidden="true" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
 
-        <h2 className="mb-3 text-2xl font-bold text-slate-900 dark:text-white">{CASE_STUDY_SECTIONS.result}</h2>
-        <p className="mb-10 text-base leading-8 text-slate-600 dark:text-slate-300">{c.result}</p>
+        {c.details && (
+          <>
+            <h2 className="mb-4 text-2xl font-bold text-slate-900 dark:text-white">{CASE_STUDY_SECTIONS.details}</h2>
+            <dl className="mb-10 grid gap-4 sm:grid-cols-3">
+              {c.details.map((d) => (
+                <div key={d.label} className="rounded-2xl bg-slate-50 p-5 dark:bg-slate-800/60">
+                  <dt className="mb-1 text-sm font-bold text-slate-900 dark:text-white">{d.label}</dt>
+                  <dd className="text-sm leading-6 text-slate-600 dark:text-slate-300">{d.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </>
+        )}
 
-        {c.quote && (
-          <figure className="mb-10 rounded-2xl bg-brand-50/60 p-6 dark:bg-brand-900/20">
-            <blockquote className="text-base leading-8 text-slate-700 dark:text-slate-200">«{c.quote.text}»</blockquote>
-            <figcaption className="mt-3 text-sm font-semibold text-slate-600 dark:text-slate-300">— {c.quote.by}</figcaption>
-          </figure>
+        {c.result && (
+          <>
+            <h2 className="mb-3 text-2xl font-bold text-slate-900 dark:text-white">{CASE_STUDY_SECTIONS.result}</h2>
+            <p className="mb-10 text-base leading-8 text-slate-600 dark:text-slate-300">{c.result}</p>
+          </>
         )}
 
         <div className="rounded-2xl bg-brand-50/60 p-6 text-base leading-8 text-slate-600 dark:bg-brand-900/20 dark:text-slate-300">

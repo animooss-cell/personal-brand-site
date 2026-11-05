@@ -1,5 +1,16 @@
 import { CONTACT_PHONE_E164 } from "@/lib/contactInfo";
-import { ENTITY_STATEMENT_EN, ENTITY_STATEMENT_FA, SITE_URL, SOCIAL_PROFILES } from "@/lib/site";
+import {
+  ENTITY_STATEMENT_EN,
+  ENTITY_STATEMENT_FA,
+  SITE_URL,
+  SOCIAL_PROFILES,
+  STARTUP_WEEKEND_CITIES,
+  STARTUP_WEEKEND_CITIES_EN,
+  STARTUP_WEEKEND_ROLE,
+  STARTUP_WEEKEND_ROLE_EN,
+  joinEn,
+  joinFa,
+} from "@/lib/site";
 import { CASE_STUDIES, caseStudiesHubMarkdown, caseStudyMarkdown, caseStudyUrl } from "@/lib/case-studies";
 import { aiBusinessConsulting, aiBusinessConsultingMarkdown } from "@/lib/content/services/ai-business-consulting";
 import { aiGrowthConsulting, aiGrowthConsultingMarkdown } from "@/lib/content/services/ai-growth-consulting";
@@ -20,35 +31,38 @@ const SERVICES = [
   { fa: aiContentGeneration.title, en: "AI Content Generation", path: aiContentGeneration.path },
   {
     fa: corporateAiTraining.name,
-    en: "Corporate AI Training (online across Iran, in-person in Khuzestan)",
+    en: "Corporate AI Training (in-person across Iran and online)",
     path: corporateAiTraining.path,
   },
 ];
 
 const RECORD_FA = [
-  "دوره‌های هوش مصنوعی برای کارکنان و روابط عمومی فولاد خوزستان",
-  "آموزش در فولاد اکسین خوزستان",
+  "۵ دوره‌ی آموزش هوش مصنوعی برای مدیران، رؤسا و کارشناسان فولاد خوزستان: هنر پرامپت‌نویسی، داشبوردسازی با هوش مصنوعی، تهیه‌ی گزارش با هوش مصنوعی، تهیه‌ی گزارش برای مدیران ارشد و دوره‌ی روابط عمومی (۱۶ ساعت، ۲۰ نفر، شهریور ۱۴۰۵)",
+  "دوره‌ی تهیه‌ی گزارش با هوش مصنوعی برای فولاد اکسین خوزستان (برگزارکننده: مدیریت آموزش شرکت فولاد خوزستان)",
+  "برگزاری دوره‌ی حضوری هوش مصنوعی برای شرکت گروه توسعه فراگیر در تهران",
   "مدیر تیم اجرایی هکاتون سلامت کیش",
-  "منتور و داور استارتاپ ویکندهای خوزستان، تهران و کرمانشاه",
+  `${STARTUP_WEEKEND_ROLE} استارتاپ ویکندهای ${joinFa(STARTUP_WEEKEND_CITIES)}`,
   "برگزارکننده رویداد سرمایه‌گذاری طرح ملی رویش در خوزستان",
 ];
 
 const RECORD_EN = [
-  "AI courses for Khuzestan Steel (Foolad Khuzestan) staff and its public relations team",
-  "AI training at Foolad Oxin Khuzestan",
+  "5 AI training courses for managers, heads and specialists of Khuzestan Steel (Foolad Khuzestan): prompt writing, AI dashboards, AI-assisted reporting, reporting for senior managers, and an AI course for the public relations team (16 hours, 20 participants, Shahrivar 1405 / August–September 2026)",
+  "AI-assisted reporting course for Foolad Oxin Khuzestan (organized by the Khuzestan Steel training department)",
+  "In-person AI course for Faragir Development Group (گروه توسعه فراگیر) in Tehran",
   "Executive team lead of the Kish Health Hackathon",
-  "Mentor and judge at Startup Weekend events in Khuzestan, Tehran and Kermanshah",
+  `Startup Weekend ${STARTUP_WEEKEND_ROLE_EN} in ${joinEn(STARTUP_WEEKEND_CITIES_EN)}`,
   "Organizer of the Rooyesh national investment program event in Khuzestan",
 ];
 
 const AUDIENCE_FA =
-  "سازمان‌ها و صنایع بزرگ (فولاد، پتروشیمی، نفت)، مدیران، تیم‌های روابط عمومی و بازاریابی، و کسب‌وکارهای کوچک. آموزش حضوری در خوزستان و آنلاین در کل ایران.";
+  "سازمان‌ها و صنایع بزرگ (فولاد، پتروشیمی، نفت)، مدیران، تیم‌های روابط عمومی و بازاریابی، و کسب‌وکارهای کوچک. آموزش حضوری در سراسر ایران و آنلاین.";
 const AUDIENCE_EN =
-  "Large organizations and industries (steel, petrochemicals, oil), managers, public relations and marketing teams, and small businesses. In-person training in Khuzestan and online training across Iran.";
+  "Large organizations and industries (steel, petrochemicals, oil), managers, public relations and marketing teams, and small businesses. In-person training across Iran, and online.";
 
 const CASE_STUDY_EN: Record<string, string> = {
+  "foolad-khuzestan-ai-training-program": "5 AI courses for Khuzestan Steel",
   "foolad-khuzestan-pr-ai-training": "AI training for the Khuzestan Steel public relations team",
-  "foolad-oxin-ai-training": "AI course for Foolad Oxin Khuzestan staff",
+  "foolad-oxin-ai-training": "AI-assisted reporting course for Foolad Oxin Khuzestan",
 };
 
 const list = (items: string[]) => items.map((i) => `- ${i}`).join("\n");

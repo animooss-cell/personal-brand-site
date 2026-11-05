@@ -6,6 +6,8 @@ import {
   PERSON_NAME_FA,
   SAME_AS,
   SITE_URL,
+  STARTUP_WEEKEND_CITIES,
+  STARTUP_WEEKEND_ROLE,
 } from "@/lib/site";
 import { CASE_STUDIES, caseStudyUrl } from "@/lib/case-studies";
 
@@ -20,6 +22,16 @@ export const KNOWS_ABOUT = [
 ];
 
 export const OCCUPATION_NAME = "مدرس و مشاور هوش مصنوعی";
+
+// شغل اصلی + نقش در استارتاپ ویکندها (با همان فهرست شهرهای llms.txt، EntityBio و صفحه‌ی درباره).
+const OCCUPATIONS = [
+  { "@type": "Occupation", name: OCCUPATION_NAME },
+  {
+    "@type": "Occupation",
+    name: `${STARTUP_WEEKEND_ROLE} استارتاپ ویکند`,
+    occupationLocation: STARTUP_WEEKEND_CITIES.map((name) => ({ "@type": "City", name })),
+  },
+];
 
 const ADDRESS = {
   "@type": "PostalAddress",
@@ -49,7 +61,7 @@ export function buildPersonJsonLd({ jobTitle, image }: { jobTitle: string; image
     image: image.startsWith("http") ? image : `${SITE_URL}${image}`,
     url: `${SITE_URL}/about`,
     address: ADDRESS,
-    hasOccupation: { "@type": "Occupation", name: OCCUPATION_NAME },
+    hasOccupation: OCCUPATIONS,
     knowsAbout: KNOWS_ABOUT,
     sameAs: SAME_AS,
     workExample: caseStudyWorks(),
@@ -66,7 +78,7 @@ export function buildPersonSummaryJsonLd() {
     alternateName: PERSON_ALTERNATE_NAMES,
     description: ENTITY_STATEMENT_FA,
     url: `${SITE_URL}/about`,
-    hasOccupation: { "@type": "Occupation", name: OCCUPATION_NAME },
+    hasOccupation: OCCUPATIONS,
     sameAs: SAME_AS,
   };
 }
