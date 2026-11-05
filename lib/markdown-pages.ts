@@ -1,4 +1,4 @@
-import { getPostBySlug, getPublishedCourses } from "@/lib/data";
+import { getCourseBySlug, getPostBySlug, getPublishedCourses } from "@/lib/data";
 import { NEWS_CATEGORY, BLOG_ARTICLE_CATEGORIES } from "@/lib/categories";
 import { normalizeContentLinks } from "@/lib/post-content";
 import { htmlToMarkdown, mdHeading, mdJoin, mdLink } from "@/lib/markdown";
@@ -38,7 +38,9 @@ export async function markdownForPath(pathname: string): Promise<MarkdownResult>
   const caseStudy = path.match(/^\/case-studies\/([^/]+)$/);
   if (caseStudy) {
     const c = getCaseStudy(caseStudy[1]);
-    return c ? { markdown: caseStudyMarkdown(c) } : null;
+    if (!c) return null;
+    const course = c.courseSlug ? await getCourseBySlug(c.courseSlug) : null;
+    return { markdown: caseStudyMarkdown(c, course) };
   }
 
   const blog = path.match(/^\/blog\/([^/]+)$/);

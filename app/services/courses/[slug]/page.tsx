@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowLeft, CheckCircle2, Clock, BarChart3 } from "lucide-react";
 import { getCourseBySlug } from "@/lib/data";
 import { personRef } from "@/lib/schema";
+import { caseStudyPath, getCaseStudyForCourse } from "@/lib/case-studies";
 import { SITE_URL } from "@/lib/site";
 import {
   normalizeContentLinks,
@@ -66,6 +67,7 @@ export default async function CourseDetailPage({ params }: { params: { slug: str
   // ترتیب مهم است: اول extractFaq روی HTML اصلی برای JSON-LD، بعد نرمال‌سازی
   // لینک‌ها و alt تصویرها، و در آخر wrapFaqAccordion فقط برای نمایش.
   const faqItems = extractFaq(course.content);
+  const caseStudy = getCaseStudyForCourse(course.slug);
   const faqJsonLd = buildFaqJsonLd(faqItems);
   const normalizedContent = wrapFaqAccordion(
     fillEmptyImageAlt(optimizeContentImages(normalizeContentLinks(course.content)), course.title)
@@ -168,6 +170,15 @@ export default async function CourseDetailPage({ params }: { params: { slug: str
         )}
 
         <div className="prose-content" dir="rtl" dangerouslySetInnerHTML={{ __html: normalizedContent }} />
+
+        {caseStudy && (
+          <div className="mt-10 rounded-2xl bg-brand-50/60 p-6 text-base leading-8 text-slate-600 dark:bg-brand-900/20 dark:text-slate-300">
+            نمونه‌کار این دوره:{" "}
+            <Link href={caseStudyPath(caseStudy.slug)} className="font-semibold text-brand-700 hover:underline dark:text-brand-300">
+              {caseStudy.title}
+            </Link>
+          </div>
+        )}
       </article>
 
       <section className="px-4 pb-16 md:px-8">

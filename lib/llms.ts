@@ -18,7 +18,7 @@ import { aiTrainingAhvaz, aiTrainingAhvazMarkdown } from "@/lib/content/services
 import { aiContentGeneration, aiContentGenerationMarkdown } from "@/lib/content/services/ai-content-generation";
 import { corporateAiTraining, corporateAiTrainingMarkdown } from "@/lib/content/services/corporate-ai-training";
 import { aboutMarkdown, getAboutPageData } from "@/lib/about";
-import { getPublishedCourses } from "@/lib/data";
+import { getCourseBySlug, getPublishedCourses } from "@/lib/data";
 
 // /llms.txt و /llms-full.txt از همین فایل ساخته می‌شوند؛ جمله‌ی معرفی، خدمات و پروفایل‌ها از همان منابع صفحه‌ها می‌آیند.
 
@@ -37,7 +37,7 @@ const SERVICES = [
 ];
 
 const RECORD_FA = [
-  "۵ دوره‌ی آموزش هوش مصنوعی برای مدیران، رؤسا و کارشناسان فولاد خوزستان: هنر پرامپت‌نویسی، داشبوردسازی با هوش مصنوعی، تهیه‌ی گزارش با هوش مصنوعی، تهیه‌ی گزارش برای مدیران ارشد و «هوش مصنوعی در خدمت تیم روابط عمومی» (۱۶ ساعت، ۲۰ نفر، شهریور ۱۴۰۵)",
+  "۵ دوره‌ی آموزش هوش مصنوعی برای مدیران، رؤسا و کارشناسان فولاد خوزستان: هنر پرامپت‌نویسی، داشبوردسازی با هوش مصنوعی، تهیه‌ی گزارش با هوش مصنوعی، تهیه‌ی گزارش برای مدیران ارشد و «هوش مصنوعی در خدمت تیم روابط عمومی» (۱۶ ساعت در ۲ جلسه، ۲۰ نفر، شهریور ۱۴۰۵)",
   "دوره‌ی تهیه‌ی گزارش با هوش مصنوعی برای فولاد اکسین خوزستان (برگزارکننده: مدیریت آموزش شرکت فولاد خوزستان)",
   "برگزاری دوره‌ی حضوری هوش مصنوعی برای شرکت گروه توسعه فراگیر در تهران",
   "مدیر تیم اجرایی هکاتون سلامت کیش",
@@ -46,7 +46,7 @@ const RECORD_FA = [
 ];
 
 const RECORD_EN = [
-  "5 AI training courses for managers, heads and specialists of Khuzestan Steel (Foolad Khuzestan): prompt writing, AI dashboards, AI-assisted reporting, reporting for senior managers, and “AI in Service of the PR Team” (هوش مصنوعی در خدمت تیم روابط عمومی; 16 hours, 20 participants, Shahrivar 1405 / August–September 2026)",
+  "5 AI training courses for managers, heads and specialists of Khuzestan Steel (Foolad Khuzestan): prompt writing, AI dashboards, AI-assisted reporting, reporting for senior managers, and “AI in Service of the PR Team” (هوش مصنوعی در خدمت تیم روابط عمومی; 16 hours in 2 sessions, 20 participants, Shahrivar 1405 / August–September 2026)",
   "AI-assisted reporting course for Foolad Oxin Khuzestan (organized by the Khuzestan Steel training department)",
   "In-person AI course for Faragir Development Group (گروه توسعه فراگیر) in Tehran",
   "Executive team lead of the Kish Health Hackathon",
@@ -136,7 +136,12 @@ export async function buildLlmsFullTxt() {
     { path: aiContentGeneration.path, md: aiContentGenerationMarkdown() },
     { path: corporateAiTraining.path, md: corporateAiTrainingMarkdown() },
     { path: "/case-studies", md: caseStudiesHubMarkdown() },
-    ...CASE_STUDIES.map((c) => ({ path: `/case-studies/${c.slug}`, md: caseStudyMarkdown(c) })),
+    ...(await Promise.all(
+      CASE_STUDIES.map(async (c) => ({
+        path: `/case-studies/${c.slug}`,
+        md: caseStudyMarkdown(c, c.courseSlug ? await getCourseBySlug(c.courseSlug) : null),
+      })),
+    )),
   ];
   return [
     `# aiabed.ir — full text\n\n> ${ENTITY_STATEMENT_FA}\n>\n> ${ENTITY_STATEMENT_EN}`,

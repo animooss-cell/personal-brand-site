@@ -108,7 +108,7 @@ update about_content set
   ] else phone_numbers end,
   social_links = case when social_links = '{}'::jsonb or social_links is null then jsonb_build_object(
     'instagram', 'https://www.instagram.com/aiabed.ir',
-    'telegram', 'https://t.me/Staruping_ir',
+    'telegram', 'https://t.me/aiabed_ir',
     'whatsapp', '09161002550',
     'twitter', ''
   ) else social_links end

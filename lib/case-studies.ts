@@ -25,6 +25,8 @@ export type CaseStudy = {
   summary: string;
   // نام رسمی دوره (برای اسکیمای Course در mentions)
   courseName?: string;
+  // slug صفحه‌ی همین دوره در /services/courses (برای لینک دوطرفه‌ی نمونه‌کار و صفحه‌ی دوره)
+  courseSlug?: string;
   // دوره‌های یک مجموعه‌ی چنددوره‌ای
   courses?: CaseStudyCourse[];
   challenge?: string;
@@ -61,7 +63,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       {
         title: PR_COURSE_NAME,
         audience: "کارکنان روابط عمومی",
-        facts: "۱۶ ساعت، ۲۰ نفر، شهریور ۱۴۰۵",
+        facts: "۱۶ ساعت در ۲ جلسه، ۲۰ نفر، شهریور ۱۴۰۵",
         slug: "foolad-khuzestan-pr-ai-training",
       },
     ],
@@ -74,13 +76,14 @@ export const CASE_STUDIES: CaseStudy[] = [
       "دوره‌ی ۱۶ ساعته‌ی «" + PR_COURSE_NAME + "» برای ۲۰ نفر از کارکنان فولاد خوزستان؛ تولید خبر، بیانیه و کپشن بدون طراح بیرونی.",
     client: KHUZESTAN_STEEL,
     summary:
-      "عبدالله احمدیان، مدرس و مشاور هوش مصنوعی سازمانی در اهواز، دوره‌ی «" + PR_COURSE_NAME + "» را در شهریور ۱۴۰۵ برای ۲۰ نفر از کارکنان روابط عمومی شرکت فولاد خوزستان برگزار کرد. این دوره‌ی ۱۶ ساعته بر ۱۰ ساختار پرامپت‌نویسی برای تولید خبر، بیانیه و کپشن اینستاگرام تمرکز داشت.",
+      "عبدالله احمدیان، مدرس و مشاور هوش مصنوعی سازمانی در اهواز، دوره‌ی «" + PR_COURSE_NAME + "» را در شهریور ۱۴۰۵ برای ۲۰ نفر از کارکنان روابط عمومی شرکت فولاد خوزستان برگزار کرد. این دوره‌ی ۱۶ ساعته در ۲ جلسه برگزار شد و بر ۱۰ ساختار پرامپت‌نویسی برای تولید خبر، بیانیه و کپشن اینستاگرام تمرکز داشت.",
     challenge:
       "تیم روابط عمومی برای محتوای شبکه‌های اجتماعی به قرارداد با طراح گرافیک بیرونی وابسته بود و تولید محتوا زمان و هزینه‌ی بالایی داشت.",
     courseName: PR_COURSE_NAME,
+    courseSlug: "ai-public-relations",
     curriculum: ["۱۰ ساختار پرامپت‌نویسی برای تولید خبر، بیانیه و کپشن اینستاگرام"],
     details: [
-      { label: "مدت دوره", value: "۱۶ ساعت" },
+      { label: "مدت دوره", value: "۱۶ ساعت (۲ جلسه)" },
       { label: "شرکت‌کنندگان", value: "۲۰ نفر از کارکنان روابط عمومی" },
       { label: "زمان برگزاری", value: "شهریور ۱۴۰۵" },
     ],
@@ -116,10 +119,14 @@ export const CASE_STUDIES_HUB = {
 export const caseStudyPath = (slug: string) => `${CASE_STUDIES_HUB.path}/${slug}`;
 export const caseStudyUrl = (slug: string) => `${SITE_URL}${caseStudyPath(slug)}`;
 export const getCaseStudy = (slug: string) => CASE_STUDIES.find((c) => c.slug === slug) ?? null;
+export const getCaseStudyForCourse = (courseSlug: string) => CASE_STUDIES.find((c) => c.courseSlug === courseSlug) ?? null;
+
+export const CASE_STUDY_COURSE_LINK_LABEL = "صفحه‌ی این دوره";
 
 // ─── نسخه‌ی Markdown (برای llms-full.txt و پاسخ Accept: text/markdown) ─────────────────────
 
-export function caseStudyMarkdown(c: CaseStudy) {
+// course: صفحه‌ی دوره‌ی مرتبط، فقط اگر در دیتابیس واقعاً منتشر شده باشد
+export function caseStudyMarkdown(c: CaseStudy, course?: { title: string; slug: string } | null) {
   return mdJoin([
     mdHeading(1, c.title),
     `کارفرما: ${c.client.name}`,
@@ -140,6 +147,7 @@ export function caseStudyMarkdown(c: CaseStudy) {
     c.details && mdList(c.details.map((d) => `**${d.label}:** ${d.value}`)),
     c.result && mdHeading(2, CASE_STUDY_SECTIONS.result),
     c.result,
+    course && `${CASE_STUDY_COURSE_LINK_LABEL}: ${mdLink(course.title, `/services/courses/${course.slug}`)}`,
     `${mdLink("درخواست دوره برای سازمان شما", "/contact")} · ${mdLink("آموزش هوش مصنوعی در اهواز", "/services/ai-training-ahvaz")} · ${mdLink("دوره هوش مصنوعی سازمانی", "/services/corporate-ai-training")}`,
   ]);
 }

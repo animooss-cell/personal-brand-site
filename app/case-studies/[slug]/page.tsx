@@ -3,9 +3,11 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, CheckCircle2 } from "lucide-react";
 import { personRef } from "@/lib/schema";
+import { getCourseBySlug } from "@/lib/data";
 import {
   CASE_STUDIES,
   CASE_STUDIES_HUB,
+  CASE_STUDY_COURSE_LINK_LABEL,
   CASE_STUDY_SECTIONS,
   caseStudyPath,
   caseStudyUrl,
@@ -13,8 +15,10 @@ import {
 } from "@/lib/case-studies";
 import { buildBreadcrumbJsonLd, serializeJsonLd } from "@/lib/post-content";
 
-// همه‌ی نمونه‌کارها از lib/case-studies.ts می‌آیند و در زمان build ساخته می‌شوند (SSG).
+// همه‌ی نمونه‌کارها از lib/case-studies.ts می‌آیند و در زمان build ساخته می‌شوند (SSG)؛ لینک صفحه‌ی دوره‌ی مرتبط
+// از دیتابیس خوانده می‌شود و هر ۵ دقیقه تازه می‌شود.
 export const dynamicParams = false;
+export const revalidate = 300;
 
 export function generateStaticParams() {
   return CASE_STUDIES.map((c) => ({ slug: c.slug }));
@@ -31,9 +35,11 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
   };
 }
 
-export default function CaseStudyPage({ params }: { params: { slug: string } }) {
+export default async function CaseStudyPage({ params }: { params: { slug: string } }) {
   const c = getCaseStudy(params.slug);
   if (!c) notFound();
+  // فقط وقتی صفحه‌ی دوره واقعاً منتشر شده باشد لینک داده می‌شود
+  const course = c.courseSlug ? await getCourseBySlug(c.courseSlug) : null;
 
   const url = caseStudyUrl(c.slug);
   const articleJsonLd = {
@@ -136,6 +142,15 @@ export default function CaseStudyPage({ params }: { params: { slug: string } }) 
               ))}
             </dl>
           </>
+        )}
+
+        {course && (
+          <p className="mb-10 text-base leading-8 text-slate-600 dark:text-slate-300">
+            {CASE_STUDY_COURSE_LINK_LABEL}:{" "}
+            <Link href={`/services/courses/${course.slug}`} className="font-semibold text-brand-700 hover:underline dark:text-brand-300">
+              {course.title}
+            </Link>
+          </p>
         )}
 
         {c.result && (
