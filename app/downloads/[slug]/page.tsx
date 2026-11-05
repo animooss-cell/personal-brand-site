@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Download as DownloadIcon, ArrowLeft } from "lucide-react";
 import { getDownloadBySlug } from "@/lib/data";
+import { personRef } from "@/lib/schema";
 import { SITE_URL } from "@/lib/site";
 import { resourceTypeLabel, resourceSchemaType } from "@/lib/downloadTypes";
 import { serializeJsonLd } from "@/lib/post-content";
@@ -48,10 +49,7 @@ export default async function DownloadDetailPage({ params }: { params: { slug: s
     dateCreated: item.created_at || undefined,
     dateModified: item.updated_at || item.created_at || undefined,
     keywords: item.tags?.length ? item.tags.join(", ") : undefined,
-    author: {
-      "@type": "Person",
-      name: "عبدالله احمدیان",
-    },
+    author: personRef,
   };
 
   return (

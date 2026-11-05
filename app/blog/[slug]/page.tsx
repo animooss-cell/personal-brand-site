@@ -6,6 +6,7 @@ import { Instagram, Send, MessageCircle, ArrowLeft } from "lucide-react";
 import { createStaticClient } from "@/lib/supabase/static";
 import { getPostBySlug, getAboutContent, getSettings, withRetry } from "@/lib/data";
 import { Post } from "@/lib/types";
+import { personRef } from "@/lib/schema";
 import { SITE_URL, resolveBlogCanonical } from "@/lib/site";
 import { toWhatsappHref } from "@/lib/social";
 import { BLOG_ARTICLE_CATEGORIES, NEWS_CATEGORY } from "@/lib/categories";
@@ -81,7 +82,7 @@ async function getRelatedPosts(post: Post): Promise<RelatedPost[]> {
 }
 
 const defaultAuthorSocialLinks: Record<string, string> = {
-  instagram: "https://www.instagram.com/startuping_ir",
+  instagram: "https://www.instagram.com/aiabed.ir",
   telegram: "https://t.me/abedahm",
   whatsapp: "09161002550",
 };
@@ -174,10 +175,7 @@ export default async function PostPage({ params }: { params: { slug: string } })
     image: post.featured_image ? [post.featured_image] : undefined,
     datePublished: post.published_at || undefined,
     dateModified: post.updated_at || post.published_at || undefined,
-    author: {
-      "@type": "Person",
-      name: author.name,
-    },
+    author: personRef,
     mainEntityOfPage: `${SITE_URL}/blog/${post.slug}`,
     keywords: post.tags?.length ? post.tags.join(", ") : undefined,
   };

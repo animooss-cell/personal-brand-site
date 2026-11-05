@@ -159,6 +159,11 @@ export default function ContactsTable({ contacts }: { contacts: ContactMessage[]
                   {source.label}
                 </span>
                 <span className="font-semibold text-slate-800">{contact.name}</span>
+                {contact.referral && (
+                  <span className="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-0.5 text-xs text-slate-600">
+                    آشنایی از: {contact.referral}
+                  </span>
+                )}
                 {contact.business && <span className="mr-2 text-sm text-slate-500"> — {contact.business}</span>}
               </div>
               <div className="flex items-center gap-1">

@@ -1,43 +1,9 @@
-import { Briefcase, GraduationCap, ShieldCheck, type LucideIcon } from "lucide-react";
+import { WHY_ME } from "@/lib/why-me";
 import WhyMeSlider from "@/components/WhyMeSlider";
-
-type Feature = {
-  // آیکون‌ها فعلاً نمایش داده نمی‌شوند ولی برای استفاده‌ی بعدی نگه داشته شده‌اند.
-  icon: LucideIcon;
-  title: string;
-  description: string;
-  image: string;
-  // بخشی از عنوان که با گرادیان رنگ می‌شود (عیناً داخل title)
-  highlight: string;
-};
-
-const features: Feature[] = [
-  {
-    icon: Briefcase,
-    title: "بیش از ۱۰ سال در دل کسب‌وکارها",
-    description: "راه‌اندازی کسب‌وکار، مربیگری استارتاپ ویکند و برگزاری رویدادهای کارآفرینی در خوزستان.",
-    image: "/images/why/why-experience.webp",
-    highlight: "۱۰ سال",
-  },
-  {
-    icon: GraduationCap,
-    title: "آموزش در سازمان‌های صنعتی",
-    description: "دوره‌های هوش مصنوعی برای روابط عمومی و کارکنان فولاد خوزستان، روی کارهای واقعی خودشان.",
-    image: "/images/why/why-training.webp",
-    highlight: "سازمان‌های صنعتی",
-  },
-  {
-    icon: ShieldCheck,
-    title: "ابزار متناسب با شرایط ایران",
-    description: "پیشنهادها با در نظر گرفتن تحریم، پرداخت و امنیت اطلاعات است، نه فقط ابزار مد روز.",
-    image: "/images/why/why-tools.webp",
-    highlight: "شرایط ایران",
-  },
-];
 
 export default function FeatureStrip() {
   // فقط داده‌ی قابل‌سریال‌سازی به کامپوننت کلاینت می‌رود (آیکون‌ها نه).
-  const slides = features.map(({ title, description, image, highlight }) => ({ title, description, image, highlight }));
+  const slides = WHY_ME.features.map(({ title, description, image, highlight }) => ({ title, description, image, highlight }));
 
   return (
     <section className="relative isolate overflow-hidden py-16 md:py-20">
@@ -51,8 +17,8 @@ export default function FeatureStrip() {
 
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="mx-auto mb-10 max-w-2xl text-center">
-          <span className="mb-3 inline-block text-sm font-medium text-brand-700 dark:text-brand-400">چرا من؟</span>
-          <h2 className="text-3xl font-bold text-slate-900 dark:text-white md:text-4xl">چرا با من کار کنید؟</h2>
+          <span className="mb-3 inline-block text-sm font-medium text-brand-700 dark:text-brand-400">{WHY_ME.label}</span>
+          <h2 className="text-3xl font-bold text-slate-900 dark:text-white md:text-4xl">{WHY_ME.heading}</h2>
         </div>
 
         <WhyMeSlider slides={slides} label="دلایل همکاری با من" />

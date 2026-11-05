@@ -2,3 +2,6 @@
 .next/
 .env
 .taste-skill/
+
+# دستورالعمل محلی GEO (فقط برای صاحب سایت؛ نباید commit شود)
+geo-prompt-claude-code.md

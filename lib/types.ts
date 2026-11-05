@@ -63,6 +63,8 @@ export type ContactMessage = {
   message: string;
   read: boolean;
   source: ContactSource;
+  // پاسخ «از کجا با ما آشنا شدید؟»؛ تا اجرای supabase/migration_contacts_referral.sql ممکن است در ردیف نباشد
+  referral?: string | null;
   created_at: string;
 };
 

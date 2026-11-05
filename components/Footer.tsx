@@ -1,7 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Instagram, Send, MessageCircle, Phone } from "lucide-react";
-import { getAboutContent, getSettings } from "@/lib/data";
+import { getAboutContent } from "@/lib/data";
+import { ENTITY_STATEMENT_FA, SOCIAL_PROFILES } from "@/lib/site";
 import { toWhatsappHref } from "@/lib/social";
 import { BLOG_ARTICLE_CATEGORIES } from "@/lib/categories";
 import {
@@ -13,40 +14,30 @@ import {
 } from "@/lib/contactInfo";
 import NewsletterForm from "@/components/NewsletterForm";
 
-const defaultSocialLinks: Record<string, string> = {
-  instagram: "https://www.instagram.com/startuping_ir",
-  telegram: "https://t.me/abedahm",
-  whatsapp: "09161002550",
-};
+const SOCIAL_ICONS: Record<string, typeof Instagram> = { instagram: Instagram, "telegram-channel": Send };
 
 const services = [
   { label: "مشاوره هوش مصنوعی کسب‌وکار", href: "/services/ai-business-consulting" },
   { label: "مشاوره رشد کسب‌وکار با هوش مصنوعی", href: "/services/ai-growth-consulting" },
   { label: "آموزش هوش مصنوعی در اهواز", href: "/services/ai-training-ahvaz" },
   { label: "تولید محتوا با هوش مصنوعی", href: "/services/ai-content-generation" },
+  { label: "دوره هوش مصنوعی سازمانی", href: "/services/corporate-ai-training" },
 ];
 
 export default async function Footer() {
-  const [a, s] = await Promise.all([getAboutContent(), getSettings()]);
+  const a = await getAboutContent();
+  const whatsapp = a?.social_links?.whatsapp || "09161002550";
 
-  const description =
-    s?.site_description ||
-    "مشاوره کسب‌وکار و آموزش هوش مصنوعی برای استارتاپ‌ها و سازمان‌ها.";
-
-  const socialLinks: Record<string, string> = { ...defaultSocialLinks };
-  for (const [key, value] of Object.entries(a?.social_links ?? {})) {
-    if (value) socialLinks[key] = value;
-  }
-
+  // پروفایل‌های رسمی از lib/site.ts (همان sameAs اسکیما)؛ واتساپ مثل قبل از تنظیمات درباره‌ی من.
   const socialItems = [
-    { key: "instagram", icon: Instagram, href: socialLinks.instagram },
-    { key: "telegram", icon: Send, href: socialLinks.telegram },
-    {
-      key: "whatsapp",
-      icon: MessageCircle,
-      href: socialLinks.whatsapp ? toWhatsappHref(socialLinks.whatsapp) : "",
-    },
-  ].filter((item) => item.href);
+    ...SOCIAL_PROFILES.filter((p) => p.inFooter).map((p) => ({
+      key: p.key,
+      label: p.label,
+      icon: SOCIAL_ICONS[p.key] ?? Send,
+      href: p.url,
+    })),
+    { key: "whatsapp", label: "واتساپ", icon: MessageCircle, href: toWhatsappHref(whatsapp) },
+  ];
 
   return (
     <footer className="mt-24 bg-gradient-to-br from-slate-900 via-brand-900 to-slate-900 text-white" dir="rtl">
@@ -54,7 +45,7 @@ export default async function Footer() {
         <div>
           {/* پس‌زمینه‌ی فوتر همیشه تیره است (gradient ثابت، بدون dark:)، پس فقط نسخه‌ی dark لوگو لازم است. */}
           <Image src="/logo-full-dark.png" alt="عبدالله احمدیان" width={709} height={200} className="mb-4 h-12 w-auto" />
-          <p className="mb-5 max-w-xs text-sm leading-7 text-slate-300">{description}</p>
+          <p className="mb-5 max-w-xs text-sm leading-7 text-slate-300">{ENTITY_STATEMENT_FA}</p>
           {socialItems.length > 0 && (
             <div className="flex items-center gap-3">
               {socialItems.map((item) => {
@@ -65,6 +56,8 @@ export default async function Footer() {
                     href={item.href}
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label={item.label}
+                    title={item.label}
                     className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-white/10 transition-colors duration-200 hover:bg-brand-600 hover:text-white"
                   >
                     <Icon className="h-4 w-4" aria-hidden="true" />
@@ -169,6 +162,9 @@ export default async function Footer() {
             </Link>
             <Link href="/services" className="transition-colors duration-200 hover:text-brand-300">
               خدمات
+            </Link>
+            <Link href="/case-studies" className="transition-colors duration-200 hover:text-brand-300">
+              نمونه‌کارها
             </Link>
             <Link href="/contact" className="transition-colors duration-200 hover:text-brand-300">
               تماس

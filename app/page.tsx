@@ -8,6 +8,8 @@ import About from "@/components/About";
 import Services from "@/components/Services";
 import HomeCourses from "@/components/HomeCourses";
 import CTASection from "@/components/CTASection";
+import { buildPersonSummaryJsonLd } from "@/lib/schema";
+import { serializeJsonLd } from "@/lib/post-content";
 
 export const revalidate = 300;
 
@@ -31,6 +33,7 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(buildPersonSummaryJsonLd()) }} />
       <Hero />
       <TrustStrip />
       <Services />

@@ -4,6 +4,7 @@ import { SITE_URL } from "@/lib/site";
 import { BLOG_PAGE_SIZE, getPublishedPostsCount } from "@/lib/data";
 import { BLOG_ARTICLE_CATEGORIES, NEWS_CATEGORY } from "@/lib/categories";
 import { isBrokenSlug } from "@/lib/slug";
+import { CASE_STUDIES, CASE_STUDIES_HUB, caseStudyUrl } from "@/lib/case-studies";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const supabase = createClient();
@@ -31,6 +32,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/services/ai-growth-consulting`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${SITE_URL}/services/ai-training-ahvaz`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${SITE_URL}/services/ai-content-generation`, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${SITE_URL}/services/corporate-ai-training`, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${SITE_URL}${CASE_STUDIES_HUB.path}`, changeFrequency: "monthly", priority: 0.7 },
+    ...CASE_STUDIES.map((c) => ({ url: caseStudyUrl(c.slug), changeFrequency: "monthly" as const, priority: 0.7 })),
     { url: `${SITE_URL}/blog`, changeFrequency: "daily", priority: 0.8 },
     { url: `${SITE_URL}/news`, changeFrequency: "daily", priority: 0.8 },
     { url: `${SITE_URL}/downloads`, changeFrequency: "weekly", priority: 0.7 },

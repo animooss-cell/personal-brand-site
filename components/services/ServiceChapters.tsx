@@ -1,5 +1,6 @@
 import Image from "next/image";
 import ServiceChapter from "@/components/services/ServiceChapter";
+import { STARTUP_WEEKEND_CITIES, STARTUP_WEEKEND_ROLE, joinFa } from "@/lib/site";
 
 // سه فصل خدمات (۰۱ تا ۰۳) با متن مرجع docs/design/services-redesign/index.html.
 // تصاویر از public/images/services هستند؛ تصویری از کار مشتری به‌عنوان نمونه‌ی واقعی برچسب خورده است.
@@ -8,7 +9,7 @@ const caption = "text-[13px] text-[var(--svc-ink3)]";
 
 const STARTUP_TRACK = [
   { title: "مدیر تیم اجرایی هکاتون سلامت کیش" },
-  { title: "تسهیلگر، منتور و داور استارتاپ ویکند", note: "از خوزستان تا تهران و کرمانشاه" },
+  { title: `${STARTUP_WEEKEND_ROLE} استارتاپ ویکند`, note: joinFa(STARTUP_WEEKEND_CITIES) },
   { title: "برگزاری رویداد سرمایه‌گذاری طرح ملی رویش", note: "استان خوزستان" },
   { title: "دورهمی‌های کسب‌وکار در اهواز", note: "«همراه» و «حرف نو»" },
   { title: "«کافه AI»", note: "دورهمی کارکنان شرکت فولاد خوزستان" },

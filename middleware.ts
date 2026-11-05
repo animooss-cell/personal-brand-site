@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { updateSession } from "@/lib/supabase/middleware";
 import { BLOG_CATEGORIES, NEWS_CATEGORY } from "@/lib/categories";
+import { MARKDOWN_SOURCE_PREFIX, acceptsMarkdown, hasMarkdownVersion, normalizePath } from "@/lib/markdown-routes";
 
 const CATEGORY_VALUE_TO_SLUG = new Map(BLOG_CATEGORIES.map((c) => [c.value, c.slug]));
 
@@ -73,7 +74,23 @@ function redirectLegacyBlogUrl(request: NextRequest): NextResponse | null {
   return NextResponse.redirect(url, 301);
 }
 
+// Markdown Negotiation: اگر درخواست «Accept: text/markdown» داشته باشد و صفحه نسخه‌ی Markdown داشته باشد، پاسخ از
+// Route Handler داخلی app/md-source (ساخته‌شده از همان داده‌ی صفحه) می‌آید. درخواست‌های عادی مرورگر دست نمی‌خورند.
+function markdownRewrite(request: NextRequest): NextResponse | null {
+  const { pathname } = request.nextUrl;
+  if (!acceptsMarkdown(request.headers.get("accept")) || !hasMarkdownVersion(pathname)) return null;
+  const url = request.nextUrl.clone();
+  const path = normalizePath(pathname);
+  url.pathname = path === "/" ? MARKDOWN_SOURCE_PREFIX : `${MARKDOWN_SOURCE_PREFIX}${path}`;
+  return NextResponse.rewrite(url);
+}
+
 export async function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+  if (pathname === MARKDOWN_SOURCE_PREFIX || pathname.startsWith(`${MARKDOWN_SOURCE_PREFIX}/`)) {
+    return new NextResponse("Not Found", { status: 404 });
+  }
+
   const brokenSlugRedirect = brokenSlugTarget(request.nextUrl.pathname);
   if (brokenSlugRedirect) {
     const url = request.nextUrl.clone();
@@ -84,6 +101,9 @@ export async function middleware(request: NextRequest) {
   const legacyRedirect = redirectLegacyBlogUrl(request);
   if (legacyRedirect) return legacyRedirect;
 
+  const markdown = markdownRewrite(request);
+  if (markdown) return markdown;
+
   if (request.nextUrl.pathname.startsWith("/admin")) {
     return updateSession(request);
   }
@@ -92,5 +112,16 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/blog", "/blog/:path*", "/services/courses/:path*"],
+  matcher: [
+    "/",
+    "/about",
+    "/admin/:path*",
+    "/blog",
+    "/blog/:path*",
+    "/services/:path*",
+    "/case-studies",
+    "/case-studies/:path*",
+    "/md-source",
+    "/md-source/:path*",
+  ],
 };

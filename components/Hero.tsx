@@ -1,28 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, BadgeCheck, Briefcase, Rocket, GraduationCap } from "lucide-react";
-import { getSettings } from "@/lib/data";
+import { HERO_LEAD, HERO_TRUST_ITEMS, getHeroContent } from "@/lib/home";
 
-const trustItems = [
-  { icon: Briefcase, label: "+۱۰ سال تجربه" },
-  { icon: Rocket, label: "مربی استارتاپ ویکند" },
-  { icon: GraduationCap, label: "آموزش در فولاد خوزستان" },
-];
+const trustIcons = [Briefcase, Rocket, GraduationCap];
+const trustItems = HERO_TRUST_ITEMS.map((label, i) => ({ icon: trustIcons[i], label }));
 
 export default async function Hero() {
-  const s = await getSettings();
-
-  const badge = s?.hero_badge || "مشاوره کسب‌وکار و هوش مصنوعی";
-  const titlePrefix = s?.hero_title_prefix || "کسب‌وکار خود را با";
-  const titleHighlight = s?.hero_title_highlight || "قدرت هوش مصنوعی";
-  const titleSuffix = s?.hero_title_suffix || "رشد دهید";
-  const description =
-    s?.hero_description ||
-    "از راه‌اندازی استارتاپ تا اتوماسیون فرآیندها و کانتنت مارکتینگ هدفمند؛ با مشاوره عملی، نتیجه‌محور و بدون پیچیدگی فنی.";
-  const image = s?.hero_image || "https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=800&q=80";
-  const primaryCta = s?.hero_primary_cta || "رزرو جلسه مشاوره رایگان";
-  const secondaryCta = s?.hero_secondary_cta || "مطالعه مقالات";
-  const trustText = s?.hero_trust_text || "مورد اعتماد بیش از ۵۰۰ کسب‌وکار";
+  const { badge, titlePrefix, titleHighlight, titleSuffix, description, image, primaryCta, secondaryCta, trustText } =
+    await getHeroContent();
 
   return (
     <section className="px-4 pt-6 md:px-8">
@@ -39,10 +25,7 @@ export default async function Hero() {
               <span className="text-brand-300">{titleHighlight}</span> {titleSuffix}
             </h1>
 
-            <p className="mt-4 max-w-xl text-base font-medium leading-7 text-brand-100 md:text-lg">
-              هر کسب‌وکاری جایی گیر می‌کند. کمک می‌کنم بفهمید کجای کار هستید، چرا گیر کرده‌اید و
-              دقیقاً چه باید بکنید.
-            </p>
+            <p className="mt-4 max-w-xl text-base font-medium leading-7 text-brand-100 md:text-lg">{HERO_LEAD}</p>
 
             <p className="mt-3 max-w-xl text-base leading-7 text-slate-300">{description}</p>
 
