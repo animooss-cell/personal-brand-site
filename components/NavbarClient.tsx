@@ -220,7 +220,7 @@ export default function NavbarClient({ blogCategories }: { blogCategories: BlogC
         </Link>
 
         {/* ردیف کامل لینک‌ها حدود ۱۱۰۰px جا می‌خواهد؛ زیر ۱۱۲۰px (تبلت) دکمه‌ی منو جای آن را می‌گیرد. */}
-        <ul className="hidden items-center gap-8 min-[1120px]:flex">
+        <ul className="hidden items-center gap-8 min-[1200px]:flex">
           <li>
             <Link
               href="/"
@@ -251,6 +251,14 @@ export default function NavbarClient({ blogCategories }: { blogCategories: BlogC
               className="text-sm font-medium text-slate-700 transition-colors duration-200 hover:text-brand-600 dark:text-slate-300 dark:hover:text-brand-400"
             >
               دوره‌ها
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/case-studies"
+              className="text-sm font-medium text-slate-700 transition-colors duration-200 hover:text-brand-600 dark:text-slate-300 dark:hover:text-brand-400"
+            >
+              نمونه‌کارها
             </Link>
           </li>
           <BlogDesktopMenu categories={blogCategories} />
@@ -292,7 +300,7 @@ export default function NavbarClient({ blogCategories }: { blogCategories: BlogC
             ref={tabletButtonRef}
             type="button"
             aria-label={open ? "بستن منو" : "باز کردن منو"}
-            className="cursor-pointer rounded-lg p-2 text-slate-700 dark:text-slate-300 min-[1120px]:hidden"
+            className="cursor-pointer rounded-lg p-2 text-slate-700 dark:text-slate-300 min-[1200px]:hidden"
             onClick={() => setOpen((v) => !v)}
           >
             {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -316,7 +324,7 @@ export default function NavbarClient({ blogCategories }: { blogCategories: BlogC
       {open && (
         <div
           ref={panelRef}
-          className="mx-auto mt-2 max-w-6xl rounded-2xl border border-gray-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900 md:absolute md:left-0 md:top-full md:w-80 min-[1120px]:hidden"
+          className="mx-auto mt-2 max-w-6xl rounded-2xl border border-gray-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900 md:absolute md:left-0 md:top-full md:w-80 min-[1200px]:hidden"
         >
           <ul className="flex flex-col gap-1">
             <li>
@@ -353,6 +361,15 @@ export default function NavbarClient({ blogCategories }: { blogCategories: BlogC
                 className="block rounded-lg px-3 py-2 text-base font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-700 dark:text-slate-300 dark:hover:bg-brand-900/30 dark:hover:text-brand-300"
               >
                 دوره‌ها
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/case-studies"
+                onClick={() => setOpen(false)}
+                className="block rounded-lg px-3 py-2 text-base font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-700 dark:text-slate-300 dark:hover:bg-brand-900/30 dark:hover:text-brand-300"
+              >
+                نمونه‌کارها
               </Link>
             </li>
             <BlogMobileAccordion categories={blogCategories} onNavigate={() => setOpen(false)} />

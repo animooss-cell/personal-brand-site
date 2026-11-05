@@ -4,7 +4,8 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Providers from "@/app/providers";
-import { SITE_URL, SITE_NAME } from "@/lib/site";
+import { SITE_URL, SITE_NAME, ORGANIZATION_ID } from "@/lib/site";
+import { personRef } from "@/lib/schema";
 import { CONTACT_PHONE_E164 } from "@/lib/contactInfo";
 import { serializeJsonLd } from "@/lib/post-content";
 
@@ -67,6 +68,7 @@ export default function RootLayout({
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
+    "@id": ORGANIZATION_ID,
     name: "عبدالله احمدیان - مشاور هوش مصنوعی و کسب‌وکار",
     description,
     url: SITE_URL,
@@ -75,7 +77,7 @@ export default function RootLayout({
       "@type": "City",
       name: "اهواز",
     },
-        address: {
+    address: {
       "@type": "PostalAddress",
       addressLocality: "اهواز",
       addressRegion: "خوزستان",
@@ -88,10 +90,8 @@ export default function RootLayout({
     },
     telephone: CONTACT_PHONE_E164,
     priceRange: "$$",
-    founder: {
-      "@type": "Person",
-      name: "عبدالله احمدیان",
-    },
+    founder: personRef,
+    employee: personRef,
   };
 
   return (

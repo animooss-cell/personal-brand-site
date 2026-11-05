@@ -21,11 +21,10 @@ import {
   Phone,
 } from "lucide-react";
 import type { Metadata } from "next";
-import { createClient } from "@/lib/supabase/server";
-import { getAboutContent, getSettings } from "@/lib/data";
-import { AboutTimelineItem } from "@/lib/types";
 import AboutContactForm from "@/components/AboutContactForm";
-import { SITE_URL } from "@/lib/site";
+import { ENTITY_STATEMENT_FA } from "@/lib/site";
+import { getAboutPageData } from "@/lib/about";
+import { buildPersonJsonLd } from "@/lib/schema";
 import { toWhatsappHref } from "@/lib/social";
 import { serializeJsonLd } from "@/lib/post-content";
 
@@ -51,87 +50,21 @@ export const metadata: Metadata = {
 
 const activityIcons = [Briefcase, Rocket, PenTool, CalendarDays, GraduationCap, Building2];
 
-const aiExpertise = [
-  "مشاور و مدرس دوره‌های آموزشی راه‌اندازی کسب‌وکار با هوش مصنوعی",
-  "مشاور تیم هوش مصنوعی شرکت فولاد خوزستان",
-  "مدرس دوره هوش مصنوعی در خدمت روابط عمومی برای شرکت فولاد خوزستان",
-  "آموزش ابزارهای هوش مصنوعی برای فروش و بازاریابی شرکت فولاد خوزستان",
-  "مشاور کانتنت مارکتینگ با هوش مصنوعی برای سازمان بسیج رسانه استان خوزستان",
-];
-
-const defaultActivities = [
-  "مشاوره و توسعه کسب‌وکار و کارها",
-  "بنیان‌گذار وبسایت Startuping.ir در حوزه استارتاپ‌ها",
-  "مدیر تیم تولید محتوای Inmedia.ir",
-  "برگزاری رویدادها و سمینارهای مرتبط با کسب‌وکار و کارهای نوپا",
-  "تدریس با تمرکز بر تولید محتوا و بازاریابی",
-  'مدیرعامل مرکز مشاوره کارآفرینی "ارزش آفرینان تجارت ایرانیان"',
-];
-
-const defaultSpecialties = [
-  "مدرک تخصصی PMBOK مدیریت پروژه از موسسه آریانا",
-  "مدرک سطح ۱ مدیریت از وزارت صنایع و معادن",
-  "مدرک خبرنگاری به سبک رویترز",
-];
-
-const defaultCollaborations = [
-  "پارک علم و فناوری خوزستان",
-  "استانداری خوزستان",
-  "اداره تعاون، کار و امور اجتماعی خوزستان",
-  "پارک پردیس نهاد ریاست جمهوری",
-  "اکوسیستم استارتاپی کشور",
-  "دانشگاه شریف مرکز کیش",
-  "اداره ICT استان خوزستان",
-  "شرکت فولاد خوزستان",
-];
-
-const defaultSocialLinks: Record<string, string> = {
-  instagram: "https://www.instagram.com/startuping_ir",
-  telegram: "https://t.me/abedahm",
-  whatsapp: "09161002550",
-  twitter: "",
-};
-
-const defaultPhoneNumbers = ["09161002550", "09163070748"];
-
-const defaultTimeline = [
-  { title: "ارگانایزر رویداد ملی فرآفرین", place: "تهران، اهواز، مسجد سلیمان، شوشتر (با جهاد دانشگاهی)" },
-  { title: "مدیر اجرایی نمایشگاه بزرگ استارتاپ‌های خوزستان (الکام استارز)", place: "۹۶، ۹۷، ۹۸" },
-  { title: "بنیان‌گذار رویداد تجربه‌محور کارآفرینان", place: "از ۹۲ تا کنون (همفکر، دیدار، همراه، حرف نو)" },
-  { title: "دبیر اجرایی کمیسیون کسب‌وکارهای نوپا", place: "سازمان نظام صنفی رایانه استان خوزستان" },
-  { title: "مربی استارتاپ ویکند", place: "۹۳ تا کنون — کرج، اهواز، کرمانشاه، شوشتر" },
-  { title: "برگزارکننده رویداد بین‌المللی Inotexpitch", place: "اهواز، ۹۶" },
-  { title: "مجری طرح بزرگ سرمایه‌گذاری رویش", place: "با بنیاد برکت" },
-  { title: "مدیر اجرایی رویداد بین‌المللی هاکاهلت", place: "جزیره کیش، ۹۸ (وزارت بهداشت و دانشگاه شریف)" },
-];
-
 export default async function AboutPage() {
-  const supabase = createClient();
-
-  const [a, s, { data: timelineRows }] = await Promise.all([
-    getAboutContent(),
-    getSettings(),
-    supabase.from("about_timeline").select("*").order("position"),
-  ]);
-
-  const timeline = (timelineRows ?? []) as AboutTimelineItem[];
-
-  const fullName = a?.full_name || s?.full_name || "عبدالله احمدیان";
-  const roleTitle = a?.role_title || s?.role_title || "مشاور کسب‌وکار | متخصص هوش مصنوعی | کارآفرین";
-  const avatarImage = a?.avatar_image || s?.avatar_image || "/profile.png";
-  const shortBio =
-    a?.short_bio ||
-    "بیش از یک دهه تجربه در راه‌اندازی کسب‌وکار، مشاوره استارتاپ‌ها، و پیاده‌سازی هوش مصنوعی در سازمان‌های بزرگ. از اهواز تا کیش، از استارتاپ‌های نوپا تا شرکت‌های بزرگ صنعتی.";
-
-  const activities = a?.activities?.length ? a.activities : defaultActivities;
-  const specialties = a?.specialties?.length ? a.specialties : defaultSpecialties;
-  const collaborations = a?.collaborations?.length ? a.collaborations : defaultCollaborations;
-  const timelineItems = timeline.length ? timeline : defaultTimeline;
-  const socialLinks: Record<string, string> = { ...defaultSocialLinks };
-  for (const [key, value] of Object.entries(a?.social_links ?? {})) {
-    if (value) socialLinks[key] = value;
-  }
-  const phoneNumbers = a?.phone_numbers?.length ? a.phone_numbers : defaultPhoneNumbers;
+  const {
+    fullName,
+    roleTitle,
+    avatarImage,
+    shortBio,
+    fullBio,
+    activities,
+    aiExpertise,
+    specialties,
+    collaborations,
+    timelineItems,
+    socialLinks,
+    phoneNumbers,
+  } = await getAboutPageData();
 
   const socialItems = [
     { key: "instagram", label: "اینستاگرام", icon: Instagram, href: socialLinks.instagram },
@@ -145,28 +78,7 @@ export default async function AboutPage() {
     { key: "twitter", label: "ایکس", icon: Twitter, href: socialLinks.twitter },
   ].filter((item) => item.href);
 
-  const personJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    name: fullName,
-    jobTitle: roleTitle,
-    description: shortBio,
-    image: avatarImage.startsWith("http") ? avatarImage : `${SITE_URL}${avatarImage}`,
-    url: `${SITE_URL}/about`,
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: "اهواز",
-      addressRegion: "خوزستان",
-      addressCountry: "IR",
-    },
-    knowsAbout: [
-      "مشاور هوش مصنوعی اهواز",
-      "آموزش هوش مصنوعی خوزستان",
-      "مشاوره کسب و کار اهواز",
-      "اتوماسیون کسب و کار با هوش مصنوعی",
-    ],
-    sameAs: Object.values(socialLinks).filter((v) => v.startsWith("http")),
-  };
+  const personJsonLd = buildPersonJsonLd({ jobTitle: roleTitle, image: avatarImage });
 
   return (
     <div dir="rtl">
@@ -196,13 +108,14 @@ export default async function AboutPage() {
 
       {/* معرفی کوتاه */}
       <section className="mx-auto max-w-3xl px-6 py-16 text-center">
+        <p className="mb-4 text-lg font-bold leading-8 text-slate-900 dark:text-white md:text-xl">{ENTITY_STATEMENT_FA}</p>
         <p className="text-base leading-8 text-slate-600 dark:text-slate-300 md:text-lg">{shortBio}</p>
       </section>
 
       {/* بیوگرافی کامل */}
-      {a?.full_bio && (
+      {fullBio && (
         <section className="mx-auto max-w-3xl px-6 pb-16">
-          <div className="whitespace-pre-line text-base leading-8 text-slate-600 dark:text-slate-300">{a.full_bio}</div>
+          <div className="whitespace-pre-line text-base leading-8 text-slate-600 dark:text-slate-300">{fullBio}</div>
         </section>
       )}
 

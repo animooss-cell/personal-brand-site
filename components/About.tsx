@@ -1,36 +1,22 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, CheckCircle2 } from "lucide-react";
-import { getSettings } from "@/lib/data";
+import { HOME_ABOUT_PRINCIPLES_HEADING, getHomeAboutContent } from "@/lib/home";
 
 export default async function About() {
-  const s = await getSettings();
-
-  const badge = s?.about_badge || "درباره من";
-  const titlePrefix = s?.about_title_prefix || "مشاوره‌ای بر پایه";
-  const titleHighlight = s?.about_title_highlight || "اعتماد و شفافیت";
-  const description =
-    s?.about_description ||
-    "همراهی عملی برای کسب‌وکارها در مسیر رشد، با تمرکز بر تصمیم‌های روشن و قابل اجرا — بدون پیچیدگی غیرضروری.";
-  const cardTitle = s?.about_card_title || "مسیر روشن تا تصمیم بهتر";
-  const cardDescription =
-    s?.about_card_description ||
-    "با یک جلسه شروع می‌کنیم، پیشنهادهای عملی دریافت می‌کنید و قدم‌به‌قدم در کنار شما پیش می‌رویم.";
-  const image = s?.about_image || "https://images.unsplash.com/photo-1521791136064-7986c2920216?w=600&q=80";
-  const principles =
-    s?.about_principles?.length
-      ? s.about_principles
-      : [
-          "مشاوره و بازبینی مستقل",
-          "آمادگی برای رعایت استانداردها",
-          "گزارش‌دهی واضح و بدون ابهام",
-        ];
-  const secondaryImage =
-    s?.about_secondary_image || "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=900&q=80";
-  const quoteTitle = s?.about_quote_title || "مشاوره‌ای بر پایه ساختار و حرفه‌ای‌گری";
-  const quoteText =
-    s?.about_quote_text ||
-    "هر همکاری با شناخت دقیق کسب‌وکار شما شروع می‌شود؛ سپس پیشنهادهایی متناسب با منابع و اهداف واقعی شما ارائه می‌دهیم.";
+  const {
+    badge,
+    titlePrefix,
+    titleHighlight,
+    description,
+    cardTitle,
+    cardDescription,
+    image,
+    principles,
+    secondaryImage,
+    quoteTitle,
+    quoteText,
+  } = await getHomeAboutContent();
 
   return (
     <section className="mx-auto max-w-6xl px-6 py-16">
@@ -74,7 +60,7 @@ export default async function About() {
           style={{ animationDelay: "240ms" }}
           className="fade-in-up rounded-3xl border border-gray-200 bg-white p-7 dark:border-slate-700 dark:bg-slate-900"
         >
-          <h3 className="mb-4 text-lg font-bold text-slate-900 dark:text-white">اصول کار من</h3>
+          <h3 className="mb-4 text-lg font-bold text-slate-900 dark:text-white">{HOME_ABOUT_PRINCIPLES_HEADING}</h3>
           <ul className="flex flex-col gap-3 text-sm leading-6 text-slate-600 dark:text-slate-300">
             {principles.map((item) => (
               <li key={item} className="flex items-start gap-2">

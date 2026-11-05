@@ -1,6 +1,7 @@
 import * as Icons from "lucide-react";
 import { Rocket, type LucideIcon } from "lucide-react";
 import { getServices } from "@/lib/data";
+import { SERVICES_SECTION } from "@/lib/home";
 
 function resolveIcon(name: string): LucideIcon {
   const icon = (Icons as unknown as Record<string, LucideIcon>)[name];
@@ -13,10 +14,8 @@ export default async function Services() {
   return (
     <section id="services" className="mx-auto max-w-6xl px-6 py-20">
       <div className="mx-auto mb-14 max-w-2xl text-center">
-        <h2 className="text-3xl font-bold text-slate-900 dark:text-white md:text-4xl">خدمات</h2>
-        <p className="mt-4 text-base leading-7 text-slate-600 dark:text-slate-300">
-          سه مسیر اصلی همکاری؛ هر کدام با گام‌های روشن.
-        </p>
+        <h2 className="text-3xl font-bold text-slate-900 dark:text-white md:text-4xl">{SERVICES_SECTION.heading}</h2>
+        <p className="mt-4 text-base leading-7 text-slate-600 dark:text-slate-300">{SERVICES_SECTION.lead}</p>
       </div>
 
       <div className="grid gap-8 md:grid-cols-3">

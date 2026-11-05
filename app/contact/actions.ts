@@ -3,8 +3,8 @@
 import { createClient } from "@/lib/supabase/server";
 import {
   channelOf,
+  insertContact,
   readFields,
-  toContactRow,
   validateDetails,
   validateTopic,
   type ContactFields,
@@ -25,7 +25,7 @@ export async function submitContactWithoutJs(_prev: ContactFormState, data: Form
   const errors: FieldErrors = { ...(topicError ? { topic: topicError } : {}), ...validateDetails(values) };
   if (Object.keys(errors).length > 0) return { status: "invalid", errors, values };
 
-  const { error } = await createClient().from("contacts").insert(toContactRow(values));
+  const { error } = await insertContact(createClient(), values);
   if (error) return { status: "failed", values };
   return { status: "success", channel: channelOf(values.channel) };
 }

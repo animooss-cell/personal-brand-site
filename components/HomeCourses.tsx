@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { getPublishedCourses } from "@/lib/data";
+import { HOME_COURSES_SECTION } from "@/lib/home";
 
 // اعداد لاتین (مثلاً «16 ساعت» در فیلد مدت دوره) را فارسی می‌کند.
 const toPersianDigits = (s: string) => s.replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[Number(d)]);
@@ -32,18 +33,18 @@ export default async function HomeCourses() {
       <div className="mb-10 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
         <div className="max-w-3xl">
           <h2 className="text-balance text-3xl font-extrabold leading-tight text-slate-900 dark:text-white md:text-5xl">
-            دوره‌های آموزشی هوش مصنوعی
+            {HOME_COURSES_SECTION.heading}
           </h2>
           <p className="mt-3 text-lg font-medium text-slate-500 dark:text-slate-400 md:text-xl">
-            آموزش روی کار واقعی خودتان
+            {HOME_COURSES_SECTION.lead}
           </p>
         </div>
 
         <Link
-          href="/services/ai-training-ahvaz"
+          href={HOME_COURSES_SECTION.allHref}
           className="inline-flex min-h-11 w-fit shrink-0 items-center gap-2 rounded-full border border-gray-300 px-6 py-3 text-sm font-bold text-slate-800 transition-colors duration-200 hover:border-brand hover:bg-brand hover:text-cta-fg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600 dark:border-slate-600 dark:text-slate-100 dark:hover:border-brand dark:hover:text-cta-fg dark:focus-visible:outline-brand-400"
         >
-          همه دوره‌ها
+          {HOME_COURSES_SECTION.allLabel}
           <ArrowLeft className="h-4 w-4" aria-hidden="true" />
         </Link>
       </div>

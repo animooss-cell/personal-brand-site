@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Newspaper, ArrowLeft } from "lucide-react";
 import { getLatestNews } from "@/lib/data";
+import { NEWS_BANNER_LABEL } from "@/lib/home";
 
 export default async function LatestNewsBanner() {
   const [latest] = await getLatestNews(1);
@@ -15,7 +16,7 @@ export default async function LatestNewsBanner() {
           </span>
           <div>
             <span className="mb-1 block text-xs font-semibold text-brand-600 dark:text-brand-300">
-              آخرین ماهنامه هوش مصنوعی
+              {NEWS_BANNER_LABEL}
             </span>
             <h3 className="text-base font-bold leading-6 text-slate-900 dark:text-white sm:text-lg">
               {latest.title}

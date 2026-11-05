@@ -6,6 +6,7 @@ import { Instagram, Send, MessageCircle, ArrowLeft } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { getPostBySlug, getAboutContent, getSettings } from "@/lib/data";
 import { Post } from "@/lib/types";
+import { personRef } from "@/lib/schema";
 import { SITE_URL } from "@/lib/site";
 import { toWhatsappHref } from "@/lib/social";
 import { NEWS_CATEGORY } from "@/lib/categories";
@@ -116,10 +117,7 @@ export default async function NewsItemPage({ params }: { params: { slug: string 
     image: post.featured_image ? [post.featured_image] : undefined,
     datePublished: post.published_at || undefined,
     dateModified: post.updated_at || post.published_at || undefined,
-    author: {
-      "@type": "Person",
-      name: author.name,
-    },
+    author: personRef,
     publisher: {
       "@type": "Organization",
       name: "عبدالله احمدیان",

@@ -10,8 +10,9 @@ import {
   CHANNELS,
   DEFAULT_CHANNEL,
   PHONE_EXAMPLE,
+  REFERRALS,
   TOPICS,
-  toContactRow,
+  insertContact,
   validateDetails,
   validateTopic,
   type ContactFields,
@@ -34,6 +35,7 @@ const EMPTY: ContactFields = {
   phone: "",
   email: "",
   message: "",
+  referral: "",
 };
 
 const focusRing =
@@ -239,6 +241,42 @@ function MessageField({
   );
 }
 
+// «از کجا با ما آشنا شدید؟» — اختیاری؛ مقدار در ستون contacts.referral ذخیره و در /admin/contacts نمایش داده می‌شود.
+function ReferralField({
+  id,
+  values,
+  onChange,
+  defaultValue,
+}: {
+  id: string;
+  values?: ContactFields;
+  onChange?: (name: keyof ContactFields, value: string) => void;
+  defaultValue?: string;
+}) {
+  return (
+    <div className="flex flex-col gap-2">
+      <Label htmlFor={id} hint="optional">
+        از کجا با ما آشنا شدید؟
+      </Label>
+      <select
+        id={id}
+        name="referral"
+        className={`${fieldClass} min-h-[54px] cursor-pointer`}
+        {...(values && onChange
+          ? { value: values.referral, onChange: (e) => onChange("referral", e.target.value) }
+          : { defaultValue: defaultValue ?? "" })}
+      >
+        <option value="">انتخاب کنید</option>
+        {REFERRALS.map((r) => (
+          <option key={r} value={r}>
+            {r}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+}
+
 function PrivacyNote() {
   return (
     <p className="flex items-center gap-2 text-[13px] text-[var(--svc-ink3)]">
@@ -362,6 +400,7 @@ function NoJsForm({ state, action }: { state: ContactFormState; action: (data: F
         </div>
       </fieldset>
       <MessageField id="nj-message" defaultValue={values?.message} />
+      <ReferralField id="nj-referral" defaultValue={values?.referral} />
       {state.status === "failed" && <SubmitFailed />}
       <button type="submit" className={`${primaryButton} w-full`}>
         درخواست جلسه رایگان
@@ -424,7 +463,7 @@ export default function ContactForm() {
     }
     setFailed(false);
     setSubmitting(true);
-    const { error } = await createClient().from("contacts").insert(toContactRow(values));
+    const { error } = await insertContact(createClient(), values);
     setSubmitting(false);
     if (error) {
       setFailed(true);
@@ -522,6 +561,7 @@ export default function ContactForm() {
             </div>
 
             <MessageField id="ct-message" values={values} onChange={update} />
+            <ReferralField id="ct-referral" values={values} onChange={update} />
 
             {failed && <SubmitFailed />}
 

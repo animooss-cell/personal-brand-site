@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, CheckCircle2, Clock, BarChart3 } from "lucide-react";
 import { getCourseBySlug } from "@/lib/data";
+import { personRef } from "@/lib/schema";
 import { SITE_URL } from "@/lib/site";
 import {
   normalizeContentLinks,
@@ -77,11 +78,7 @@ export default async function CourseDetailPage({ params }: { params: { slug: str
     description: course.description?.trim() || undefined,
     url: `${SITE_URL}/services/courses/${course.slug}`,
     inLanguage: "fa",
-    provider: {
-      "@type": "Person",
-      name: "عبدالله احمدیان",
-      address: { "@type": "PostalAddress", addressLocality: "اهواز", addressCountry: "IR" },
-    },
+    provider: personRef,
     hasCourseInstance: {
       "@type": "CourseInstance",
       courseMode: "Onsite",
