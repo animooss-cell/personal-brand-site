@@ -1,7 +1,7 @@
 import { getAboutContent, getLatestNews, getLatestPosts, getPublishedCourses, getServices, getSettings } from "@/lib/data";
 import { NEWS_CATEGORY } from "@/lib/categories";
 import { mdHeading, mdJoin, mdLink, mdList } from "@/lib/markdown";
-import { ENTITY_STATEMENT_FA } from "@/lib/site";
+import { ENTITY_STATEMENT_FA, STARTUP_WEEKEND_ROLE } from "@/lib/site";
 import { WHY_ME } from "@/lib/why-me";
 
 // داده‌ی بخش‌های صفحه‌ی اصلی. کامپوننت‌های صفحه‌ی اصلی و نسخه‌ی Markdown آن (homeMarkdown) هر دو از همین‌ها می‌خوانند.
@@ -11,7 +11,7 @@ const toPersianDigits = (s: string) => s.replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷
 
 export const HERO_LEAD =
   "هر کسب‌وکاری جایی گیر می‌کند. کمک می‌کنم بفهمید کجای کار هستید، چرا گیر کرده‌اید و دقیقاً چه باید بکنید.";
-export const HERO_TRUST_ITEMS = ["+۱۰ سال تجربه", "مربی استارتاپ ویکند", "آموزش در فولاد خوزستان"];
+export const HERO_TRUST_ITEMS = ["+۱۰ سال تجربه", `${STARTUP_WEEKEND_ROLE} استارتاپ ویکند`, "آموزش در فولاد خوزستان"];
 
 export async function getHeroContent() {
   const s = await getSettings();

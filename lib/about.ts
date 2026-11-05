@@ -1,7 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { getAboutContent, getSettings } from "@/lib/data";
 import type { AboutTimelineItem } from "@/lib/types";
-import { ENTITY_STATEMENT_FA, SOCIAL_PROFILES, STARTUP_WEEKEND_CITIES, STARTUP_WEEKEND_ROLE, joinFa } from "@/lib/site";
+import { ENTITY_STATEMENT_FA, PR_COURSE_NAME, SOCIAL_PROFILES, STARTUP_WEEKEND_CITIES, STARTUP_WEEKEND_ROLE, joinFa } from "@/lib/site";
 import { mdHeading, mdJoin, mdLink, mdList } from "@/lib/markdown";
 import { toWhatsappHref } from "@/lib/social";
 
@@ -10,7 +10,7 @@ import { toWhatsappHref } from "@/lib/social";
 export const aiExpertise = [
   "مشاور و مدرس دوره‌های آموزشی راه‌اندازی کسب‌وکار با هوش مصنوعی",
   "مشاور تیم هوش مصنوعی شرکت فولاد خوزستان",
-  "مدرس دوره هوش مصنوعی در خدمت روابط عمومی برای شرکت فولاد خوزستان",
+  `مدرس دوره‌ی «${PR_COURSE_NAME}» برای شرکت فولاد خوزستان`,
   "آموزش ابزارهای هوش مصنوعی برای فروش و بازاریابی شرکت فولاد خوزستان",
   "مشاور کانتنت مارکتینگ با هوش مصنوعی برای سازمان بسیج رسانه استان خوزستان",
 ];
@@ -61,6 +61,7 @@ const defaultTimeline = [
   { title: "برگزارکننده رویداد بین‌المللی Inotexpitch", place: "اهواز، ۹۶" },
   { title: "مجری طرح بزرگ سرمایه‌گذاری رویش", place: "با بنیاد برکت" },
   { title: "مدیر اجرایی رویداد بین‌المللی هاکاهلت", place: "جزیره کیش، ۹۸ (وزارت بهداشت و دانشگاه شریف)" },
+  { title: `مدرس دوره‌ی «${PR_COURSE_NAME}»`, place: "شرکت فولاد خوزستان، شهریور ۱۴۰۵" },
 ];
 
 export type AboutTimelineEntry = { id?: string; title: string; place: string };

@@ -48,6 +48,10 @@ export default function CaseStudyPage({ params }: { params: { slug: string } }) 
     author: personRef,
     publisher: personRef,
     about: { "@type": "Organization", name: c.client.name, ...(c.client.alternateName ? { alternateName: c.client.alternateName } : {}) },
+    // نام رسمی دوره‌ها (برای نمونه‌کار چنددوره‌ای همه‌ی دوره‌ها)
+    ...(c.courses || c.courseName
+      ? { mentions: (c.courses?.map((k) => k.title) ?? [c.courseName as string]).map((name) => ({ "@type": "Course", name })) }
+      : {}),
   };
   const breadcrumbJsonLd = buildBreadcrumbJsonLd([
     { name: "خانه", path: "/" },

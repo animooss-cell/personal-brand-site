@@ -46,7 +46,10 @@ export const joinFa = (items: string[]) =>
 export const joinEn = (items: string[]) =>
   items.length > 1 ? `${items.slice(0, -1).join(", ")} and ${items[items.length - 1]}` : items.join("");
 
-export const ENTITY_BIO_FA = `${ENTITY_STATEMENT_FA} او تا امروز ۵ دوره‌ی آموزش هوش مصنوعی برای مدیران، رؤسا و کارشناسان فولاد خوزستان برگزار کرده است. دوره‌ی تهیه‌ی گزارش با هوش مصنوعی برای فولاد اکسین خوزستان و یک دوره‌ی حضوری هوش مصنوعی برای شرکت گروه توسعه فراگیر در تهران از دیگر سوابق اوست. او مدیر تیم اجرایی هکاتون سلامت کیش بوده و در استارتاپ ویکندهای ${joinFa(STARTUP_WEEKEND_CITIES)} ${STARTUP_WEEKEND_ROLE} بوده است.`;
+// نام رسمی دوره‌ی روابط عمومی فولاد خوزستان؛ همه‌جا عیناً همین نام می‌آید.
+export const PR_COURSE_NAME = "هوش مصنوعی در خدمت تیم روابط عمومی";
+
+export const ENTITY_BIO_FA = `${ENTITY_STATEMENT_FA} او تا امروز ۵ دوره‌ی آموزش هوش مصنوعی برای مدیران، رؤسا و کارشناسان فولاد خوزستان برگزار کرده است؛ از جمله دوره‌ی «${PR_COURSE_NAME}». دوره‌ی تهیه‌ی گزارش با هوش مصنوعی برای فولاد اکسین خوزستان و یک دوره‌ی حضوری هوش مصنوعی برای شرکت گروه توسعه فراگیر در تهران از دیگر سوابق اوست. او مدیر تیم اجرایی هکاتون سلامت کیش بوده و در استارتاپ ویکندهای ${joinFa(STARTUP_WEEKEND_CITIES)} ${STARTUP_WEEKEND_ROLE} بوده است.`;
 export const ENTITY_BIO_HEADING = "درباره‌ی عبدالله احمدیان";
 
 export const PERSON_NAME_FA = "عبدالله احمدیان";

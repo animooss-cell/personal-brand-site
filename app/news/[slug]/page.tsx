@@ -39,7 +39,7 @@ async function getRelatedNews(post: Post): Promise<RelatedNews[]> {
 }
 
 const defaultAuthorSocialLinks: Record<string, string> = {
-  instagram: "https://www.instagram.com/startuping_ir",
+  instagram: "https://www.instagram.com/aiabed.ir",
   telegram: "https://t.me/abedahm",
   whatsapp: "09161002550",
 };

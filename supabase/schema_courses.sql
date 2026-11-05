@@ -72,7 +72,7 @@ select * from (values
   ),
   (
     1,
-    'هوش مصنوعی در خدمت تولید محتوای روابط عمومی',
+    'هوش مصنوعی در خدمت تیم روابط عمومی',
     'ai-public-relations',
     'تیم روابط عمومی شرکت فولاد خوزستان',
     'آموزش کاربردی ابزارهای هوش مصنوعی برای تولید سریع‌تر و باکیفیت‌تر محتوای روابط عمومی.',
@@ -98,7 +98,7 @@ update courses set
   outline = array['ابزارهای AI برای تولید محتوا', 'نوشتن با ChatGPT', 'تولید تصویر با AI', 'برنامه‌ریزی محتوا با AI'],
   duration = '۶ ساعت',
   level = 'مقدماتی'
-where title = 'هوش مصنوعی در خدمت تولید محتوای روابط عمومی' and (slug is null or slug = '');
+where title = 'هوش مصنوعی در خدمت تیم روابط عمومی' and (slug is null or slug = '');
 
 -- محدودیت یکتا بودن slug (بعد از اطمینان از پر بودن مقدار همه ردیف‌ها)
 create unique index if not exists courses_slug_idx on courses(slug) where slug is not null;
