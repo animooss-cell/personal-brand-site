@@ -318,13 +318,19 @@ export default async function AiTrainingAhvazPage() {
               </p>
 
               <div className="mt-6 flex flex-wrap gap-4">
-                <div className="rounded-2xl border border-brand-200 bg-brand-50/70 p-4 dark:border-brand-900/60 dark:bg-brand-950/30 flex-1 min-w-[240px]">
-                  <div className="text-xs font-bold text-brand-800 dark:text-brand-300 mb-1">حل چالش‌های بومی</div>
-                  <div className="text-xs text-slate-600 dark:text-slate-400 leading-6">شناخت بافت صنعتی، تجاری و اداری استان خوزستان و تنظیم تمرین‌ها بر همان مبنا.</div>
+                <div className="rounded-2xl border border-brand-200 bg-brand-50/90 p-5 shadow-sm dark:border-brand-500/30 dark:bg-slate-800 flex-1 min-w-[240px]">
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <CheckCircle2 className="h-4 w-4 text-brand-600 dark:text-brand-400 shrink-0" />
+                    <div className="text-sm font-bold text-slate-900 dark:text-white">حل چالش‌های بومی</div>
+                  </div>
+                  <div className="text-xs text-slate-700 dark:text-slate-200 leading-6">شناخت بافت صنعتی، تجاری و اداری استان خوزستان و تنظیم تمرین‌ها بر همان مبنا.</div>
                 </div>
-                <div className="rounded-2xl border border-brand-200 bg-brand-50/70 p-4 dark:border-brand-900/60 dark:bg-brand-950/30 flex-1 min-w-[240px]">
-                  <div className="text-xs font-bold text-brand-800 dark:text-brand-300 mb-1">رفع اشکال زنده و حضوری</div>
-                  <div className="text-xs text-slate-600 dark:text-slate-400 leading-6">پاسخ مستقیم به ابهامات پرسنل هنگام کار عملی با سیستم و اصلاح پرامپت‌ها در همان جلسه.</div>
+                <div className="rounded-2xl border border-brand-200 bg-brand-50/90 p-5 shadow-sm dark:border-brand-500/30 dark:bg-slate-800 flex-1 min-w-[240px]">
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <CheckCircle2 className="h-4 w-4 text-brand-600 dark:text-brand-400 shrink-0" />
+                    <div className="text-sm font-bold text-slate-900 dark:text-white">رفع اشکال زنده و حضوری</div>
+                  </div>
+                  <div className="text-xs text-slate-700 dark:text-slate-200 leading-6">پاسخ مستقیم به ابهامات پرسنل هنگام کار عملی با سیستم و اصلاح پرامپت‌ها در همان جلسه.</div>
                 </div>
               </div>
             </div>
@@ -654,16 +660,24 @@ export default async function AiTrainingAhvazPage() {
         </div>
 
         {/* سوابق همکاری صنعتی در خوزستان */}
-        <div className="mt-6 rounded-3xl bg-brand-50/70 p-6 dark:bg-brand-950/20 border border-brand-200 dark:border-brand-900 md:p-8">
-          <div className="flex items-center gap-3 mb-4">
-            <Building2 className="h-5 w-5 text-brand-600 dark:text-brand-400" />
-            <h3 className="text-lg font-bold text-slate-900 dark:text-white">{c.collaborationsHeading}</h3>
+        <div className="mt-6 rounded-3xl border border-gray-200 bg-white p-7 shadow-sm dark:border-slate-800 dark:bg-slate-900 md:p-8">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-50 text-brand-600 dark:bg-brand-900/40 dark:text-brand-400">
+              <Building2 className="h-5 w-5" />
+            </div>
+            <div>
+              <h3 className="text-lg font-bold text-slate-900 dark:text-white">{c.collaborationsHeading}</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">همکاری‌های رسمی و آموزش پرسنل در سازمان‌های صنعتی و رسانه‌ای استان خوزستان</p>
+            </div>
           </div>
           <div className="grid gap-3 sm:grid-cols-2">
             {c.collaborations.map((item, idx) => (
-              <div key={idx} className="flex items-center gap-2 text-xs font-semibold text-slate-800 dark:text-slate-200">
-                <CheckCircle2 className="h-4 w-4 text-brand-600 dark:text-brand-400 shrink-0" />
-                <span>{item}</span>
+              <div
+                key={idx}
+                className="flex items-start gap-3 rounded-2xl border border-brand-200/80 bg-brand-50/60 p-4 shadow-sm dark:border-brand-500/30 dark:bg-slate-800"
+              >
+                <CheckCircle2 className="h-5 w-5 text-brand-600 dark:text-brand-400 shrink-0 mt-0.5" />
+                <span className="text-xs font-semibold leading-6 text-slate-800 dark:text-slate-100">{item}</span>
               </div>
             ))}
           </div>
