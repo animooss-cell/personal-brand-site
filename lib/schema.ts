@@ -64,7 +64,43 @@ export function buildPersonJsonLd({ jobTitle, image }: { jobTitle: string; image
     hasOccupation: OCCUPATIONS,
     knowsAbout: KNOWS_ABOUT,
     sameAs: SAME_AS,
+    hasCredential: [
+      {
+        "@type": "EducationalOccupationalCredential",
+        name: "مدرک تخصصی PMBOK مدیریت پروژه",
+        recognizedBy: {
+          "@type": "Organization",
+          name: "موسسه آریانا",
+        },
+      },
+      {
+        "@type": "EducationalOccupationalCredential",
+        name: "مدرک سطح ۱ مدیریت",
+        recognizedBy: {
+          "@type": "Organization",
+          name: "وزارت صنایع و معادن",
+        },
+      },
+      {
+        "@type": "EducationalOccupationalCredential",
+        name: "مدرک خبرنگاری به سبک رویترز",
+      },
+    ],
     workExample: caseStudyWorks(),
+  };
+}
+
+export function buildAboutProfilePageJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    "@id": `${SITE_URL}/about#webpage`,
+    url: `${SITE_URL}/about`,
+    name: "درباره عبدالله احمدیان | مشاور و مدرس هوش مصنوعی در اهواز",
+    description: ENTITY_STATEMENT_FA,
+    mainEntity: {
+      "@id": PERSON_ID,
+    },
   };
 }
 
